@@ -1,0 +1,74 @@
+{
+  "name": "NRT2.1p::Betanin::tNOS — Nitrate Reporter Construct",
+  "description": "A visual reporter construct for detecting nitrate levels in soil using a color-change readout in Arabidopsis thaliana.",
+  "target_signal": "nitrate",
+  "organism": "Arabidopsis thaliana",
+  "construct": {
+    "promoter": {
+      "id": "pAtNRT2.1",
+      "name": "AtNRT2.1 promoter",
+      "rationale": "NRT2.1 is a high-affinity nitrate transporter induced under low nitrate conditions. Its promoter provides nitrate-responsive transcriptional control with well-characterized dose-response behavior."
+    },
+    "reporter": {
+      "id": "betanin",
+      "name": "Betanin biosynthesis cassette (CYP76AD1, DODA1, cDOPA5GT)",
+      "rationale": "Betanin produces visible red-violet pigment detectable by eye without laboratory equipment. Ideal for field-deployable biosensors. Three-gene cassette enables complete betalain pathway."
+    },
+    "terminator": {
+      "id": "tNOS",
+      "name": "NOS terminator",
+      "rationale": "Standard reliable terminator with extensive track record in plant transformation vectors."
+    },
+    "regulatory_elements": [
+      {
+        "id": "Omega",
+        "name": "TMV Omega leader",
+        "rationale": "Translational enhancer to boost betanin cassette expression for stronger visible signal."
+      }
+    ]
+  },
+  "estimated_size_bp": 4500,
+  "pathway": {
+    "signal": "Soil nitrate (NO3-)",
+    "receptor": "NRT1.1/CHL1 dual-affinity nitrate transceptor",
+    "transduction": [
+      "NRT1.1 senses external nitrate concentration",
+      "CIPK23 phosphorylation modulates NRT1.1 affinity switching",
+      "NLP7 transcription factor activated by nitrate signaling",
+      "NLP7 binds nitrate-responsive elements (NREs) in NRT2.1 promoter",
+      "NRT2.1 promoter drives betanin cassette expression"
+    ],
+    "transcription_factors": ["NLP7", "TGA1", "NLP6"]
+  },
+  "characterization_plan": {
+    "dose_response": {
+      "concentrations_mM": [0, 0.05, 0.1, 0.25, 0.5, 1.0, 2.5, 5.0, 10.0],
+      "time_points_hours": [6, 12, 24, 48, 72],
+      "measurement": "RGB color quantification from leaf images"
+    },
+    "controls": {
+      "positive": "35S::Betanin::tNOS (constitutive expression)",
+      "negative": "NRT2.1p::GUS::tNOS (non-color reporter for promoter activity verification)",
+      "wild_type": "Col-0 untransformed"
+    },
+    "specificity_tests": [
+      "Ammonium (NH4+) — should NOT trigger reporter",
+      "Phosphate starvation — should NOT trigger reporter",
+      "Potassium deficiency — should NOT trigger reporter"
+    ]
+  },
+  "literature_support": [
+    {
+      "pmid": "PMID:11050181",
+      "note": "Original characterization of NRT2.1 nitrate-inducible expression"
+    },
+    {
+      "pmid": "PMID:17259264",
+      "note": "NRT2.1 promoter regulation by nitrogen status"
+    },
+    {
+      "pmid": "PMID:33574609",
+      "note": "Betanin as a visible reporter in plants"
+    }
+  ]
+}

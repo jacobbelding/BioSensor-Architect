@@ -1,0 +1,164 @@
+[
+  {
+    "id": "p35S",
+    "name": "CaMV 35S promoter",
+    "type": "promoter",
+    "organism": "Cauliflower mosaic virus",
+    "signal_responsive_to": "constitutive",
+    "references": ["PMID:3033682"],
+    "notes": "Strong constitutive promoter widely used in dicot transformation. Not signal-responsive — use as positive control."
+  },
+  {
+    "id": "pNOS",
+    "name": "Nopaline synthase promoter",
+    "type": "promoter",
+    "organism": "Agrobacterium tumefaciens",
+    "signal_responsive_to": "constitutive",
+    "references": ["PMID:6323996"],
+    "notes": "Weak constitutive promoter. Common in selection cassettes."
+  },
+  {
+    "id": "pAtNRT2.1",
+    "name": "AtNRT2.1 promoter",
+    "type": "promoter",
+    "organism": "Arabidopsis thaliana",
+    "signal_responsive_to": "nitrate",
+    "references": ["PMID:11050181", "PMID:17259264"],
+    "notes": "Nitrate-inducible promoter from the high-affinity nitrate transporter NRT2.1. Induced under low nitrate, repressed under high nitrogen."
+  },
+  {
+    "id": "pRD29A",
+    "name": "RD29A promoter",
+    "type": "promoter",
+    "organism": "Arabidopsis thaliana",
+    "signal_responsive_to": "drought",
+    "references": ["PMID:7846157"],
+    "notes": "Stress-inducible promoter responsive to drought, cold, and ABA. Contains DRE and ABRE cis-elements."
+  },
+  {
+    "id": "pMT2A",
+    "name": "Metallothionein 2A promoter",
+    "type": "promoter",
+    "organism": "Arabidopsis thaliana",
+    "signal_responsive_to": "heavy metals",
+    "references": ["PMID:8745410"],
+    "notes": "Induced by copper, zinc, and cadmium. Metal-responsive elements (MREs) in promoter region."
+  },
+  {
+    "id": "pPHT1.1",
+    "name": "PHT1;1 promoter",
+    "type": "promoter",
+    "organism": "Arabidopsis thaliana",
+    "signal_responsive_to": "phosphorus deficiency",
+    "references": ["PMID:10364409"],
+    "notes": "Strongly induced under phosphate starvation. Root-preferential expression."
+  },
+  {
+    "id": "pAtSUC2",
+    "name": "AtSUC2 promoter",
+    "type": "promoter",
+    "organism": "Arabidopsis thaliana",
+    "signal_responsive_to": "phloem-specific",
+    "references": ["PMID:11788729"],
+    "notes": "Companion cell-specific promoter. Useful for phloem-loading constructs."
+  },
+  {
+    "id": "GFP",
+    "name": "Enhanced Green Fluorescent Protein",
+    "type": "reporter",
+    "organism": "Aequorea victoria",
+    "signal_responsive_to": null,
+    "references": ["PMID:8602244"],
+    "notes": "Fluorescence reporter. Requires UV/blue light excitation. Non-destructive imaging. May require plant codon optimization."
+  },
+  {
+    "id": "GUS",
+    "name": "Beta-glucuronidase",
+    "type": "reporter",
+    "organism": "Escherichia coli",
+    "signal_responsive_to": null,
+    "references": ["PMID:3282918"],
+    "notes": "Histochemical staining reporter. Destructive assay (X-Gluc). High sensitivity. Gold standard for promoter characterization in plants."
+  },
+  {
+    "id": "betanin",
+    "name": "Betanin biosynthesis cassette (CYP76AD1, DODA1, cDOPA5GT)",
+    "type": "reporter",
+    "organism": "Beta vulgaris",
+    "signal_responsive_to": null,
+    "references": ["PMID:33574609"],
+    "notes": "Visible color reporter producing red-violet pigment. Non-destructive. Detectable by eye without equipment. Ideal for field biosensors."
+  },
+  {
+    "id": "luciferase",
+    "name": "Firefly luciferase",
+    "type": "reporter",
+    "organism": "Photinus pyralis",
+    "signal_responsive_to": null,
+    "references": ["PMID:3745404"],
+    "notes": "Luminescence reporter. Requires luciferin substrate. Quantitative with luminometer. Good for real-time kinetics."
+  },
+  {
+    "id": "anthocyanin",
+    "name": "Anthocyanin biosynthesis (PAP1/MYB75 transcription factor)",
+    "type": "reporter",
+    "organism": "Arabidopsis thaliana",
+    "signal_responsive_to": null,
+    "references": ["PMID:11595803"],
+    "notes": "Visible purple pigment reporter. Non-destructive. Uses endogenous plant pathway. Color visible in vegetative tissues."
+  },
+  {
+    "id": "tNOS",
+    "name": "NOS terminator",
+    "type": "terminator",
+    "organism": "Agrobacterium tumefaciens",
+    "signal_responsive_to": null,
+    "references": ["PMID:6323996"],
+    "notes": "Most widely used terminator in plant transformation. Reliable transcription termination and polyadenylation."
+  },
+  {
+    "id": "t35S",
+    "name": "CaMV 35S terminator",
+    "type": "terminator",
+    "organism": "Cauliflower mosaic virus",
+    "signal_responsive_to": null,
+    "references": ["PMID:3033682"],
+    "notes": "Strong terminator from CaMV. Often paired with 35S promoter."
+  },
+  {
+    "id": "tOCS",
+    "name": "Octopine synthase terminator",
+    "type": "terminator",
+    "organism": "Agrobacterium tumefaciens",
+    "signal_responsive_to": null,
+    "references": ["PMID:6883753"],
+    "notes": "Alternative Agrobacterium-derived terminator. Used when tNOS is already in the construct to avoid recombination."
+  },
+  {
+    "id": "tHSP18.2",
+    "name": "HSP18.2 terminator",
+    "type": "terminator",
+    "organism": "Arabidopsis thaliana",
+    "signal_responsive_to": null,
+    "references": ["PMID:23136376"],
+    "notes": "Strong plant-derived terminator. Higher expression than tNOS in some contexts."
+  },
+  {
+    "id": "Omega",
+    "name": "TMV Omega leader sequence",
+    "type": "regulatory",
+    "organism": "Tobacco mosaic virus",
+    "signal_responsive_to": null,
+    "references": ["PMID:3340176"],
+    "notes": "5' UTR translational enhancer. Increases protein expression 5-10x when placed between promoter and coding sequence."
+  },
+  {
+    "id": "Kozak",
+    "name": "Plant Kozak consensus sequence",
+    "type": "regulatory",
+    "organism": "Arabidopsis thaliana",
+    "signal_responsive_to": null,
+    "references": ["PMID:9342323"],
+    "notes": "Optimized translation initiation context for plants (AACAATGGC). Include around start codon for efficient translation."
+  }
+]

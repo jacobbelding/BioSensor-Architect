@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "biosensor-architect"
+version = "0.1.0"
+description = "Multi-agent AI system for designing genetic constructs for living sensor organisms"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+dependencies = [
+    "autogen-agentchat>=0.4",
+    "autogen-ext>=0.4",
+    "mcp>=1.0.0",
+    "anthropic>=0.40.0",
+    "openai>=1.0.0",
+    "chromadb>=0.5.0",
+    "pydantic>=2.0",
+    "python-dotenv>=1.0",
+    "requests>=2.31",
+    "click>=8.0",
+    "rich>=13.0",
+]
+
+[project.scripts]
+bsa = "biosensor_architect.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
