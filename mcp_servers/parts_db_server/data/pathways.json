@@ -1,0 +1,75 @@
+[
+  {
+    "signal": "nitrate",
+    "organism": "Arabidopsis thaliana",
+    "description": "Nitrate sensing and signaling pathway via the NRT1.1/NLP7 module",
+    "receptor": "NRT1.1 (CHL1/NPF6.3) — dual-affinity nitrate transceptor",
+    "transduction_chain": [
+      "Nitrate binds NRT1.1 in root epidermis",
+      "CIPK8/CIPK23 phosphorylates NRT1.1, switching affinity mode",
+      "Calcium signaling via CPK10/CPK30/CPK32",
+      "NLP7 transcription factor activated (nuclear retention under nitrate)",
+      "NLP7 binds nitrate-responsive cis-elements (NRE) in target promoters",
+      "Activation of NRT2.1, NIA1, NIA2, and other nitrate-responsive genes"
+    ],
+    "candidate_promoters": ["pAtNRT2.1"],
+    "transcription_factors": ["NLP7", "TGA1", "TGA4", "LBD37/38/39"],
+    "key_references": ["PMID:11050181", "PMID:17259264", "PMID:26649153"],
+    "notes": "Well-characterized in Arabidopsis. NRT2.1 promoter shows strong induction under low nitrate (0.2 mM) and repression under high N. Response time: 2-6 hours."
+  },
+  {
+    "signal": "drought",
+    "organism": "Arabidopsis thaliana",
+    "description": "ABA-dependent and ABA-independent drought stress signaling",
+    "receptor": "PYR/PYL/RCAR ABA receptors (ABA-dependent) and membrane osmosensors (ABA-independent)",
+    "transduction_chain": [
+      "Water deficit triggers ABA biosynthesis in roots and leaves",
+      "ABA binds PYR/PYL/RCAR receptors",
+      "PP2C phosphatases (ABI1, ABI2) inhibited",
+      "SnRK2 kinases activated (OST1/SnRK2.6)",
+      "SnRK2 phosphorylates AREB/ABF transcription factors",
+      "AREB/ABF bind ABRE cis-elements in stress-responsive promoters",
+      "ABA-independent: DREB2A binds DRE/CRT elements via DREB2A pathway"
+    ],
+    "candidate_promoters": ["pRD29A"],
+    "transcription_factors": ["DREB2A", "ABF2/AREB1", "ABF4/AREB2", "DREB1A/CBF3"],
+    "key_references": ["PMID:7846157", "PMID:12368493", "PMID:19151223"],
+    "notes": "RD29A promoter contains both DRE and ABRE elements, making it responsive to drought, cold, and ABA. Strong induction within 1-3 hours of dehydration."
+  },
+  {
+    "signal": "heavy metals",
+    "organism": "Arabidopsis thaliana",
+    "description": "Metal-responsive signaling via metallothioneins and metal-responsive elements",
+    "receptor": "Metal ion importers (IRT1 for Fe/Zn/Cd, COPT1 for Cu) and intracellular metal sensors",
+    "transduction_chain": [
+      "Heavy metal ions (Cu²⁺, Zn²⁺, Cd²⁺) enter cells via metal transporters",
+      "Free metal ions detected by metal-sensing transcription factors",
+      "Metal-responsive transcription factors bind MRE (Metal Response Elements)",
+      "Activation of metallothionein genes (MT1A, MT2A, MT2B, MT3)",
+      "Phytochelatin synthase (PCS1) activated for chelation",
+      "Detoxification via vacuolar sequestration (HMA3, MTP1)"
+    ],
+    "candidate_promoters": ["pMT2A"],
+    "transcription_factors": ["SPL7 (copper)", "bZIP19/bZIP23 (zinc)"],
+    "key_references": ["PMID:8745410", "PMID:18552232"],
+    "notes": "MT2A responds to Cu, Zn, and Cd. Specificity depends on metal concentration range. For field applications, consider threshold sensitivity — low specificity between different metals."
+  },
+  {
+    "signal": "phosphorus deficiency",
+    "organism": "Arabidopsis thaliana",
+    "description": "Phosphate starvation response via PHR1/SPX signaling module",
+    "receptor": "Local sensing at root tip (uncertain) and systemic signaling via SPX domain proteins",
+    "transduction_chain": [
+      "Low Pi detected — SPX proteins release PHR1 (PHOSPHATE STARVATION RESPONSE 1)",
+      "PHR1 (MYB-CC transcription factor) accumulates in nucleus",
+      "PHR1 binds P1BS (PHR1 Binding Sequence: GNATATNC) in target promoters",
+      "Upregulation of phosphate transporters (PHT1;1-PHT1;4)",
+      "miR399 induced, targets PHO2 for degradation",
+      "Systemic signaling: shoot-to-root mobile miR399 amplifies Pi starvation response"
+    ],
+    "candidate_promoters": ["pPHT1.1"],
+    "transcription_factors": ["PHR1", "PHL1", "WRKY75"],
+    "key_references": ["PMID:10364409", "PMID:15539469", "PMID:16998070"],
+    "notes": "PHT1;1 promoter is strongly root-preferential. High induction under Pi starvation (<10 µM Pi) with 6-24 hour response time. Excellent dynamic range."
+  }
+]

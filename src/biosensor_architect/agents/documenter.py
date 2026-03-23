@@ -41,6 +41,10 @@ Design guidelines:
 - Keep font sizes readable (14px base) with a max-width container (~1150px).
 
 Output the complete HTML document as a single string.
+
+IMPORTANT: After the closing </html> tag, on a new line, write exactly:
+DESIGN COMPLETE
+This signals the end of the workflow.
 """
 
 
@@ -52,4 +56,5 @@ def create_documenter():
         name="Documenter",
         system_message=SYSTEM_MESSAGE,
         tools=[],
+        description="Generates a polished, self-contained HTML report from the complete design workflow output.",
     )

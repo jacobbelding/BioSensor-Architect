@@ -27,4 +27,5 @@ def create_characterization_planner():
         name="CharacterizationPlanner",
         system_message=SYSTEM_MESSAGE,
         tools=[],
+        description="Designs experimental characterization plans for validated genetic constructs.",
     )

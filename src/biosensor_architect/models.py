@@ -1,6 +1,6 @@
 """Pydantic data models shared across all agents."""
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class GeneticPart(BaseModel):
@@ -59,6 +59,8 @@ class LiteratureReference(BaseModel):
 class ValidationResult(BaseModel):
     """Output from the Literature Validator agent."""
 
+    model_config = ConfigDict(populate_by_name=True)
+
     construct: GeneticConstruct
     supporting_references: list[LiteratureReference] = []
     concerns: list[str] = []
@@ -78,6 +80,8 @@ class Experiment(BaseModel):
 
 class CharacterizationPlan(BaseModel):
     """Experimental characterization plan from the Characterization Planner."""
+
+    model_config = ConfigDict(populate_by_name=True)
 
     construct: GeneticConstruct
     experiments: list[Experiment]

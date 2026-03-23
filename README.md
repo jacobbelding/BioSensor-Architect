@@ -83,7 +83,7 @@ bsa serve
 
 ## Example Output
 
-See [`data/example_constructs/nitrogen_reporter.json`](data/example_constructs/nitrogen_reporter.json) for a complete example output — a nitrate reporter construct using the NRT2.1 promoter driving betanin visible color production, based on the CROPPS nitrogen reporter design.
+See [`data/example_constructs/nitrogen_reporter.json`](data/example_constructs/nitrogen_reporter.json) for a complete example output — a nitrate reporter construct using the NRT2.1 promoter driving betanin visible color production.
 
 ## Project Structure
 

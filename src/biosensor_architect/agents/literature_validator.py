@@ -14,17 +14,27 @@ Your responsibilities:
 4. Identify potential failure modes from the literature.
 5. Suggest modifications based on published improvements.
 
-Use the search_pubmed and fetch_abstract tools to query the literature.
+Use the search_papers and fetch_abstract tools to query the literature.
 Cite specific PMIDs for all claims.
+
+IMPORTANT — Revision signaling:
+- If the construct has critical issues that require redesign (wrong promoter for the
+  signal, toxic reporter, fundamentally flawed pathway), include the word REVISE in
+  your response and clearly explain what must change.
+- If the construct is sound with only minor suggestions, do NOT include the word REVISE.
+  Instead, list your suggestions as optional improvements.
 """
 
 
 def create_literature_validator():
     """Create and return the Literature Validator agent."""
+    from biosensor_architect.tools.pubmed_search import fetch_abstract, search_papers
+
     from .base import create_agent
 
     return create_agent(
         name="LiteratureValidator",
         system_message=SYSTEM_MESSAGE,
-        tools=[],  # TODO: Add pubmed_search tools
+        tools=[search_papers, fetch_abstract],
+        description="Validates proposed constructs against published literature and flags potential issues.",
     )

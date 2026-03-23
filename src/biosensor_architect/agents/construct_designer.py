@@ -24,10 +24,17 @@ Use the search_promoters, search_reporters, and search_terminators tools.
 
 def create_construct_designer():
     """Create and return the Construct Designer agent."""
+    from biosensor_architect.tools.pathway_db import (
+        search_promoters,
+        search_reporters,
+        search_terminators,
+    )
+
     from .base import create_agent
 
     return create_agent(
         name="ConstructDesigner",
         system_message=SYSTEM_MESSAGE,
-        tools=[],  # TODO: Add parts_db tools
+        tools=[search_promoters, search_reporters, search_terminators],
+        description="Designs genetic constructs by selecting promoter, reporter, terminator, and regulatory elements.",
     )

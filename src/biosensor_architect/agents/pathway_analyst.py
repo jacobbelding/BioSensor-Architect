@@ -21,10 +21,13 @@ Use the search_promoters and get_pathway tools to query the parts database.
 
 def create_pathway_analyst():
     """Create and return the Pathway Analyst agent."""
+    from biosensor_architect.tools.pathway_db import get_pathway, search_promoters
+
     from .base import create_agent
 
     return create_agent(
         name="PathwayAnalyst",
         system_message=SYSTEM_MESSAGE,
-        tools=[],  # TODO: Add pathway_db tools
+        tools=[search_promoters, get_pathway],
+        description="Identifies biological sensing pathways and candidate promoters for a target environmental signal.",
     )
