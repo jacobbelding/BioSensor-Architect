@@ -20,6 +20,10 @@ class Settings:
         default_factory=lambda: Path(os.getenv("CHROMA_PERSIST_DIR", "./data/literature_index"))
     )
     default_model: str = field(default_factory=lambda: os.getenv("DEFAULT_MODEL", "gpt-4o"))
+    design_rounds: int = field(default_factory=lambda: int(os.getenv("DESIGN_ROUNDS", "1")))
+    crossref_email: str = field(
+        default_factory=lambda: os.getenv("CROSSREF_EMAIL", "biosensor-architect@example.com")
+    )
 
 
 settings = Settings()

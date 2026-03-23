@@ -22,6 +22,29 @@ EUTILS_BASE = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 _REQUEST_DELAY = 0.15 if settings.ncbi_api_key else 0.35
 _last_request_time = 0.0
 
+# ---------------------------------------------------------------------------
+# Verified PMID registry — tracks every PMID confirmed to exist via NCBI
+# during a workflow run.  Used by report post-processing to flag hallucinated
+# citations without burning LLM tokens.
+# ---------------------------------------------------------------------------
+_verified_pmids: dict[str, str] = {}  # pmid -> title
+
+
+def get_verified_pmids() -> dict[str, str]:
+    """Return the current registry of verified PMIDs (pmid -> title)."""
+    return dict(_verified_pmids)
+
+
+def reset_verified_pmids() -> None:
+    """Clear the registry. Call at the start of each workflow run."""
+    _verified_pmids.clear()
+
+
+def _register_pmid(pmid: str, title: str = "") -> None:
+    """Add a PMID to the verified registry."""
+    if pmid and pmid.strip().isdigit():
+        _verified_pmids[pmid.strip()] = title
+
 
 def _throttle() -> None:
     """Enforce minimum delay between NCBI requests."""
@@ -91,9 +114,11 @@ def search_papers(query: str, max_results: int = 10) -> str:
         if not article or isinstance(article, str):
             continue
         authors = [a.get("name", "") for a in article.get("authors", [])]
+        title = article.get("title", "")
+        _register_pmid(pmid, title)
         results.append({
             "pmid": pmid,
-            "title": article.get("title", ""),
+            "title": title,
             "authors": authors[:5],  # Limit to first 5 authors
             "year": article.get("pubdate", "")[:4],
             "source": article.get("source", ""),
@@ -163,6 +188,8 @@ def fetch_abstract(pmid: str) -> str:
         else:
             abstract_parts.append(text)
     abstract = " ".join(abstract_parts)
+
+    _register_pmid(pmid, title)
 
     return json.dumps({
         "pmid": pmid,

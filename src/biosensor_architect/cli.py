@@ -22,8 +22,9 @@ def main():
 @click.argument("query")
 @click.option("--output", "-o", type=click.Path(), default=None, help="Output HTML file path.")
 @click.option("--model", "-m", default=None, help="LLM model override (e.g., gpt-4o-mini).")
+@click.option("--rounds", "-r", default=None, type=int, help="Number of design rounds (default from DESIGN_ROUNDS env var, default=1). Each extra round ~doubles token cost.")
 @click.option("--verbose", "-v", is_flag=True, help="Show each agent's message as it's produced.")
-def run(query: str, output: str | None, model: str | None, verbose: bool):
+def run(query: str, output: str | None, model: str | None, rounds: int | None, verbose: bool):
     """Run a full design workflow for the given query.
 
     Example: bsa run "design a nitrate sensor for Arabidopsis"
@@ -31,66 +32,15 @@ def run(query: str, output: str | None, model: str | None, verbose: bool):
     console.print(Panel(f"[bold]Query:[/bold] {query}", title="BioSensor-Architect", border_style="green"))
     console.print()
 
-    async def _run():
-        from biosensor_architect.orchestration.workflow import build_workflow
+    rounds_label = f" ({rounds} round{'s' if rounds and rounds > 1 else ''})" if rounds and rounds > 1 else ""
+    with console.status(f"[bold green]Running multi-agent design workflow{rounds_label}...", spinner="dots"):
+        from biosensor_architect.orchestration.workflow import run_workflow
 
-        team = await build_workflow(model=model)
-        result = await team.run(task=query)
-
-        if verbose:
-            # Print a summary table of all agent messages
-            table = Table(title="Agent Conversation Log", show_lines=True)
-            table.add_column("#", style="dim", width=3)
-            table.add_column("Agent", style="bold", width=25)
-            table.add_column("Content (first 120 chars)", width=80)
-
-            for i, msg in enumerate(result.messages):
-                source = getattr(msg, "source", "system")
-                content = getattr(msg, "content", "")
-                if isinstance(content, str):
-                    preview = content[:120].replace("\n", " ")
-                elif isinstance(content, list):
-                    preview = f"[{len(content)} tool call(s)]"
-                else:
-                    preview = str(content)[:120]
-                table.add_row(str(i), str(source), preview)
-
-            console.print()
-            console.print(table)
-
-        return result
-
-    with console.status("[bold green]Running multi-agent design workflow...", spinner="dots"):
-        result = asyncio.run(_run())
-
-    # Extract HTML report using the same logic as run_workflow
-    html_content = ""
-    documenter_content = ""
-    longest_content = ""
-
-    for msg in result.messages:
-        content = getattr(msg, "content", "")
-        if not isinstance(content, str):
-            continue
-        source = getattr(msg, "source", "")
-
-        if ("<!doctype" in content.lower() or "<html" in content.lower()) and len(content) > len(html_content):
-            html_content = content
-        if source == "Documenter" and len(content) > len(documenter_content):
-            documenter_content = content
-        if len(content) > len(longest_content):
-            longest_content = content
-
-    final = html_content or documenter_content or longest_content
+        final = asyncio.run(run_workflow(query, model=model, rounds=rounds))
 
     if not final:
         console.print("[red]No output produced by the workflow.[/]")
         return
-
-    # Strip anything after </html>
-    if "</html>" in final.lower():
-        idx = final.lower().index("</html>") + len("</html>")
-        final = final[:idx]
 
     # Determine output path
     if output is None:
@@ -122,6 +72,104 @@ def run(query: str, output: str | None, model: str | None, verbose: bool):
     has_html = "<html" in final.lower()
     has_svg = "<svg" in final.lower()
     console.print(f"[dim]  Contains HTML: {has_html} | Contains SVG: {has_svg} | Length: {len(final):,} chars[/]")
+
+
+@main.command()
+@click.argument("identifiers")
+@click.option("--yes", "-y", is_flag=True, help="Skip confirmation prompt.")
+@click.option("--model", "-m", default=None, help="LLM model override.")
+def ingest(identifiers: str, yes: bool, model: str | None):
+    """Ingest papers by PMID or DOI into the parts catalog and pathway database.
+
+    IDENTIFIERS can be a single ID or comma-separated list.
+
+    \b
+    Examples:
+        bsa ingest "PMID:11050181"
+        bsa ingest "DOI:10.1038/s41477-021-00866-5"
+        bsa ingest "PMID:11050181,PMID:17259264"
+    """
+    from biosensor_architect.tools.paper_ingest import (
+        append_to_catalog,
+        append_to_pathways,
+        deduplicate_parts,
+        deduplicate_pathways,
+        extract_parts_from_paper,
+        load_catalog,
+        load_pathways,
+        resolve_identifier,
+    )
+
+    id_list = [i.strip() for i in identifiers.split(",") if i.strip()]
+    console.print(f"[bold green]Ingesting {len(id_list)} paper(s)...[/]\n")
+
+    all_new_parts: list[dict] = []
+    all_new_pathways: list[dict] = []
+
+    for identifier in id_list:
+        console.print(f"[bold]Resolving:[/] {identifier}")
+        try:
+            metadata = resolve_identifier(identifier)
+        except ValueError as e:
+            console.print(f"  [red]Error: {e}[/]")
+            continue
+
+        console.print(f"  [dim]Title:[/] {metadata.get('title', 'Unknown')}")
+        console.print(f"  [dim]Authors:[/] {', '.join(metadata.get('authors', [])[:3])}")
+        console.print(f"  [dim]Year:[/] {metadata.get('year', '?')}")
+
+        console.print("  [dim]Extracting parts and pathways via LLM...[/]")
+        extracted = asyncio.run(extract_parts_from_paper(metadata, model=model))
+
+        parts = extracted.get("parts", [])
+        pathways = extracted.get("pathways", [])
+        console.print(f"  [green]Found {len(parts)} part(s) and {len(pathways)} pathway(s)[/]")
+
+        all_new_parts.extend(parts)
+        all_new_pathways.extend(pathways)
+
+    if not all_new_parts and not all_new_pathways:
+        console.print("\n[yellow]No new parts or pathways extracted.[/]")
+        return
+
+    # Deduplicate against existing data
+    existing_parts = load_catalog()
+    existing_pathways = load_pathways()
+
+    unique_parts = deduplicate_parts(all_new_parts, existing_parts)
+    unique_pathways = deduplicate_pathways(all_new_pathways, existing_pathways)
+
+    if not unique_parts and not unique_pathways:
+        console.print("\n[yellow]All extracted items already exist in the catalog.[/]")
+        return
+
+    # Show what will be added
+    if unique_parts:
+        console.print(f"\n[bold green]New parts to add ({len(unique_parts)}):[/]")
+        parts_table = Table(show_lines=True)
+        parts_table.add_column("ID", width=15)
+        parts_table.add_column("Name", width=30)
+        parts_table.add_column("Type", width=12)
+        parts_table.add_column("Organism", width=20)
+        for p in unique_parts:
+            parts_table.add_row(p.get("id", "?"), p.get("name", "?"), p.get("type", "?"), p.get("organism", "?"))
+        console.print(parts_table)
+
+    if unique_pathways:
+        console.print(f"\n[bold green]New pathways to add ({len(unique_pathways)}):[/]")
+        for pw in unique_pathways:
+            console.print(f"  [bold]{pw.get('signal', '?')}[/] in {pw.get('organism', '?')}: {pw.get('description', '')[:80]}")
+
+    # Confirm
+    if not yes:
+        if not click.confirm("\nAdd these to the database?"):
+            console.print("[yellow]Aborted.[/]")
+            return
+
+    # Append
+    n_parts = append_to_catalog(unique_parts)
+    n_pathways = append_to_pathways(unique_pathways)
+    console.print(f"\n[bold green]Done![/] Added {n_parts} part(s) and {n_pathways} pathway(s).")
 
 
 @main.command()

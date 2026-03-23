@@ -140,44 +140,28 @@ async def build_workflow(model: str | None = None) -> SelectorGroupChat:
     return team
 
 
-async def run_workflow(query: str, model: str | None = None) -> str:
-    """Run the full design workflow for a user query.
+def _extract_html(messages) -> str:
+    """Extract the HTML report from a list of agent messages.
 
-    Args:
-        query: Natural language design request, e.g.,
-               "Design a nitrate sensor for Arabidopsis thaliana".
-        model: Optional LLM model override.
-
-    Returns:
-        The final output text (typically the Documenter's HTML report).
+    Priority order:
+      1. Any message containing <!DOCTYPE or <html (the actual report)
+      2. The longest Documenter message
+      3. The longest message from any agent (last resort)
     """
-    team = await build_workflow(model=model)
-    result = await team.run(task=query)
-
-    # Extract the HTML report from the conversation.
-    # Priority order:
-    #   1. Any message containing <!DOCTYPE or <html (the actual report)
-    #   2. The last Documenter message longer than 200 chars
-    #   3. The longest message from any agent (last resort)
     html_content = ""
     documenter_content = ""
     longest_content = ""
 
-    for msg in result.messages:
+    for msg in messages:
         content = getattr(msg, "content", "")
         if not isinstance(content, str):
             continue
         source = getattr(msg, "source", "")
 
-        # Priority 1: contains actual HTML
         if ("<!doctype" in content.lower() or "<html" in content.lower()) and len(content) > len(html_content):
             html_content = content
-
-        # Priority 2: from Documenter
         if source == "Documenter" and len(content) > len(documenter_content):
             documenter_content = content
-
-        # Priority 3: longest overall
         if len(content) > len(longest_content):
             longest_content = content
 
@@ -189,3 +173,78 @@ async def run_workflow(query: str, model: str | None = None) -> str:
         final = final[:idx]
 
     return final
+
+
+async def _run_single_round(
+    query: str,
+    model: str | None = None,
+) -> tuple[str, object]:
+    """Run one pass of the design pipeline.
+
+    Returns:
+        (html_output, raw_team_result) tuple.
+    """
+    team = await build_workflow(model=model)
+    result = await team.run(task=query)
+    html = _extract_html(result.messages)
+    return html, result
+
+
+async def run_workflow(
+    query: str,
+    model: str | None = None,
+    rounds: int | None = None,
+) -> str:
+    """Run the full design workflow, optionally with multiple critique rounds.
+
+    Args:
+        query: Natural language design request, e.g.,
+               "Design a nitrate sensor for Arabidopsis thaliana".
+        model: Optional LLM model override.
+        rounds: Number of design rounds (default from DESIGN_ROUNDS env var).
+                Each round after the first includes critic feedback.
+
+    Returns:
+        The final HTML report with PMID citations validated.
+    """
+    from biosensor_architect.config import settings
+    from biosensor_architect.orchestration.critic import critique_design
+    from biosensor_architect.orchestration.report_qc import validate_report_pmids
+    from biosensor_architect.tools.pubmed_search import reset_verified_pmids
+
+    num_rounds = rounds if rounds is not None else settings.design_rounds
+
+    # Clear PMID registry from any prior run
+    reset_verified_pmids()
+
+    current_query = query
+    final_html = ""
+
+    for round_num in range(1, num_rounds + 1):
+        final_html, _result = await _run_single_round(current_query, model=model)
+
+        # Last round — no critique needed
+        if round_num >= num_rounds:
+            break
+
+        # Critique the design
+        critique = await critique_design(final_html, round_num=round_num, model=model)
+
+        if critique.approved:
+            break  # Design is good enough, stop early
+
+        # Inject feedback into the next round's query
+        current_query = (
+            f"{query}\n\n"
+            f"--- CRITIC FEEDBACK FROM ROUND {round_num} "
+            f"(score: {critique.overall_score}/10) ---\n"
+            f"{critique.feedback}\n"
+            f"---\n"
+            f"Address the above feedback in this design round."
+        )
+
+    # Post-processing: validate cited PMIDs
+    if final_html:
+        final_html = validate_report_pmids(final_html, verify_unknown=True)
+
+    return final_html
