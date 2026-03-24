@@ -5,8 +5,10 @@
     "type": "promoter",
     "organism": "Cauliflower mosaic virus",
     "signal_responsive_to": "constitutive",
-    "references": ["PMID:3033682"],
-    "notes": "Strong constitutive promoter widely used in dicot transformation. Not signal-responsive — use as positive control."
+    "references": [
+      "PMID:3033682"
+    ],
+    "notes": "Strong constitutive promoter widely used in dicot transformation. Not signal-responsive \u2014 use as positive control."
   },
   {
     "id": "pNOS",
@@ -14,7 +16,9 @@
     "type": "promoter",
     "organism": "Agrobacterium tumefaciens",
     "signal_responsive_to": "constitutive",
-    "references": ["PMID:6323996"],
+    "references": [
+      "PMID:6323996"
+    ],
     "notes": "Weak constitutive promoter. Common in selection cassettes."
   },
   {
@@ -23,7 +27,10 @@
     "type": "promoter",
     "organism": "Arabidopsis thaliana",
     "signal_responsive_to": "nitrate",
-    "references": ["PMID:11050181", "PMID:17259264"],
+    "references": [
+      "PMID:11050181",
+      "PMID:17259264"
+    ],
     "notes": "Nitrate-inducible promoter from the high-affinity nitrate transporter NRT2.1. Induced under low nitrate, repressed under high nitrogen."
   },
   {
@@ -32,7 +39,9 @@
     "type": "promoter",
     "organism": "Arabidopsis thaliana",
     "signal_responsive_to": "drought",
-    "references": ["PMID:7846157"],
+    "references": [
+      "PMID:7846157"
+    ],
     "notes": "Stress-inducible promoter responsive to drought, cold, and ABA. Contains DRE and ABRE cis-elements."
   },
   {
@@ -41,7 +50,9 @@
     "type": "promoter",
     "organism": "Arabidopsis thaliana",
     "signal_responsive_to": "heavy metals",
-    "references": ["PMID:8745410"],
+    "references": [
+      "PMID:8745410"
+    ],
     "notes": "Induced by copper, zinc, and cadmium. Metal-responsive elements (MREs) in promoter region."
   },
   {
@@ -50,7 +61,9 @@
     "type": "promoter",
     "organism": "Arabidopsis thaliana",
     "signal_responsive_to": "phosphorus deficiency",
-    "references": ["PMID:10364409"],
+    "references": [
+      "PMID:10364409"
+    ],
     "notes": "Strongly induced under phosphate starvation. Root-preferential expression."
   },
   {
@@ -59,7 +72,9 @@
     "type": "promoter",
     "organism": "Arabidopsis thaliana",
     "signal_responsive_to": "phloem-specific",
-    "references": ["PMID:11788729"],
+    "references": [
+      "PMID:11788729"
+    ],
     "notes": "Companion cell-specific promoter. Useful for phloem-loading constructs."
   },
   {
@@ -68,7 +83,9 @@
     "type": "reporter",
     "organism": "Aequorea victoria",
     "signal_responsive_to": null,
-    "references": ["PMID:8602244"],
+    "references": [
+      "PMID:8602244"
+    ],
     "notes": "Fluorescence reporter. Requires UV/blue light excitation. Non-destructive imaging. May require plant codon optimization."
   },
   {
@@ -77,7 +94,9 @@
     "type": "reporter",
     "organism": "Escherichia coli",
     "signal_responsive_to": null,
-    "references": ["PMID:3282918"],
+    "references": [
+      "PMID:3282918"
+    ],
     "notes": "Histochemical staining reporter. Destructive assay (X-Gluc). High sensitivity. Gold standard for promoter characterization in plants."
   },
   {
@@ -86,7 +105,9 @@
     "type": "reporter",
     "organism": "Beta vulgaris",
     "signal_responsive_to": null,
-    "references": ["PMID:33574609"],
+    "references": [
+      "PMID:33574609"
+    ],
     "notes": "Visible color reporter producing red-violet pigment. Non-destructive. Detectable by eye without equipment. Ideal for field biosensors."
   },
   {
@@ -95,7 +116,9 @@
     "type": "reporter",
     "organism": "Photinus pyralis",
     "signal_responsive_to": null,
-    "references": ["PMID:3745404"],
+    "references": [
+      "PMID:3745404"
+    ],
     "notes": "Luminescence reporter. Requires luciferin substrate. Quantitative with luminometer. Good for real-time kinetics."
   },
   {
@@ -104,7 +127,9 @@
     "type": "reporter",
     "organism": "Arabidopsis thaliana",
     "signal_responsive_to": null,
-    "references": ["PMID:11595803"],
+    "references": [
+      "PMID:11595803"
+    ],
     "notes": "Visible purple pigment reporter. Non-destructive. Uses endogenous plant pathway. Color visible in vegetative tissues."
   },
   {
@@ -113,7 +138,9 @@
     "type": "terminator",
     "organism": "Agrobacterium tumefaciens",
     "signal_responsive_to": null,
-    "references": ["PMID:6323996"],
+    "references": [
+      "PMID:6323996"
+    ],
     "notes": "Most widely used terminator in plant transformation. Reliable transcription termination and polyadenylation."
   },
   {
@@ -122,7 +149,9 @@
     "type": "terminator",
     "organism": "Cauliflower mosaic virus",
     "signal_responsive_to": null,
-    "references": ["PMID:3033682"],
+    "references": [
+      "PMID:3033682"
+    ],
     "notes": "Strong terminator from CaMV. Often paired with 35S promoter."
   },
   {
@@ -131,7 +160,9 @@
     "type": "terminator",
     "organism": "Agrobacterium tumefaciens",
     "signal_responsive_to": null,
-    "references": ["PMID:6883753"],
+    "references": [
+      "PMID:6883753"
+    ],
     "notes": "Alternative Agrobacterium-derived terminator. Used when tNOS is already in the construct to avoid recombination."
   },
   {
@@ -140,7 +171,9 @@
     "type": "terminator",
     "organism": "Arabidopsis thaliana",
     "signal_responsive_to": null,
-    "references": ["PMID:23136376"],
+    "references": [
+      "PMID:23136376"
+    ],
     "notes": "Strong plant-derived terminator. Higher expression than tNOS in some contexts."
   },
   {
@@ -149,7 +182,9 @@
     "type": "regulatory",
     "organism": "Tobacco mosaic virus",
     "signal_responsive_to": null,
-    "references": ["PMID:3340176"],
+    "references": [
+      "PMID:3340176"
+    ],
     "notes": "5' UTR translational enhancer. Increases protein expression 5-10x when placed between promoter and coding sequence."
   },
   {
@@ -158,7 +193,325 @@
     "type": "regulatory",
     "organism": "Arabidopsis thaliana",
     "signal_responsive_to": null,
-    "references": ["PMID:9342323"],
+    "references": [
+      "PMID:9342323"
+    ],
     "notes": "Optimized translation initiation context for plants (AACAATGGC). Include around start codon for efficient translation."
+  },
+  {
+    "id": "pAtHAK5",
+    "name": "AtHAK5 promoter",
+    "type": "promoter",
+    "organism": "Arabidopsis thaliana",
+    "signal": "potassium deficiency",
+    "description": "High-affinity K+ transporter promoter. Strongly induced by K+ starvation via CBL1/CBL9-CIPK23 cascade and ethylene signaling (RAP2.11). Also modulated by N and P availability \u2014 cross-talk must be managed. Root-specific.",
+    "references": [
+      "PMID:39362862",
+      "PMID:24716623"
+    ],
+    "notes": "Already in catalog \u2014 will be deduplicated. Included for completeness."
+  },
+  {
+    "id": "pAtIRT1",
+    "name": "AtIRT1 promoter",
+    "type": "promoter",
+    "organism": "Arabidopsis thaliana",
+    "signal": "iron deficiency",
+    "description": "Iron-Regulated Transporter 1 promoter. Exquisitely sensitive to Fe starvation, restricted to root epidermis and cortex. Regulated by FIT/bHLH TF complex upstream through URI phosphorylation. IRT1 protein itself regulated by ubiquitin-mediated turnover at K146/K171.",
+    "references": [
+      "PMID:12084823",
+      "PMID:31636177"
+    ],
+    "notes": "Root external cell layer specific. Cross-reactivity: Zn and Mn can affect IRT1 protein turnover."
+  },
+  {
+    "id": "pAtFRO2",
+    "name": "AtFRO2 promoter",
+    "type": "promoter",
+    "organism": "Arabidopsis thaliana",
+    "signal": "iron deficiency",
+    "description": "Ferric Reduction Oxidase 2 promoter. Co-regulated with IRT1 under Fe deficiency via FIT/bHLH TF network. Drives expression of the ferric reductase required for Fe3+ \u2192 Fe2+ conversion prior to IRT1 uptake.",
+    "references": [
+      "PMID:12084823",
+      "PMID:31636177"
+    ],
+    "notes": "Strategy I iron acquisition. Root-specific expression."
+  },
+  {
+    "id": "pAtZIP4",
+    "name": "AtZIP4 promoter",
+    "type": "promoter",
+    "organism": "Arabidopsis thaliana",
+    "signal": "zinc deficiency",
+    "description": "ZIP family transporter promoter. Contains the 10-bp ZDRE (Zinc Deficiency Response Element) palindrome bound by bZIP19/bZIP23 TFs. Massive transcriptional induction within 6 hours of Zn deprivation. Isolated ZDRE motifs eliminate cross-reactivity with Fe/Cu starvation.",
+    "references": [
+      "PMID:20479230",
+      "PMID:33594269"
+    ],
+    "notes": "bZIP19/23 are direct intracellular Zn sensors \u2014 no upstream kinase required. Highly orthogonal."
+  },
+  {
+    "id": "pCaResponsive",
+    "name": "Synthetic Ca2+ responsive promoter (CRT/DRE + CAM box)",
+    "type": "promoter",
+    "organism": "Arabidopsis thaliana",
+    "signal": "calcium",
+    "description": "Synthetic arrays of experimentally validated CAMTA-target motifs: C-Repeat/DRE, Site II, and CAM box. Provides rapid, transient transcriptional readout of intracellular Ca2+ spiking. Useful for mapping earliest moments of stress perception.",
+    "references": [
+      "PMID:22086087"
+    ],
+    "notes": "Ca2+ is a universal second messenger \u2014 inherently challenging to isolate specific stimuli. Best for kinetic biosensor applications."
+  },
+  {
+    "id": "pAtSOS1",
+    "name": "AtSOS1 promoter",
+    "type": "promoter",
+    "organism": "Arabidopsis thaliana",
+    "signal": "salt stress",
+    "description": "Salt Overly Sensitive 1 (Na+/H+ antiporter) promoter. Rapidly induced by NaCl exposure via SOS3(CBL4)-SOS2(CIPK24) calcium-dependent signaling cascade. Essential for salt tolerance.",
+    "references": [
+      "PMID:10831000"
+    ],
+    "notes": "SOS pathway: Ca2+ spike \u2192 SOS3 \u2192 SOS2 \u2192 phosphorylates SOS1. Regulation intertwined with ABA/osmotic pathways \u2014 truncation needed for salt-specific response."
+  },
+  {
+    "id": "pAtNHX1",
+    "name": "AtNHX1 promoter",
+    "type": "promoter",
+    "organism": "Arabidopsis thaliana",
+    "signal": "salt stress",
+    "description": "Vacuolar Na+/H+ exchanger promoter. Induced under saline conditions. NHX1 sequesters Na+ into vacuoles for salt tolerance.",
+    "references": [
+      "PMID:10831000"
+    ],
+    "notes": "Companion to SOS1 \u2014 vacuolar compartmentalization arm of salt response."
+  },
+  {
+    "id": "pAtCOR15A",
+    "name": "AtCOR15A promoter",
+    "type": "promoter",
+    "organism": "Arabidopsis thaliana",
+    "signal": "cold stress",
+    "description": "Cold-Regulated gene 15A promoter. Contains CRT/DRE motif (CCGAC) bound by CBF/DREB1 TFs. Lacks basal activity but achieves high systemic induction precisely at freezing temperatures. ICE1 \u2192 CBF1/2/3 \u2192 COR15A pathway.",
+    "references": [
+      "PMID:8193295"
+    ],
+    "notes": "Cross-reactivity with drought (DRE element shared). COR15B promoter is stronger due to flanking sequence context."
+  },
+  {
+    "id": "pAtHSP18.2",
+    "name": "AtHSP18.2 promoter (full-length)",
+    "type": "promoter",
+    "organism": "Arabidopsis thaliana",
+    "signal": "heat stress",
+    "description": "Heat Shock Protein 18.2 promoter. Contains Heat Shock Elements (HSEs, nGAAnnTTCn consensus) bound by Heat Shock Factors (HSFs). Exceptionally low basal activity at 22-25C with up to 1000-fold induction within 2 hours of 37-40C heat shock.",
+    "references": [
+      "PMID:8597550"
+    ],
+    "notes": "Premier choice for orthogonal biosensor construction due to minimal leakage and massive dynamic range."
+  },
+  {
+    "id": "pSlE4",
+    "name": "Tomato E4 promoter",
+    "type": "promoter",
+    "organism": "Solanum lycopersicum",
+    "signal": "ethylene",
+    "description": "Ethylene-responsive promoter from tomato. Contains two cooperative cis-elements (-150 to -121 and -40 to +65) required for ethylene response. Minimal responsive elements mapped. ERF TFs bind GCC-box (AGCCGCC).",
+    "references": [
+      "PMID:8914528"
+    ],
+    "notes": "Native ripening promoter \u2014 tissue-specific variations in developmental context."
+  },
+  {
+    "id": "pEBSn",
+    "name": "Synthetic EBSn promoter",
+    "type": "promoter",
+    "organism": "Synthetic",
+    "signal": "ethylene",
+    "description": "Synthetic ethylene-responsive promoter constructed from 10 tandem repeats of the EIN3 Binding Site. Provides uniform, high-amplitude expression independent of developmental and tissue-specific variations in native promoters.",
+    "references": [],
+    "notes": "Synthetic design eliminates developmental cross-talk seen in native E4/E8 promoters."
+  },
+  {
+    "id": "pDR5",
+    "name": "Synthetic DR5 promoter",
+    "type": "promoter",
+    "organism": "Synthetic (Arabidopsis/soybean)",
+    "signal": "auxin",
+    "description": "The most widely used synthetic auxin-responsive promoter. Contains 11-bp tandem repeats of TGTCTC (AuxRE) derived from soybean GH3 promoter. Highly sensitive, dose-dependent, quantitative readout of localized auxin concentrations. TIR1/AFB \u2192 Aux/IAA degradation \u2192 ARF activation \u2192 DR5.",
+    "references": [
+      "PMID:9401121",
+      "PMID:8038604"
+    ],
+    "notes": "Eliminates cross-reactivity present in native GH3 sequences through optimized spacing and serial repetition."
+  },
+  {
+    "id": "pTCSn",
+    "name": "Synthetic TCSn promoter (Two-Component Sensor new)",
+    "type": "promoter",
+    "organism": "Synthetic (Arabidopsis)",
+    "signal": "cytokinin",
+    "description": "Optimized synthetic cytokinin reporter. Tandemly arrayed type-B ARR binding motifs with precisely 11-bp spacing (one full helical turn of B-form DNA). Vastly superior dynamic range vs original TCS due to steric cooperativity of TFs on same DNA face. AHK receptors \u2192 AHP \u2192 type-B ARR \u2192 TCSn.",
+    "references": [
+      "PMID:23537731"
+    ],
+    "notes": "11-bp motif spacing is critical \u2014 corresponds to one helical turn ensuring all TFs bind same face."
+  },
+  {
+    "id": "pAtRBCS",
+    "name": "AtRBCS promoter (Rubisco small subunit)",
+    "type": "promoter",
+    "organism": "Arabidopsis thaliana",
+    "signal": "light",
+    "description": "Ribulose-1,5-bisphosphate carboxylase small subunit promoter. Foundational light-responsive part. Contains Light-Responsive Elements (LREs) that act combinatorially; paired LREs confer robust light-inducible expression. phyA/phyB \u2192 HY5 (bZIP) \u2192 LRE activation.",
+    "references": [
+      "PMID:8310058",
+      "PMID:1380166"
+    ],
+    "notes": "Differential phytochrome regulation. LRE arrays can be engineered for light-activated synthetic biosensors."
+  },
+  {
+    "id": "pAtCAB",
+    "name": "AtCAB promoter (Chlorophyll a/b binding protein)",
+    "type": "promoter",
+    "organism": "Arabidopsis thaliana",
+    "signal": "light",
+    "description": "Light-Harvesting Chlorophyll a/b Binding protein promoter. Strongly light-inducible with independent developmental and phytochrome-mediated induction phases.",
+    "references": [
+      "PMID:1380166"
+    ],
+    "notes": "Foundational light-responsive promoter. Green tissue expression."
+  },
+  {
+    "id": "pAtPR1",
+    "name": "AtPR1 promoter (Pathogenesis-Related 1)",
+    "type": "promoter",
+    "organism": "Arabidopsis thaliana",
+    "signal": "pathogen (salicylic acid)",
+    "description": "Universal marker for SA-mediated Systemic Acquired Resistance. Activated by NPR1 which recruits TGA bZIP TFs and WRKY TFs (especially WRKY50) to W-box (TTGAC) and variant WK box elements. WRKY factors synergize with TGA1a for massive induction.",
+    "references": [
+      "PMID:17098858",
+      "PMID:10339596"
+    ],
+    "notes": "SA pathway. For dual SA+JA biosensors, synthetic dual-responsive promoters combining SA and JA elements have been engineered."
+  },
+  {
+    "id": "pAtAMT1.1",
+    "name": "AtAMT1;1 promoter",
+    "type": "promoter",
+    "organism": "Arabidopsis thaliana",
+    "signal": "ammonium / nitrogen deficiency",
+    "description": "Ammonium Transporter 1;1 promoter. Strongly upregulated by nitrogen deficiency. Root-specific expression. AMT1;1 protein also acts as direct ammonium sensor via C-terminal T494 phosphorylation (allosteric gating).",
+    "references": [
+      "PMID:17565866"
+    ],
+    "notes": "Reflects systemic N demand, not instantaneous soil NH4+ concentration. Dual regulation: transcriptional induction + post-translational allosteric gating."
+  },
+  {
+    "id": "pAtSULTR1.1",
+    "name": "AtSULTR1;1 promoter",
+    "type": "promoter",
+    "organism": "Arabidopsis thaliana",
+    "signal": "sulfur deficiency",
+    "description": "Sulfate transporter 1;1 promoter. Regulated by SLIM1/EIL3 TF under S deficiency. Contains the 16-bp SURE (Sulfur-Responsive Element) with core GAGAC motif. SURE is highly specific to sulfur deficiency \u2014 repressed by downstream sulfur metabolites (cysteine, glutathione).",
+    "references": [
+      "PMID:15047883",
+      "PMID:15842617"
+    ],
+    "notes": "SURE motif overlaps with AuxRE but exhibits exclusive S-deficiency responsiveness. Excellent for minimal synthetic biosensor parts."
+  },
+  {
+    "id": "pAtNIP5.1",
+    "name": "AtNIP5;1 promoter",
+    "type": "promoter",
+    "organism": "Arabidopsis thaliana",
+    "signal": "boron deficiency",
+    "description": "Boric acid channel NIP5;1 promoter. Upregulated under B limitation, root elongation zone specific. BOR1 (boron exporter) has a unique post-transcriptional sensor: a uORF (AUGUAA) in the 5'UTR causes ribosome stalling under high B, suppressing translation.",
+    "references": [
+      "PMID:19017629"
+    ],
+    "notes": "BOR1 uORF is an excellent self-contained post-transcriptional boron-toxicity logic gate."
+  },
+  {
+    "id": "RUBY",
+    "name": "RUBY reporter (CYP76AD1-DODA-GT polycistron)",
+    "type": "reporter",
+    "organism": "Synthetic (Beta vulgaris enzymes)",
+    "signal": "visible color",
+    "description": "Polycistronic betalain biosynthesis cassette. Three enzymes (CYP76AD1, DODA, GT) linked by self-cleaving 2A peptides in a single ORF. Converts native tyrosine to vivid red/purple betalain pigments. Visible to naked eye, zero background in most plants, quantifiable by spectrophotometry/HPLC.",
+    "references": [
+      "PMID:39359623",
+      "PMID:32901306"
+    ],
+    "notes": "No substrate needed. Works in transient and stable transformations across diverse species (maize, Nicotiana)."
+  },
+  {
+    "id": "dGFP-PEST",
+    "name": "Destabilized GFP (PEST-tagged)",
+    "type": "reporter",
+    "organism": "Synthetic (Aequorea victoria + mouse PEST)",
+    "signal": "fluorescence (kinetic)",
+    "description": "GFP fused to PEST degradation domain (from mouse ornithine decarboxylase or yeast Cln2). Reduces fluorescence half-life from ~26 hours to under 2 hours. Essential for tracking transient transcriptional bursts rather than cumulative expression.",
+    "references": [
+      "PMID:9857028",
+      "PMID:11015728"
+    ],
+    "notes": "Use for kinetic measurements where wild-type GFP is too stable to resolve temporal dynamics."
+  },
+  {
+    "id": "GREAT",
+    "name": "GREAT (Green/Red luciferase ratiometric)",
+    "type": "reporter",
+    "organism": "Synthetic",
+    "signal": "luminescence (ratiometric)",
+    "description": "Dual-color luciferase system emitting green and red light from a single substrate. Two distinct luciferases on one transcript separated by 2A peptide. Built-in internal normalization eliminates transformation efficiency variance. High dynamic range.",
+    "references": [
+      "PMID:34520169"
+    ],
+    "notes": "Eliminates need for separate normalization plasmid. Cheap, fast, internally controlled expression measurements."
+  },
+  {
+    "id": "NanoLuc-plant",
+    "name": "NanoLuc (GeNL-furimazine system)",
+    "type": "reporter",
+    "organism": "Synthetic (Oplophorus gracilirostris)",
+    "signal": "bioluminescence (deep tissue)",
+    "description": "Engineered 19.1 kDa luciferase producing extraordinarily intense bioluminescence. GeNL-furimazine emission spectrum aligns with the optical transparency window of chlorophyll, bypassing autofluorescence limitations that plague standard fluorescent reporters in photosynthetic tissues.",
+    "references": [],
+    "notes": "Ideal for deep-tissue tracking in roots, thick stems, or dense canopy organs where fluorescence fails."
+  },
+  {
+    "id": "kozak-KZ3",
+    "name": "Optimized Kozak KZ3 sequence",
+    "type": "regulatory",
+    "organism": "Universal",
+    "signal": "N/A",
+    "description": "Synthetic optimized Kozak consensus for the 3 nucleotides upstream of AUG start codon. Base-editing the -3 to -1 positions quantitatively scales translation efficiency without altering transcription. Can increase or decrease output bidirectionally.",
+    "references": [
+      "PMID:38997252"
+    ],
+    "notes": "KZ3 region modification provides precise translational tuning independent of promoter strength."
+  },
+  {
+    "id": "IME-UBQ10",
+    "name": "UBQ10 first intron (IME element)",
+    "type": "regulatory",
+    "organism": "Arabidopsis thaliana",
+    "signal": "N/A",
+    "description": "First intron of Arabidopsis UBQ10 gene. Classic Intron-Mediated Enhancement (IME) element. Placed near TSS, acts at chromatin level (not RNA splicing) to create locally accessible open chromatin. Boosts expression 10-50 fold depending on tissue.",
+    "references": [
+      "PMID:26089147"
+    ],
+    "notes": "IME acts primarily at DNA level via chromatin opening, unlike traditional enhancers that operate via DNA looping."
+  },
+  {
+    "id": "insulator-Ugibba",
+    "name": "Utricularia gibba insulator elements",
+    "type": "regulatory",
+    "organism": "Utricularia gibba",
+    "signal": "N/A",
+    "description": "Short (<1 kb) plant-derived insulator sequences mined from the compact U. gibba genome. Establish independent chromatin domains, shielding promoters from heterochromatin silencing and ectopic enhancer bleed-through. Robustly block CaMV 35S ectopic interference.",
+    "references": [],
+    "notes": "Critical for multi-cassette constructs. May possess mild localized silencing effects alongside insulation \u2014 calibrate carefully."
   }
 ]

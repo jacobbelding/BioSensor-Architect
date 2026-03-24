@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Arabidopsis Drought Sensor — RD29A::GFP Reporter System</title>
+<style>
+  :root {
+    --bg: #f8f9fc; --card: #ffffff; --border: #e2e6ef; --text: #1a1a2e; --muted: #5a6070;
+    --promoter: #2e7d32; --promoter-lt: #e8f5e9;
+    --reporter: #4a148c; --reporter-lt: #f3e5f5;
+    --term: #37474f; --term-lt: #f5f5f5;
+    --regulatory: #e65100; --regulatory-lt: #fff3e0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text);
+         padding: 32px 24px 56px; max-width: 1150px; margin: auto; font-size: 14px; line-height: 1.6; }
+  
+  h1 { font-size: 1.5rem; font-weight: 700; border-bottom: 3px solid var(--promoter);
+       padding-bottom: 10px; margin-bottom: 6px; }
+  .subhead { font-size: 0.85rem; color: var(--muted); margin-bottom: 32px; line-height: 1.4; }
+  
+  .sl { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+        text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+  
+  .panel { background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+           padding: 24px 22px; margin-bottom: 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+  .panel h2 { font-size: 1rem; font-weight: 700; margin-bottom: 16px; }
+  
+  .pathway-flow { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin: 20px 0; }
+  .pathway-step { background: var(--card); border: 2px solid var(--border); border-radius: 8px;
+                  padding: 12px 16px; text-align: center; min-width: 120px; position: relative; }
+  .pathway-step::after { content: '→'; position: absolute; right: -24px; top: 50%;
+                         transform: translateY(-50%); font-size: 1.2rem; color: var(--muted); }
+  .pathway-step:last-child::after { display: none; }
+  .pathway-step.signal { border-color: var(--regulatory); background: var(--regulatory-lt); }
+  .pathway-step.receptor { border-color: var(--promoter); background: var(--promoter-lt); }
+  .pathway-step.output { border-color: var(--reporter); background: var(--reporter-lt); }
+  
+  .cgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+  .ccard { background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+           padding: 18px; box-shadow: 0 1px 6px rgba(0,0,0,0.08); position: relative; overflow: hidden; }
+  .ccard::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 4px; }
+  .ccard.promoter::before { background: var(--promoter); }
+  .ccard.reporter::before { background: var(--reporter); }
+  .ccard.terminator::before { background: var(--term); }
+  .ccard h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 6px; }
+  .ccard .meta { font-size: 0.72rem; color: var(--muted); margin-bottom: 10px; }
+  .ccard ul { padding-left: 16px; font-size: 0.8rem; line-height: 1.7; }
+  .ccard .pmid { font-size: 0.72rem; color: var(--muted); font-style: italic; margin-top: 8px; }
+  
+  .note { border-radius: 0 8px 8px 0; padding: 14px 18px; font-size: 0.82rem; 
+          line-height: 1.8; margin-bottom: 14px; }
+  .note.blue { background: #e3f2fd; border-left: 4px solid #1976d2; }
+  .note.amber { background: #fff8e1; border-left: 4px solid #f57c00; }
+  .note.red { background: #ffebee; border-left: 4px solid #d32f2f; }
+  .note strong { font-weight: 700; }
+  
+  table.st { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin-top: 12px; }
+  table.st th { background: #f0f4f8; padding: 10px 12px; text-align: left; font-weight: 700;
+                border-bottom: 2px solid var(--border); font-size: 0.75rem; }
+  table.st td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  table.st .mono { font-family: 'Courier New', monospace; font-size: 0.75rem; }
+  
+  .summary-table { background: #fafbfc; border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+  
+  footer { font-size: 0.73rem; color: #999; text-align: center; margin-top: 36px; 
+           border-top: 1px solid var(--border); padding-top: 16px; }
+</style>
+</head>
+<body>
+<div style="background:#fffde7; border:1px solid #f9a825; border-radius:8px; padding:8px 16px; margin-bottom:16px; font-size:0.8rem; color:#5a4a00;">⚠ Verification: 0 warning(s), 63 component(s) not in curated database</div>
+
+
+<h1>Arabidopsis Drought Sensor — RD29A::GFP Reporter System</h1>
+<p class="subhead">Gateway-based fluorescent biosensor for drought stress monitoring • Target: Water deficit detection in laboratory conditions • Expression: ABA-responsive drought-inducible promoter</p>
+
+<div class="panel">
+  <div class="sl">Construct Map</div>
+  <h2>Linear Map (5′ → 3′) — pGWB5 Binary Vector</h2>
+  <svg viewBox="0 0 860 120" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; margin: 16px 0;">
+    <defs>
+      <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+        <polygon points="0 0,8 3,0 6" fill="#444"/>
+      </marker>
+    </defs>
+    
+    <!-- Main backbone line -->
+    <line x1="30" y1="65" x2="830" y2="65" stroke="#ccc" stroke-width="2"/>
+    <line x1="800" y1="65" x2="830" y2="65" stroke="#444" stroke-width="3" marker-end="url(#arr)"/>
+    
+    <!-- 5' and 3' labels -->
+    <text x="18" y="69" font-size="11" font-weight="700" fill="#666">5′</text>
+    <text x="838" y="69" font-size="11" font-weight="700" fill="#666">3′</text>
+    
+    <!-- RD29A Promoter -->
+    <rect x="50" y="35" width="240" height="60" rx="6" fill="#2e7d32" opacity="0.9"/>
+    <text x="170" y="56" font-size="11" font-weight="700" fill="white" text-anchor="middle">RD29A Promoter</text>
+    <text x="170" y="72" font-size="9" fill="#c8e6c9" text-anchor="middle">AT5G52310 • 1.5 kb</text>
+    <text x="170" y="84" font-size="8" fill="#c8e6c9" text-anchor="middle">DRE/CRT, ABRE elements</text>
+    
+    <!-- GFP CDS -->
+    <rect x="310" y="35" width="200" height="60" rx="6" fill="#4a148c" opacity="0.9"/>
+    <text x="410" y="56" font-size="11" font-weight="700" fill="white" text-anchor="middle">GFP</text>
+    <text x="410" y="72" font-size="9" fill="#e1bee7" text-anchor="middle">CDS • 714 bp</text>
+    <text x="410" y="84" font-size="8" fill="#e1bee7" text-anchor="middle">Ex 488 nm / Em 507 nm</text>
+    
+    <!-- NOS Terminator -->
+    <rect x="530" y="35" width="160" height="60" rx="6" fill="#37474f" opacity="0.9"/>
+    <text x="610" y="56" font-size="11" font-weight="700" fill="white" text-anchor="middle">NOS Terminator</text>
+    <text x="610" y="72" font-size="9" fill="#cfd8dc" text-anchor="middle">256 bp</text>
+    
+    <!-- Kanamycin resistance (background element) -->
+    <rect x="710" y="45" width="80" height="40" rx="4" fill="#ff9800" opacity="0.7"/>
+    <text x="750" y="60" font-size="8" font-weight="700" fill="white" text-anchor="middle">KanR</text>
+    <text x="750" y="72" font-size="7" fill="white" text-anchor="middle">selection</text>
+  </svg>
+</div>
+
+<div class="panel">
+  <div class="sl">Signal Pathway</div>
+  <h2>Drought Detection Cascade</h2>
+  <div class="pathway-flow">
+    <div class="pathway-step signal">
+      <strong>Water Deficit</strong><br>
+      <small>PEG-6000 treatment<br>Osmotic stress</small>
+    </div>
+    <div class="pathway-step receptor">
+      <strong>ABA Accumulation</strong><br>
+      <small>Endogenous ABA<br>synthesis pathway</small>
+    </div>
+    <div class="pathway-step receptor">
+      <strong>DREB1A/CBF</strong><br>
+      <small>Transcription factor<br>activation</small>
+    </div>
+    <div class="pathway-step receptor">
+      <strong>RD29A Promoter</strong><br>
+      <small>DRE/CRT, ABRE<br>cis-elements</small>
+    </div>
+    <div class="pathway-step output">
+      <strong>GFP Expression</strong><br>
+      <small>Green fluorescence<br>488/507 nm</small>
+    </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="sl">Component Specifications</div>
+  <h2>Genetic Elements</h2>
+  <div class="cgrid">
+    <div class="ccard promoter">
+      <h4>RD29A Promoter</h4>
+      <div class="meta">Arabidopsis thaliana • AT5G52310 upstream region</div>
+      <ul>
+        <li><strong>Size:</strong> 1.5 kb upstream sequence from TSS</li>
+        <li><strong>Cis-elements:</strong> DRE/CRT boxes, ABRE motifs</li>
+        <li><strong>Regulation:</strong> ABA-responsive, cold/drought-inducible</li>
+        <li><strong>Background:</strong> Originally from RD29A (responsive to desiccation)</li>
+      </ul>
+      <div class="pmid">Key reference: Yamaguchi-Shinozaki et al. Plant Cell (1994); Recent validation: PMID: 34053006</div>
+    </div>
+    
+    <div class="ccard reporter">
+      <h4>Green Fluorescent Protein (GFP)</h4>
+      <div class="meta">Aequorea victoria • Reporter gene</div>
+      <ul>
+        <li><strong>Size:</strong> 714 bp coding sequence</li>
+        <li><strong>Properties:</strong> Excitation 488 nm, emission 507 nm</li>
+        <li><strong>Maturation:</strong> ~30 minutes at 22°C</li>
+        <li><strong>Stability:</strong> Half-life ~26 hours in plant cells</li>
+      </ul>
+      <div class="pmid">Optimized for plant expression with plant-preferred codons</div>
+    </div>
+    
+    <div class="ccard terminator">
+      <h4>NOS Terminator</h4>
+      <div class="meta">Agrobacterium tumefaciens • Transcription terminator</div>
+      <ul>
+        <li><strong>Size:</strong> 256 bp</li>
+        <li><strong>Function:</strong> 3' UTR and polyadenylation signal</li>
+        <li><strong>Efficiency:</strong> >95% transcription termination</li>
+        <li><strong>Origin:</strong> Nopaline synthase gene terminator</li>
+      </ul>
+      <div class="pmid">Standard terminator for plant expression vectors</div>
+    </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="sl">Literature Validation</div>
+  <h2>Supporting Evidence & Design Rationale</h2>
+  
+  <div class="note blue">
+    <strong>RD29A promoter validation in transgenic systems</strong>
+    The RD29A promoter has been extensively characterized for stress-responsive expression. Recent work (PMID: 34053006) demonstrated that the RD29A promoter constitutively drives stress-inducible expression in transgenic citrus systems, confirming its utility for biosensor applications. The promoter contains well-characterized DRE/CRT and ABRE elements that respond to DREB1A/CBF and ABA-responsive transcription factors respectively.
+  </div>
+  
+  <div class="note blue">
+    <strong>Gateway cloning system compatibility</strong>
+    The pGWB5 binary vector provides a reliable framework for plant transformation with kanamycin selection. This system has been widely used for Arabidopsis transformation and provides consistent transgene expression. The vector backbone includes appropriate T-DNA borders for Agrobacterium-mediated transformation.
+  </div>
+  
+  <div class="note amber">
+    <strong>GFP maturation kinetics consideration</strong>
+    GFP maturation requires approximately 30 minutes at 22°C, meaning early time points (1-3 hours) may underestimate true promoter activity. The characterization protocol accounts for this by focusing on time points ≥6 hours for quantitative measurements, with earlier time points serving as trend indicators only.
+  </div>
+  
+  <div class="note amber">
+    <strong>Baseline expression and sensitivity</strong>
+    Stress-responsive promoters typically show 10-20% baseline expression under non-stress conditions due to leaky transcription. This background provides a detection threshold but may complicate detection of mild stress. Expected dynamic range of 5-10 fold based on RD29A qRT-PCR studies in literature.
+  </div>
+  
+  <div class="note red">
+    <strong>Transgene silencing risk</strong>
+    Plant transgenes, particularly those with repetitive elements, are susceptible to epigenetic silencing over multiple generations. Mitigation strategies include: (1) selection of multiple independent T2 lines, (2) maintenance through T3 generation to assess stability, and (3) potential incorporation of matrix attachment regions if silencing is observed.
+  </div>
+</div>
+
+<div class="panel">
+  <div class="sl">Characterization Plan</div>
+  <h2>Experimental Design & Timeline</h2>
+  
+  <h3>Phase 1: Construct Assembly & Transformation (Weeks 1-10)</h3>
+  <table class="st">
+    <thead>
+      <tr>
+        <th>Step</th>
+        <th>Method</th>
+        <th>Timeline</th>
+        <th>Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Vector construction</td>
+        <td>Gateway LR reaction</td>
+        <td>Week 1</td>
+        <td>pGWB5 destination vector, RD29A promoter entry clone</td>
+      </tr>
+      <tr>
+        <td>Transformation</td>
+        <td>Agrobacterium floral dip</td>
+        <td>Week 2</td>
+        <td>GV3101 strain, Col-0 ecotype plants</td>
+      </tr>
+      <tr>
+        <td>T1 selection</td>
+        <td>Kanamycin resistance</td>
+        <td>Weeks 3-4</td>
+        <td>50 μg/mL kanamycin on MS medium</td>
+      </tr>
+      <tr>
+        <td>T2 generation</td>
+        <td>Mendelian analysis</td>
+        <td>Weeks 5-10</td>
+        <td>Select homozygous lines for characterization</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <h3>Phase 2: Dose-Response Characterization (Weeks 11-16)</h3>
+  <table class="st">
+    <thead>
+      <tr>
+        <th>PEG-6000 (%)</th>
+        <th>Water Potential</th>
+        <th>Stress Level</th>
+        <th>Expected Response</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>0%</td>
+        <td>-0.05 MPa</td>
+        <td>Control</td>
+        <td>Baseline expression (~10% max)</td>
+      </tr>
+      <tr>
+        <td>5%</td>
+        <td>-0.3 MPa</td>
+        <td>Mild</td>
+        <td>2-3 fold increase</td>
+      </tr>
+      <tr>
+        <td>10%</td>
+        <td>-0.7 MPa</td>
+        <td>Moderate</td>
+        <td>5-6 fold increase</td>
+      </tr>
+      <tr>
+        <td>15%</td>
+        <td>-1.2 MPa</td>
+        <td>Severe</td>
+        <td>8-10 fold increase</td>
+      </tr>
+      <tr>
+        <td>20%</td>
+        <td>-1.8 MPa</td>
+        <td>Extreme</td>
+        <td>Maximum response</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <h3>Phase 3: Specificity Controls</h3>
+  <table class="st">
+    <thead>
+      <tr>
+        <th>Treatment</th>
+        <th>Concentration</th>
+        <th>Expected Result</th>
+        <th>Purpose</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>NaCl</td>
+        <td>150 mM</td>
+        <td>Moderate response</td>
+        <td>Osmotic vs ionic stress</td>
+      </tr>
+      <tr>
+        <td>Mannitol</td>
+        <td>300 mM</td>
+        <td>Weak response</td>
+        <td>Osmotic control</td>
+      </tr>
+      <tr>
+        <td>ABA</td>
+        <td>100 μM</td>
+        <td>Strong response</td>
+        <td>Pathway validation</td>
+      </tr>
+      <tr>
+        <td>Cold shock</td>
+        <td>4°C</td>
+        <td>Strong response</td>
+        <td>Cross-reactivity</td>
+      </tr>
+      <tr>
+        <td>Heat shock</td>
+        <td>37°C</td>
+        <td>Weak response</td>
+        <td>Specificity control</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <h3>Measurement Protocol</h3>
+  <ul style="margin: 16px 0; padding-left: 20px;">
+    <li><strong>Time points:</strong> 6h, 12h, 24h, 48h, 72h post-treatment</li>
+    <li><strong>Detection:</strong> Plate reader (Ex 485/Em 535 nm) or confocal microscopy</li>
+    <li><strong>Replicates:</strong> N=6 independent T2 lines, 3 seedlings per line</li>
+    <li><strong>Statistics:</strong> Two-way ANOVA (treatment × time) with Tukey's post-hoc</li>
+    <li><strong>Controls:</strong> p35S::GFP (positive), promoterless GFP (negative), Col-0 (autofluorescence)</li>
+  </ul>
+</div>
+
+<div class="panel">
+  <div class="sl">System Summary</div>
+  <h2>Component Overview</h2>
+  <div class="summary-table">
+    <table class="st">
+      <thead>
+        <tr>
+          <th>Component</th>
+          <th>Function</th>
+          <th>Source</th>
+          <th>Size</th>
+          <th>Accession/Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>RD29A promoter</td>
+          <td>Drought-responsive transcription</td>
+          <td><em>Arabidopsis thaliana</em></td>
+          <td>1.5 kb</td>
+          <td>AT5G52310 upstream</td>
+        </tr>
+        <tr>
+          <td>GFP CDS</td>
+          <td>Fluorescent reporter protein</td>
+          <td><em>Aequorea victoria</em></td>
+          <td>714 bp</td>
+          <td>Plant-optimized codons</td>
+        </tr>
+        <tr>
+          <td>NOS terminator</td>
+          <td>Transcription termination</td>
+          <td><em>Agrobacterium tumefaciens</em></td>
+          <td>256 bp</td>
+          <td>Nopaline synthase 3' UTR</td>
+        </tr>
+        <tr>
+          <td>pGWB5 backbone</td>
+          <td>Binary vector, selection</td>
+          <td>Gateway system</td>
+          <td>~8.2 kb</td>
+          <td>Kanamycin resistance</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<footer>
+Generated on 2024-12-19 • Arabidopsis Drought Biosensor Design System v2.1<br>
+Complete construct specification for pRD29A::GFP drought-responsive reporter
+</footer>
+
+</body>
+</html>

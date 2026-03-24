@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Potassium Stress Sensor for Arabidopsis</title>
+    <style>
+        :root {
+            --font: Arial, sans-serif;
+            --background: #ffffff;
+            --primary: #333333;
+            --header-bg: #f2f2f2;
+            --promoter-color: #66cc66;
+            --reporter-color: #aa66cc;
+            --terminator-color: #666666;
+            --regulatory-color: #ffaa66;
+            --note-color: #cce5ff;
+            --warning-color: #ffeeba;
+            --risk-color: #f8d7da;
+            --max-width: 1150px;
+        }
+        body {
+            font-family: var(--font);
+            margin: 0;
+            padding: 20px;
+            background-color: var(--background);
+            color: var(--primary);
+        }
+        h1, h2, h3 {
+            border-bottom: 2px solid var(--header-bg);
+        }
+        header, footer {
+            background: var(--header-bg);
+            padding: 20px;
+            text-align: center;
+        }
+        .construct-map {
+            width: 100%;
+            height: 100px;
+            margin: 20px 0;
+            position: relative;
+        }
+        .construct-part {
+            position: absolute;
+            text-align: center;
+            padding: 5px;
+            color: white;
+            border-radius: 5px;
+        }
+        .promoter { background: var(--promoter-color); }
+        .reporter { background: var(--reporter-color); }
+        .terminator { background: var(--terminator-color); }
+        .regulatory { background: var(--regulatory-color); }
+        .card {
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            background: #ffffff;
+            margin: 10px;
+            padding: 15px;
+            display: inline-block;
+            width: calc(33% - 40px);
+            vertical-align: top;
+        }
+        .grid {
+            display: flex;
+            flex-wrap: wrap;
+            margin: -10px;
+        }
+        .callout {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .note { background-color: var(--note-color); }
+        .warning { background-color: var(--warning-color); }
+        .risk { background-color: var(--risk-color); }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: var(--header-bg);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Potassium Stress Sensor for Arabidopsis</h1>
+    <p><strong>Target Signal:</strong> Potassium</p>
+    <p><strong>Organism:</strong> Arabidopsis thaliana</p>
+    <p><strong>Summary:</strong> A genetic construct designed to measure potassium levels while mitigating false positives from high ammonium concentrations.</p>
+    <p><strong>Generated:</strong> <span id="timestamp"></span></p>
+</header>
+
+<section>
+    <h2>Construct Map</h2>
+    <div class="construct-map">
+        <div class="construct-part promoter" style="width: 200px; left: 0;">KAT1 Promoter</div>
+        <div class="construct-part regulator" style="width: 200px; left: 250px;">GS2 Regulatory Element</div>
+        <div class="construct-part reporter" style="width: 200px; left: 500px;">GFP Reporter</div>
+        <div class="construct-part terminator" style="width: 200px; left: 750px;">tHSP18.2 Terminator</div>
+    </div>
+    <p style="text-align: center;">5' → 3'</p>
+</section>
+
+<section>
+    <h2>Signal Pathway</h2>
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <div>Environmental Signal (K+ levels)</div>
+        <div style="display: flex; align-items: center;">
+            <div>→</div>
+            <div>Detected by KAT1 Promoter</div>
+        </div>
+        <div style="display: flex; align-items: center;">
+            <div>→</div>
+            <div>Expression of GFP Reporter</div>
+        </div>
+        <div style="display: flex; align-items: center;">
+            <div>→</div>
+            <div>Output Signal</div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <h2>Component Specifications</h2>
+    <div class="grid">
+        <div class="card">
+            <h3>KAT1 Promoter</h3>
+            <p><strong>Source Organism:</strong> Arabidopsis thaliana</p>
+            <p><strong>Function:</strong> Potassium-responsive promoter</p>
+            <p><strong>Key References:</strong> PMID 28818365</p>
+            <p><strong>Design Rationale:</strong> Selected for strong response to K+ levels.</p>
+        </div>
+        <div class="card">
+            <h3>GFP</h3>
+            <p><strong>Source Organism:</strong> Aequorea victoria</p>
+            <p><strong>Function:</strong> Fluorescent reporter</p>
+            <p><strong>Key References:</strong> PMID 8602244</p>
+            <p><strong>Design Rationale:</strong> Provides a visual output; requires optimization.</p>
+        </div>
+        <div class="card">
+            <h3>tHSP18.2 Terminator</h3>
+            <p><strong>Source Organism:</strong> Arabidopsis thaliana</p>
+            <p><strong>Function:</strong> Transcription terminator</p>
+            <p><strong>Key References:</strong> PMID 23136376</p>
+            <p><strong>Design Rationale:</strong> Effective terminator with higher expression than alternatives.</p>
+        </div>
+    </div>
+</section>
+
+<section>
+    <h2>Literature Validation</h2>
+    <div class="callout note">
+        <strong>Supporting Evidence:</strong>
+        <ul>
+            <li><a href="https://pubmed.ncbi.nlm.nih.gov/28818365/">PMID: 28818365</a> — Describes K+ homeostasis in Arabidopsis under stress.</li>
+            <li><a href="https://pubmed.ncbi.nlm.nih.gov/33288026/">PMID: 33288026</a> — Discusses GS2 role in NH4+ regulation.</li>
+        </ul>
+    </div>
+    <div class="callout warning">
+        <strong>Concerns:</strong> 
+        High concentrations of NH4+ could potentially upregulate the GS2 mechanism, leading to false positives in K+ detection.
+    </div>
+</section>
+
+<section>
+    <h2>Characterization Plan</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Test</th>
+                <th>Description</th>
+                <th>Timing</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Dose-response Experiment</td>
+                <td>Test K+ levels from 0.5 mM to 20 mM, control NH4+ levels</td>
+                <td>12-48 hours post-treatment</td>
+            </tr>
+            <tr>
+                <td>Specificity Controls</td>
+                <td>Test other ions (Na+, Ca2+, Mg2+)</td>
+                <td>During dose-response</td>
+            </tr>
+            <tr>
+                <td>Positive Control</td>
+                <td>Use known K+ sensor for comparison</td>
+                <td>Alongside experimental measurements</td>
+            </tr>
+            <tr>
+                <td>Negative Control</td>
+                <td>GFP without KAT1 promoter</td>
+                <td>Alongside experimental measurements</td>
+            </tr>
+            <tr>
+                <td>Total Timeline</td>
+                <td>From transformation to publishable data</td>
+                <td>Approximately 8-11 months</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section>
+    <h2>System Summary Table</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Part</th>
+                <th>Role</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>KAT1 Promoter</td>
+                <td>Potassium-responsive activation</td>
+            </tr>
+            <tr>
+                <td>GS2 Regulatory Element</td>
+                <td>Ammonium response control</td>
+            </tr>
+            <tr>
+                <td>GFP</td>
+                <td>Reporter output</td>
+            </tr>
+            <tr>
+                <td>tHSP18.2 Terminator</td>
+                <td>Terminator sequence</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<footer>
+    <p>Report Generated: <span id="timestamp-footer"></span></p>
+    <p>Document prepared using synthetic biology construct documentation tools.</p>
+</footer>
+
+<script>
+    const now = new Date();
+    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+    document.getElementById('timestamp').innerText = now.toLocaleDateString(undefined, options);
+    document.getElementById('timestamp-footer').innerText = now.toLocaleDateString(undefined, options);
+</script>
+
+</body>
+</html>

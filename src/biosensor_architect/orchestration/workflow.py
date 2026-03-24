@@ -167,6 +167,11 @@ def _extract_html(messages) -> str:
 
     final = html_content or documenter_content or longest_content
 
+    # Strip markdown code fences (LLMs often wrap HTML in ```html ... ```)
+    import re
+    final = re.sub(r"^```html\s*\n?", "", final, flags=re.IGNORECASE)
+    final = re.sub(r"\n?```\s*$", "", final)
+
     # Strip anything after closing </html> (e.g., "DESIGN COMPLETE" signal)
     if "</html>" in final.lower():
         idx = final.lower().index("</html>") + len("</html>")
@@ -243,8 +248,17 @@ async def run_workflow(
             f"Address the above feedback in this design round."
         )
 
-    # Post-processing: validate cited PMIDs
+    # Post-processing: validate cited PMIDs and verify design
     if final_html:
         final_html = validate_report_pmids(final_html, verify_unknown=True)
+
+        # Design verification — check components against curated database
+        from biosensor_architect.orchestration.design_verifier import (
+            inject_verification_banner,
+            verify_design,
+        )
+
+        verification = verify_design(final_html)
+        final_html = inject_verification_banner(final_html, verification)
 
     return final_html

@@ -3,7 +3,7 @@
     "signal": "nitrate",
     "organism": "Arabidopsis thaliana",
     "description": "Nitrate sensing and signaling pathway via the NRT1.1/NLP7 module",
-    "receptor": "NRT1.1 (CHL1/NPF6.3) — dual-affinity nitrate transceptor",
+    "receptor": "NRT1.1 (CHL1/NPF6.3) \u2014 dual-affinity nitrate transceptor",
     "transduction_chain": [
       "Nitrate binds NRT1.1 in root epidermis",
       "CIPK8/CIPK23 phosphorylates NRT1.1, switching affinity mode",
@@ -12,9 +12,20 @@
       "NLP7 binds nitrate-responsive cis-elements (NRE) in target promoters",
       "Activation of NRT2.1, NIA1, NIA2, and other nitrate-responsive genes"
     ],
-    "candidate_promoters": ["pAtNRT2.1"],
-    "transcription_factors": ["NLP7", "TGA1", "TGA4", "LBD37/38/39"],
-    "key_references": ["PMID:11050181", "PMID:17259264", "PMID:26649153"],
+    "candidate_promoters": [
+      "pAtNRT2.1"
+    ],
+    "transcription_factors": [
+      "NLP7",
+      "TGA1",
+      "TGA4",
+      "LBD37/38/39"
+    ],
+    "key_references": [
+      "PMID:11050181",
+      "PMID:17259264",
+      "PMID:26649153"
+    ],
     "notes": "Well-characterized in Arabidopsis. NRT2.1 promoter shows strong induction under low nitrate (0.2 mM) and repression under high N. Response time: 2-6 hours."
   },
   {
@@ -31,9 +42,20 @@
       "AREB/ABF bind ABRE cis-elements in stress-responsive promoters",
       "ABA-independent: DREB2A binds DRE/CRT elements via DREB2A pathway"
     ],
-    "candidate_promoters": ["pRD29A"],
-    "transcription_factors": ["DREB2A", "ABF2/AREB1", "ABF4/AREB2", "DREB1A/CBF3"],
-    "key_references": ["PMID:7846157", "PMID:12368493", "PMID:19151223"],
+    "candidate_promoters": [
+      "pRD29A"
+    ],
+    "transcription_factors": [
+      "DREB2A",
+      "ABF2/AREB1",
+      "ABF4/AREB2",
+      "DREB1A/CBF3"
+    ],
+    "key_references": [
+      "PMID:7846157",
+      "PMID:12368493",
+      "PMID:19151223"
+    ],
     "notes": "RD29A promoter contains both DRE and ABRE elements, making it responsive to drought, cold, and ABA. Strong induction within 1-3 hours of dehydration."
   },
   {
@@ -42,17 +64,25 @@
     "description": "Metal-responsive signaling via metallothioneins and metal-responsive elements",
     "receptor": "Metal ion importers (IRT1 for Fe/Zn/Cd, COPT1 for Cu) and intracellular metal sensors",
     "transduction_chain": [
-      "Heavy metal ions (Cu²⁺, Zn²⁺, Cd²⁺) enter cells via metal transporters",
+      "Heavy metal ions (Cu\u00b2\u207a, Zn\u00b2\u207a, Cd\u00b2\u207a) enter cells via metal transporters",
       "Free metal ions detected by metal-sensing transcription factors",
       "Metal-responsive transcription factors bind MRE (Metal Response Elements)",
       "Activation of metallothionein genes (MT1A, MT2A, MT2B, MT3)",
       "Phytochelatin synthase (PCS1) activated for chelation",
       "Detoxification via vacuolar sequestration (HMA3, MTP1)"
     ],
-    "candidate_promoters": ["pMT2A"],
-    "transcription_factors": ["SPL7 (copper)", "bZIP19/bZIP23 (zinc)"],
-    "key_references": ["PMID:8745410", "PMID:18552232"],
-    "notes": "MT2A responds to Cu, Zn, and Cd. Specificity depends on metal concentration range. For field applications, consider threshold sensitivity — low specificity between different metals."
+    "candidate_promoters": [
+      "pMT2A"
+    ],
+    "transcription_factors": [
+      "SPL7 (copper)",
+      "bZIP19/bZIP23 (zinc)"
+    ],
+    "key_references": [
+      "PMID:8745410",
+      "PMID:18552232"
+    ],
+    "notes": "MT2A responds to Cu, Zn, and Cd. Specificity depends on metal concentration range. For field applications, consider threshold sensitivity \u2014 low specificity between different metals."
   },
   {
     "signal": "phosphorus deficiency",
@@ -60,16 +90,364 @@
     "description": "Phosphate starvation response via PHR1/SPX signaling module",
     "receptor": "Local sensing at root tip (uncertain) and systemic signaling via SPX domain proteins",
     "transduction_chain": [
-      "Low Pi detected — SPX proteins release PHR1 (PHOSPHATE STARVATION RESPONSE 1)",
+      "Low Pi detected \u2014 SPX proteins release PHR1 (PHOSPHATE STARVATION RESPONSE 1)",
       "PHR1 (MYB-CC transcription factor) accumulates in nucleus",
       "PHR1 binds P1BS (PHR1 Binding Sequence: GNATATNC) in target promoters",
       "Upregulation of phosphate transporters (PHT1;1-PHT1;4)",
       "miR399 induced, targets PHO2 for degradation",
       "Systemic signaling: shoot-to-root mobile miR399 amplifies Pi starvation response"
     ],
-    "candidate_promoters": ["pPHT1.1"],
-    "transcription_factors": ["PHR1", "PHL1", "WRKY75"],
-    "key_references": ["PMID:10364409", "PMID:15539469", "PMID:16998070"],
-    "notes": "PHT1;1 promoter is strongly root-preferential. High induction under Pi starvation (<10 µM Pi) with 6-24 hour response time. Excellent dynamic range."
+    "candidate_promoters": [
+      "pPHT1.1"
+    ],
+    "transcription_factors": [
+      "PHR1",
+      "PHL1",
+      "WRKY75"
+    ],
+    "key_references": [
+      "PMID:10364409",
+      "PMID:15539469",
+      "PMID:16998070"
+    ],
+    "notes": "PHT1;1 promoter is strongly root-preferential. High induction under Pi starvation (<10 \u00b5M Pi) with 6-24 hour response time. Excellent dynamic range."
+  },
+  {
+    "signal": "potassium deficiency",
+    "organism": "Arabidopsis thaliana",
+    "description": "Potassium starvation sensing via HAK/KUP/KT transporters and CBL-CIPK signaling",
+    "receptor": "Membrane potential depolarization / ROS generation",
+    "transduction_chain": [
+      "K+ depletion \u2192 membrane hyperpolarization",
+      "CBL1/CBL9 Ca2+ sensors activate",
+      "CIPK23 kinase phosphorylates target proteins (AKT1, HAK5)",
+      "Ethylene signaling via RAP2.11 (AP2/ERF) binds HAK5 promoter cis-elements",
+      "HAK5 transcriptional upregulation"
+    ],
+    "candidate_promoters": [
+      "pAtHAK5"
+    ],
+    "transcription_factors": [
+      "RAP2.11",
+      "EIN3"
+    ],
+    "key_references": [
+      "PMID:39362862",
+      "PMID:24716623"
+    ],
+    "notes": "Cross-talk with nitrogen and phosphorus availability. Root-specific. OsHAK1 and SlHAK5 are crop orthologs."
+  },
+  {
+    "signal": "iron deficiency",
+    "organism": "Arabidopsis thaliana",
+    "description": "Strategy I iron acquisition via FIT/bHLH TF network and URI master switch",
+    "receptor": "URI (Upstream Regulator of IRT1) \u2014 bHLH TF, primary iron-dependent molecular switch",
+    "transduction_chain": [
+      "Fe depletion \u2192 URI protein stabilized (normally degraded by BRUTUS/BTS E3 ligase under Fe-replete)",
+      "Phosphorylated URI accumulates",
+      "URI activates subgroup Ib bHLH factors (bHLH38, bHLH39, bHLH100, bHLH101)",
+      "FIT (bHLH029) heterodimerizes with Ib bHLHs",
+      "FIT/bHLH complex drives IRT1 and FRO2 expression"
+    ],
+    "candidate_promoters": [
+      "pAtIRT1",
+      "pAtFRO2"
+    ],
+    "transcription_factors": [
+      "URI",
+      "FIT (bHLH029)",
+      "bHLH38",
+      "bHLH39",
+      "bHLH100",
+      "bHLH101"
+    ],
+    "key_references": [
+      "PMID:12084823",
+      "PMID:31636177"
+    ],
+    "notes": "IRT1 is root epidermis/cortex specific. IRT1 protein also post-translationally regulated by ubiquitin (K146/K171) under Zn/Mn excess."
+  },
+  {
+    "signal": "zinc deficiency",
+    "organism": "Arabidopsis thaliana",
+    "description": "Zinc homeostasis via direct bZIP19/bZIP23 intracellular zinc sensors",
+    "receptor": "bZIP19 and bZIP23 \u2014 direct intracellular Zn2+ sensors (no upstream kinase)",
+    "transduction_chain": [
+      "Cytosolic Zn2+ drops",
+      "Zn2+ dissociates from bZIP19/bZIP23 zinc-sensor motif",
+      "Conformational shift activates bZIP19/bZIP23 as TFs",
+      "Bind 10-bp ZDRE palindrome in ZIP4 promoter (and other ZIP targets)",
+      "ZIP transporter family upregulated for Zn uptake"
+    ],
+    "candidate_promoters": [
+      "pAtZIP4"
+    ],
+    "transcription_factors": [
+      "bZIP19",
+      "bZIP23"
+    ],
+    "key_references": [
+      "PMID:20479230",
+      "PMID:33594269"
+    ],
+    "notes": "Uniquely orthogonal \u2014 bZIP19/23 function as direct sensors, no kinase cascade. Isolated ZDRE motifs eliminate Fe/Cu cross-reactivity."
+  },
+  {
+    "signal": "salt stress",
+    "organism": "Arabidopsis thaliana",
+    "description": "SOS pathway for Na+ exclusion and vacuolar compartmentalization",
+    "receptor": "SOS3 (CBL4) \u2014 calcium sensor detecting salt-induced Ca2+ spike",
+    "transduction_chain": [
+      "NaCl exposure \u2192 rapid cytosolic Ca2+ spike",
+      "SOS3 (CBL4) binds Ca2+",
+      "SOS3 recruits and activates SOS2 (CIPK24) kinase",
+      "SOS2/SOS3 complex phosphorylates SOS1 (Na+/H+ antiporter)",
+      "SOS1 activated \u2192 rapid Na+ efflux from cell",
+      "Parallel: NHX1 sequesters Na+ into vacuole, HKT1;1 degraded to restrict Na+ entry"
+    ],
+    "candidate_promoters": [
+      "pAtSOS1",
+      "pAtNHX1",
+      "pOsHKT1;5"
+    ],
+    "transcription_factors": [],
+    "key_references": [
+      "PMID:10831000"
+    ],
+    "notes": "Regulation intertwined with ABA and osmotic stress pathways. Requires careful promoter truncation for salt-specific response."
+  },
+  {
+    "signal": "cold stress",
+    "organism": "Arabidopsis thaliana",
+    "description": "ICE-CBF-COR cold acclimation cascade",
+    "receptor": "ICE1 (Inducer of CBF Expression) \u2014 constitutively expressed, activated by cold",
+    "transduction_chain": [
+      "Cold shock activates ICE1",
+      "ICE1 rapidly upregulates CBF1/DREB1B, CBF2/DREB1C, CBF3/DREB1A",
+      "CBF proteins bind CRT/DRE motif (CCGAC) in COR gene promoters",
+      "COR15A, COR15B, and other cold-regulated genes induced"
+    ],
+    "candidate_promoters": [
+      "pAtCOR15A"
+    ],
+    "transcription_factors": [
+      "ICE1",
+      "CBF1/DREB1B",
+      "CBF2/DREB1C",
+      "CBF3/DREB1A"
+    ],
+    "key_references": [
+      "PMID:8193295",
+      "PMID:150776"
+    ],
+    "notes": "CRT/DRE motif shared with drought response (DRE). COR15B promoter is stronger than COR15A due to flanking sequence context."
+  },
+  {
+    "signal": "heat stress",
+    "organism": "Arabidopsis thaliana",
+    "description": "Heat Shock Factor (HSF) \u2192 Heat Shock Element (HSE) response",
+    "receptor": "HSFs \u2014 activated by protein unfolding / heat-induced conformational changes",
+    "transduction_chain": [
+      "Temperature increase (37-40C) causes protein unfolding",
+      "HSP70/HSP90 release sequestered HSFs",
+      "Free HSFs trimerize and bind HSE (nGAAnnTTCn) in HSP promoters",
+      "Massive transcriptional upregulation of HSP18.2 and other HSPs"
+    ],
+    "candidate_promoters": [
+      "pAtHSP18.2"
+    ],
+    "transcription_factors": [
+      "HSFA1",
+      "HSFA2",
+      "HSFB1"
+    ],
+    "key_references": [
+      "PMID:8597550"
+    ],
+    "notes": "HSP18.2 promoter: 1000-fold induction, minimal basal leakage at 22-25C. Premier orthogonal biosensor part."
+  },
+  {
+    "signal": "ethylene",
+    "organism": "Arabidopsis thaliana / Solanum lycopersicum",
+    "description": "Ethylene de-repression cascade via EIN3/EIL1 and ERF TFs",
+    "receptor": "ETR1/ERS1 \u2014 ER-membrane ethylene receptors (active in absence of ethylene)",
+    "transduction_chain": [
+      "Ethylene binds receptors \u2192 receptors inactivated",
+      "CTR1 kinase deactivated (de-repression)",
+      "EIN2 C-terminus cleaved, translocates to nucleus",
+      "EIN3 and EIL1 TFs stabilized (normally degraded by 26S proteasome)",
+      "EIN3/EIL1 activate AP2/ERF transcription factor genes",
+      "ERFs bind GCC-box (AGCCGCC) in target promoters"
+    ],
+    "candidate_promoters": [
+      "pSlE4",
+      "pEBSn"
+    ],
+    "transcription_factors": [
+      "EIN3",
+      "EIL1",
+      "ERF1",
+      "AP2/ERF family"
+    ],
+    "key_references": [
+      "PMID:8914528"
+    ],
+    "notes": "De-repression model \u2014 ethylene removes active repression. Native E4/E8 are ripening-associated; synthetic EBSn avoids developmental context."
+  },
+  {
+    "signal": "auxin",
+    "organism": "Arabidopsis thaliana",
+    "description": "TIR1/AFB auxin perception and ARF-mediated transcription",
+    "receptor": "TIR1/AFB \u2014 F-box proteins, auxin co-receptors with Aux/IAA",
+    "transduction_chain": [
+      "Auxin binds TIR1/AFB-Aux/IAA co-receptor complex",
+      "Aux/IAA repressors targeted for 26S proteasomal degradation",
+      "Auxin Response Factors (ARFs) freed from Aux/IAA repression",
+      "ARFs bind AuxRE (TGTCTC) in target promoters",
+      "Transcriptional activation of auxin-responsive genes"
+    ],
+    "candidate_promoters": [
+      "pDR5"
+    ],
+    "transcription_factors": [
+      "ARF5/MP",
+      "ARF7",
+      "ARF19"
+    ],
+    "key_references": [
+      "PMID:9401121",
+      "PMID:8038604"
+    ],
+    "notes": "DR5 synthetic promoter: 11-bp TGTCTC tandem repeats. Eliminates cross-reactivity of native GH3 promoter."
+  },
+  {
+    "signal": "cytokinin",
+    "organism": "Arabidopsis thaliana",
+    "description": "Two-component phosphorelay system (AHK \u2192 AHP \u2192 ARR)",
+    "receptor": "AHK2, AHK3, AHK4/CRE1 \u2014 Histidine Kinase receptors",
+    "transduction_chain": [
+      "Cytokinin binds AHK receptor CHASE domain",
+      "AHK autophosphorylates (His residue)",
+      "Phosphoryl transfer to Histidine Phosphotransfer proteins (AHPs)",
+      "AHPs shuttle to nucleus, phosphorylate type-B ARRs",
+      "Type-B ARRs activate target gene transcription"
+    ],
+    "candidate_promoters": [
+      "pTCSn"
+    ],
+    "transcription_factors": [
+      "ARR1",
+      "ARR2",
+      "ARR10",
+      "ARR12"
+    ],
+    "key_references": [
+      "PMID:23537731",
+      "PMID:1851144"
+    ],
+    "notes": "TCSn: 11-bp spacing of type-B ARR motifs = one helical turn of B-form DNA, ensuring cooperative TF binding on same DNA face."
+  },
+  {
+    "signal": "light",
+    "organism": "Arabidopsis thaliana",
+    "description": "Phytochrome-mediated light signaling via HY5",
+    "receptor": "phyA, phyB \u2014 phytochrome photoreceptors (red/far-red)",
+    "transduction_chain": [
+      "Light activates phyA/phyB (Pr \u2192 Pfr conformational switch)",
+      "Active phytochromes translocate to nucleus",
+      "Phytochromes trigger degradation of PIF (Phytochrome Interacting Factor) repressors",
+      "HY5 (bZIP TF) accumulates (normally COP1-degraded in dark)",
+      "HY5 activates Light-Responsive Elements (LREs) in CAB, RBCS promoters"
+    ],
+    "candidate_promoters": [
+      "pAtRBCS",
+      "pAtCAB"
+    ],
+    "transcription_factors": [
+      "HY5",
+      "PIF1",
+      "PIF3",
+      "PIF4",
+      "PIF5"
+    ],
+    "key_references": [
+      "PMID:8310058",
+      "PMID:1380166"
+    ],
+    "notes": "LREs act combinatorially \u2014 paired LREs required for robust induction. Temporal light quality dependence (red vs far-red)."
+  },
+  {
+    "signal": "pathogen defense (salicylic acid)",
+    "organism": "Arabidopsis thaliana",
+    "description": "SA-mediated Systemic Acquired Resistance via NPR1/TGA/WRKY",
+    "receptor": "NPR1 \u2014 SA receptor and transcriptional coactivator",
+    "transduction_chain": [
+      "Pathogen infection \u2192 SA accumulation",
+      "SA binds NPR1, induces monomerization",
+      "NPR1 monomers translocate to nucleus",
+      "NPR1 recruits TGA bZIP TFs to as-1-like elements",
+      "WRKY TFs (WRKY50, WRKY11/17) bind W-box (TTGAC) and WK box (TTTTCCAC)",
+      "Synergistic activation of PR1 and other defense genes"
+    ],
+    "candidate_promoters": [
+      "pAtPR1"
+    ],
+    "transcription_factors": [
+      "NPR1",
+      "TGA1",
+      "TGA2",
+      "WRKY50",
+      "WRKY11",
+      "WRKY17"
+    ],
+    "key_references": [
+      "PMID:17098858",
+      "PMID:10339596"
+    ],
+    "notes": "For dual SA+JA biosensors, synthetic promoters combining both responsive elements have been engineered to circumvent natural antagonism."
+  },
+  {
+    "signal": "sulfur deficiency",
+    "organism": "Arabidopsis thaliana",
+    "description": "SLIM1/EIL3 regulation of sulfate transporters via SURE element",
+    "receptor": "SLIM1 (SULFUR LIMITATION1, also EIL3) \u2014 S-status sensor TF",
+    "transduction_chain": [
+      "Sulfur depletion sensed (mechanism upstream of SLIM1 unclear)",
+      "SLIM1/EIL3 activated",
+      "SLIM1 drives SULTR expression",
+      "SULTR1;1 promoter contains 16-bp SURE element (core: GAGAC)",
+      "SURE element specifically responsive to S deficiency, repressed by Cys/GSH"
+    ],
+    "candidate_promoters": [
+      "pAtSULTR1.1"
+    ],
+    "transcription_factors": [
+      "SLIM1/EIL3"
+    ],
+    "key_references": [
+      "PMID:15047883",
+      "PMID:15842617"
+    ],
+    "notes": "SURE motif overlaps with AuxRE but maintains exclusive S-deficiency specificity. Ideal minimal element for synthetic biosensors."
+  },
+  {
+    "signal": "ammonium",
+    "organism": "Arabidopsis thaliana",
+    "description": "AMT1 transcriptional induction and allosteric regulation",
+    "receptor": "AMT1;1 protein itself \u2014 dual function as transporter and sensor (T494 phosphorylation)",
+    "transduction_chain": [
+      "Nitrogen deficiency \u2192 AMT1;1 transcriptionally upregulated",
+      "Under NH4+ excess: T494 phosphorylation on AMT1;1 C-terminus",
+      "Phospho-T494 causes homotrimeric pore closure (allosteric gating)",
+      "Prevents ammonium toxicity"
+    ],
+    "candidate_promoters": [
+      "pAtAMT1.1"
+    ],
+    "transcription_factors": [],
+    "key_references": [
+      "PMID:17565866"
+    ],
+    "notes": "AMT1;1 promoter reflects systemic N demand, not instantaneous NH4+. Root-specific."
   }
 ]

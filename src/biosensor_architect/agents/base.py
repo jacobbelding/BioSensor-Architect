@@ -1,6 +1,6 @@
 """Base agent factory for BioSensor-Architect agents.
 
-Uses AutoGen 0.7's AssistantAgent with OpenAIChatCompletionClient.
+Uses AutoGen 0.7's AssistantAgent with OpenAI or Anthropic model clients.
 All agents are created through create_agent() to ensure consistent
 model client configuration.
 """
@@ -17,25 +17,51 @@ from biosensor_architect.config import settings
 # Lazy-initialized model client (shared across agents to reuse connection pool)
 _model_client = None
 
+# Known Anthropic model prefixes
+_ANTHROPIC_PREFIXES = ("claude-",)
+
+
+def _is_anthropic_model(model: str) -> bool:
+    """Check if a model name refers to an Anthropic model."""
+    return any(model.startswith(prefix) for prefix in _ANTHROPIC_PREFIXES)
+
 
 def _get_model_client(model: str | None = None):
-    """Return a shared OpenAIChatCompletionClient instance.
+    """Return a shared model client instance.
 
+    Automatically selects OpenAI or Anthropic client based on the model name.
     Lazily initialized on first call. If *model* is provided it overrides
     the default from settings; otherwise ``settings.default_model`` is used.
     """
     global _model_client
 
-    from autogen_ext.models.openai import OpenAIChatCompletionClient
-
     target_model = model or settings.default_model
 
     # Re-create if the requested model differs from the cached one
     if _model_client is None or getattr(_model_client, "_resolved_model", None) != target_model:
-        _model_client = OpenAIChatCompletionClient(
-            model=target_model,
-            api_key=settings.openai_api_key,
-        )
+        if _is_anthropic_model(target_model):
+            from autogen_ext.models.anthropic import AnthropicChatCompletionClient
+
+            if not settings.anthropic_api_key:
+                raise ValueError(
+                    f"Model '{target_model}' requires ANTHROPIC_API_KEY in .env"
+                )
+            _model_client = AnthropicChatCompletionClient(
+                model=target_model,
+                api_key=settings.anthropic_api_key,
+                max_tokens=8192,
+            )
+        else:
+            from autogen_ext.models.openai import OpenAIChatCompletionClient
+
+            if not settings.openai_api_key:
+                raise ValueError(
+                    f"Model '{target_model}' requires OPENAI_API_KEY in .env"
+                )
+            _model_client = OpenAIChatCompletionClient(
+                model=target_model,
+                api_key=settings.openai_api_key,
+            )
         _model_client._resolved_model = target_model  # type: ignore[attr-defined]
 
     return _model_client

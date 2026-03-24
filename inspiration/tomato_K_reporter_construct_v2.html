@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tomato K⁺ Reporter — Hybrid Logic Circuit v2</title>
+<style>
+  :root {
+    --bg: #f5f6fa;
+    --card: #ffffff;
+    --border: #dde1ea;
+    --text: #1a1a2e;
+    --muted: #5a6070;
+    /* cassette palette */
+    --ca: #1b5e20;    /* Cassette A – K sensor */
+    --ca-lt: #e8f5e9;
+    --cb: #b71c1c;    /* Cassette B – NH4 brake */
+    --cb-lt: #fff5f5;
+    --cc: #0d47a1;    /* Cassette C – Na bypass */
+    --cc-lt: #e3f2fd;
+    --crispr: #e65100; /* dCas9 */
+    --sgRNA: #6a1b9a;
+    --ant1: #4a148c;
+    --term: #37474f;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: var(--bg); color: var(--text);
+    padding: 28px 22px 52px; max-width: 1150px; margin: auto;
+    font-size: 14px;
+  }
+  h1 { font-size: 1.45rem; font-weight: 700; color: #0d2137;
+       border-bottom: 3px solid var(--ca); padding-bottom: 8px; margin-bottom: 4px; }
+  .subhead { font-size: 0.83rem; color: var(--muted); margin-bottom: 28px; }
+
+  /* ── section labels ── */
+  .sl { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em;
+        text-transform: uppercase; color: var(--muted);
+        margin-bottom: 10px; display: block; }
+
+  /* ── panels ── */
+  .panel {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 22px 20px;
+    margin-bottom: 22px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.055);
+  }
+  .panel h2 { font-size: 0.95rem; font-weight: 700; margin-bottom: 14px; color: #0d2137; }
+
+  /* ── cassette maps ── */
+  .cassettes { display: flex; flex-direction: column; gap: 20px; }
+
+  .cassette-row {
+    border-radius: 10px; padding: 14px 16px;
+    border: 1.5px solid var(--border);
+    position: relative;
+  }
+  .cassette-row.ca { border-color: var(--ca); background: var(--ca-lt); }
+  .cassette-row.cb { border-color: var(--cb); background: var(--cb-lt); }
+  .cassette-row.cc { border-color: var(--cc); background: var(--cc-lt); }
+
+  .cassette-header {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+  }
+  .cassette-badge {
+    font-size: 0.7rem; font-weight: 800; letter-spacing: 0.07em;
+    text-transform: uppercase; padding: 3px 9px; border-radius: 5px;
+    white-space: nowrap;
+  }
+  .ca .cassette-badge { background: var(--ca); color: #fff; }
+  .cb .cassette-badge { background: var(--cb); color: #fff; }
+  .cc .cassette-badge { background: var(--cc); color: #fff; }
+
+  .cassette-title { font-weight: 700; font-size: 0.92rem; }
+  .gate-pill {
+    margin-left: auto; font-size: 0.7rem; font-weight: 700;
+    padding: 3px 10px; border-radius: 20px; white-space: nowrap;
+  }
+  .ca .gate-pill { background: #c8e6c9; color: #1b5e20; }
+  .cb .gate-pill { background: #ffcdd2; color: #b71c1c; }
+  .cc .gate-pill { background: #bbdefb; color: #0d47a1; }
+
+  /* SVG maps inside cassettes */
+  .map-wrap { width: 100%; overflow-x: auto; }
+  svg.cmap { display: block; min-width: 660px; width: 100%; height: auto; }
+
+  /* ── truth table ── */
+  table.tt {
+    width: 100%; border-collapse: collapse; font-size: 0.82rem;
+  }
+  table.tt th {
+    background: #f0f4f8; padding: 9px 12px; text-align: center;
+    font-weight: 700; border: 1px solid var(--border); color: #0d2137;
+  }
+  table.tt td {
+    padding: 8px 12px; text-align: center;
+    border: 1px solid var(--border); color: #333;
+  }
+  table.tt tr:nth-child(even) td { background: #fafbfd; }
+  .yes { color: #2e7d32; font-weight: 700; }
+  .no  { color: #b71c1c; font-weight: 700; }
+  .out-yes { background: #e8f5e9 !important; color: #1b5e20; font-weight: 700; }
+  .out-no  { background: #f5f5f5 !important; color: #777; }
+
+  /* ── flow diagram ── */
+  .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; font-size: 0.8rem; }
+  .fs {
+    background: #eef2ff; border: 1px solid #c5cae9;
+    border-radius: 6px; padding: 8px 12px;
+    text-align: center; font-weight: 600; color: #283593;
+    min-width: 108px; line-height: 1.35;
+  }
+  .fs.trigger { background: #e8f5e9; border-color: #a5d6a7; color: #1b5e20; }
+  .fs.block   { background: #ffebee; border-color: #ef9a9a; color: #b71c1c; }
+  .fs.bypass  { background: #e3f2fd; border-color: #90caf9; color: #0d47a1; }
+  .fs.out     { background: #ede7f6; border-color: #b39ddb; color: #311b92; font-weight: 800; }
+  .fa { font-size: 1.1rem; color: #888; }
+  .fa.red { color: var(--cb); }
+  .fa.blue { color: var(--cc); }
+
+  /* ── notes ── */
+  .note {
+    border-radius: 0 8px 8px 0; padding: 12px 16px;
+    font-size: 0.81rem; line-height: 1.7; margin-bottom: 12px;
+  }
+  .note.amber { background: #fffde7; border-left: 4px solid #f9a825; color: #5a4a00; }
+  .note.red   { background: #fff5f5; border-left: 4px solid #e53935; color: #7f1414; }
+  .note.blue  { background: #e8eaf6; border-left: 4px solid #3949ab; color: #1a237e; }
+  .note strong { font-weight: 700; display: block; margin-bottom: 3px; }
+  .seq { font-family: 'Courier New', monospace; background: rgba(0,0,0,0.07);
+         padding: 1px 6px; border-radius: 3px; font-size: 0.88em; }
+
+  /* ── component grid ── */
+  .cgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 16px; }
+  .ccard {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05); position: relative; overflow: hidden;
+  }
+  .ccard::before { content:''; position: absolute; top:0; left:0; bottom:0; width:5px; }
+  .ccard.ca::before { background: var(--ca); }
+  .ccard.cb::before { background: var(--cb); }
+  .ccard.cc::before { background: var(--cc); }
+  .ccard.crispr::before { background: var(--crispr); }
+  .ccard h4 { font-size: 0.88rem; font-weight: 700; margin-bottom: 4px; }
+  .ccard .sub { font-size: 0.74rem; color: var(--muted); margin-bottom: 8px; }
+  .ccard ul { padding-left: 15px; font-size: 0.79rem; line-height: 1.65; color: #333; }
+
+  /* ── system summary table ── */
+  table.st { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+  table.st th { background: #f0f4f8; padding: 9px 12px; text-align: left;
+                font-weight: 700; border-bottom: 2px solid var(--border); color: #0d2137; }
+  table.st td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  table.st tr:last-child td { border-bottom: none; }
+
+  footer { font-size: 0.73rem; color: #aaa; text-align: center; margin-top: 28px; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     HEADER
+═══════════════════════════════════════════════ -->
+<h1>Tomato K⁺ Reporter — Hybrid Logic Circuit v2</h1>
+<p class="subhead">
+  Three-cassette CRISPRi system &nbsp;·&nbsp;
+  Logic: <strong>(K⁺ low AND NOT NH₄⁺ high) OR Na⁺ high</strong> &nbsp;·&nbsp;
+  Intragenic / cisgenic design &nbsp;·&nbsp; Agrobacterium transient expression
+</p>
+
+<!-- ═══════════════════════════════════════════════
+     CASSETTE MAPS
+═══════════════════════════════════════════════ -->
+<div class="panel">
+  <h2>Multi-Cassette Architecture — Linear Maps (5′ → 3′)</h2>
+  <div class="cassettes">
+
+    <!-- ── CASSETTE A ── -->
+    <div class="cassette-row ca">
+      <div class="cassette-header">
+        <span class="cassette-badge">Cassette A</span>
+        <span class="cassette-title">Primary K⁺ Sensor</span>
+        <span class="gate-pill">BASE SIGNAL</span>
+      </div>
+      <div class="map-wrap">
+        <svg class="cmap" viewBox="0 0 820 110" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+              <polygon points="0 0,8 3,0 6" fill="#444"/>
+            </marker>
+            <pattern id="hatch-a" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+              <line x1="0" y1="0" x2="0" y2="6" stroke="#b71c1c" stroke-width="1.5" stroke-dasharray="2,2"/>
+            </pattern>
+          </defs>
+          <!-- backbone -->
+          <line x1="20" y1="58" x2="800" y2="58" stroke="#aaa" stroke-width="2"/>
+          <line x1="774" y1="58" x2="800" y2="58" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+          <text x="8"   y="62" font-size="10" font-weight="700" fill="#555">5′</text>
+          <text x="808" y="62" font-size="10" font-weight="700" fill="#555">3′</text>
+
+          <!-- SKRP block -->
+          <rect x="30"  y="30" width="220" height="56" rx="5" fill="#2e7d32" opacity="0.85"/>
+          <!-- excised subregion -->
+          <rect x="138" y="30" width="48"  height="56" rx="2" fill="url(#hatch-a)" opacity="0.85"/>
+          <rect x="138" y="30" width="48"  height="56" rx="2" fill="none" stroke="#b71c1c" stroke-width="1.8" stroke-dasharray="4,3"/>
+          <line x1="138" y1="30" x2="186" y2="86" stroke="#b71c1c" stroke-width="1.4"/>
+          <line x1="186" y1="30" x2="138" y2="86" stroke="#b71c1c" stroke-width="1.4"/>
+          <!-- promoter labels -->
+          <text x="140" y="48" font-size="10.5" font-weight="700" fill="#fff" text-anchor="middle">SKRP</text>
+          <text x="140" y="61" font-size="8.5"  fill="#fff" text-anchor="middle">(SlHAK5 ~2.2 kb)</text>
+          <text x="140" y="74" font-size="8"    fill="#fff" text-anchor="middle">ΔSlSTOP1 motif</text>
+          <!-- retained elements -->
+          <rect x="35"  y="22" width="34" height="10" rx="3" fill="#a5d6a7"/>
+          <text x="52"  y="30" font-size="7.5" fill="#1b5e20" text-anchor="middle" font-weight="600">GCC-box</text>
+          <rect x="207" y="22" width="32" height="10" rx="3" fill="#a5d6a7"/>
+          <text x="223" y="30" font-size="7.5" fill="#1b5e20" text-anchor="middle" font-weight="600">AuxRE</text>
+
+          <!-- sgRNA target annotation -->
+          <rect x="30" y="86" width="220" height="10" rx="2" fill="none" stroke="#6a1b9a" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <text x="140" y="95" font-size="7.5" fill="#6a1b9a" text-anchor="middle" font-weight="600">◀ sgRNA target site (from Cassette B)</text>
+
+          <!-- SlANT1 -->
+          <rect x="260" y="30" width="230" height="56" rx="5" fill="#4a148c" opacity="0.88"/>
+          <text x="375" y="54" font-size="11.5" font-weight="700" fill="#fff" text-anchor="middle">SlANT1 CDS</text>
+          <text x="375" y="68" font-size="9"    fill="#e1bee7" text-anchor="middle">R2R3-MYB · Solyc10g086260</text>
+          <text x="375" y="80" font-size="8.5"  fill="#ce93d8" text-anchor="middle">Anthocyanin master switch</text>
+
+          <!-- SlHSP term -->
+          <rect x="500" y="30" width="145" height="56" rx="5" fill="#37474f" opacity="0.88"/>
+          <text x="572" y="56" font-size="10.5" font-weight="700" fill="#fff" text-anchor="middle">SlHSP Terminator</text>
+          <text x="572" y="70" font-size="8.5"  fill="#b0bec5" text-anchor="middle">Native 3′ UTR</text>
+
+          <!-- Output label -->
+          <text x="660" y="46" font-size="9.5" fill="#1b5e20" font-weight="700">OUTPUT →</text>
+          <text x="660" y="60" font-size="9"   fill="#333">Purple pigment</text>
+          <text x="660" y="73" font-size="8.5" fill="#555">(when uninhibited)</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- ── CASSETTE B ── -->
+    <div class="cassette-row cb">
+      <div class="cassette-header">
+        <span class="cassette-badge">Cassette B</span>
+        <span class="cassette-title">NH₄⁺ Sensor — CRISPRi Brake</span>
+        <span class="gate-pill">AND NOT Gate</span>
+      </div>
+      <div class="map-wrap">
+        <svg class="cmap" viewBox="0 0 820 130" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arr-b" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+              <polygon points="0 0,8 3,0 6" fill="#444"/>
+            </marker>
+            <marker id="rep-arrow" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto">
+              <polygon points="0 0,10 4,0 8" fill="#b71c1c"/>
+            </marker>
+          </defs>
+          <!-- Sub-cassette B1: dCas9 -->
+          <text x="24" y="20" font-size="8" font-weight="700" fill="#b71c1c" letter-spacing="0.05em">B1 — dCas9-repressor expression unit</text>
+          <line x1="20" y1="38" x2="560" y2="38" stroke="#aaa" stroke-width="2"/>
+          <line x1="534" y1="38" x2="560" y2="38" stroke="#444" stroke-width="2" marker-end="url(#arr-b)"/>
+          <text x="8"   y="42" font-size="10" font-weight="700" fill="#555">5′</text>
+          <text x="568" y="42" font-size="10" font-weight="700" fill="#555">3′</text>
+
+          <!-- SlAMT1.1 promoter -->
+          <rect x="30" y="14" width="185" height="48" rx="5" fill="#c62828" opacity="0.85"/>
+          <text x="122" y="35" font-size="10.5" font-weight="700" fill="#fff" text-anchor="middle">SlAMT1.1 promoter</text>
+          <text x="122" y="49" font-size="8.5"  fill="#ffcdd2" text-anchor="middle">NH₄⁺ excess sensor</text>
+
+          <!-- dCas9-SRDX -->
+          <rect x="225" y="14" width="215" height="48" rx="5" fill="#e65100" opacity="0.88"/>
+          <text x="333" y="36" font-size="10.5" font-weight="700" fill="#fff" text-anchor="middle">dCas9-SRDX</text>
+          <text x="333" y="50" font-size="8.5"  fill="#ffe0b2" text-anchor="middle">Nuclease-dead · Transcriptional repressor</text>
+
+          <!-- term stub -->
+          <rect x="450" y="14" width="100" height="48" rx="5" fill="#37474f" opacity="0.82"/>
+          <text x="500" y="36" font-size="9.5" font-weight="700" fill="#fff" text-anchor="middle">SlHSP term</text>
+          <text x="500" y="50" font-size="8"   fill="#b0bec5" text-anchor="middle">3′ UTR</text>
+
+          <!-- Sub-cassette B2: sgRNA -->
+          <text x="24" y="84" font-size="8" font-weight="700" fill="#6a1b9a" letter-spacing="0.05em">B2 — sgRNA expression unit</text>
+          <line x1="20" y1="100" x2="420" y2="100" stroke="#aaa" stroke-width="2"/>
+          <line x1="394" y1="100" x2="420" y2="100" stroke="#444" stroke-width="2" marker-end="url(#arr-b)"/>
+          <text x="8"   y="104" font-size="10" font-weight="700" fill="#555">5′</text>
+          <text x="428" y="104" font-size="10" font-weight="700" fill="#555">3′</text>
+
+          <!-- U6 pol III promoter -->
+          <rect x="30" y="77" width="120" height="44" rx="5" fill="#4a148c" opacity="0.82"/>
+          <text x="90" y="97" font-size="10" font-weight="700" fill="#fff" text-anchor="middle">SlU6 promoter</text>
+          <text x="90" y="110" font-size="8" fill="#e1bee7" text-anchor="middle">Pol III driver</text>
+
+          <!-- sgRNA -->
+          <rect x="160" y="77" width="220" height="44" rx="5" fill="#6a1b9a" opacity="0.85"/>
+          <text x="270" y="96" font-size="10.5" font-weight="700" fill="#fff" text-anchor="middle">sgRNA</text>
+          <text x="270" y="109" font-size="8.5" fill="#e1bee7" text-anchor="middle">guides dCas9 → SKRP / SlANT1 CDS</text>
+
+          <!-- repression arrow to Cassette A concept -->
+          <text x="590" y="55" font-size="8.5" fill="#b71c1c" font-weight="600">⟹ represses</text>
+          <text x="590" y="68" font-size="8.5" fill="#b71c1c" font-weight="600">Cassette A</text>
+          <text x="590" y="81" font-size="8"   fill="#b71c1c">when NH₄⁺ high</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- ── CASSETTE C ── -->
+    <div class="cassette-row cc">
+      <div class="cassette-header">
+        <span class="cassette-badge">Cassette C</span>
+        <span class="cassette-title">Na⁺ / Salinity Bypass</span>
+        <span class="gate-pill">OR Gate</span>
+      </div>
+      <div class="map-wrap">
+        <svg class="cmap" viewBox="0 0 820 110" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arr-c" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+              <polygon points="0 0,8 3,0 6" fill="#444"/>
+            </marker>
+          </defs>
+          <line x1="20" y1="58" x2="800" y2="58" stroke="#aaa" stroke-width="2"/>
+          <line x1="774" y1="58" x2="800" y2="58" stroke="#444" stroke-width="2" marker-end="url(#arr-c)"/>
+          <text x="8"   y="62" font-size="10" font-weight="700" fill="#555">5′</text>
+          <text x="808" y="62" font-size="10" font-weight="700" fill="#555">3′</text>
+
+          <!-- SlSOS1pTS-21 promoter -->
+          <rect x="30" y="30" width="235" height="56" rx="5" fill="#0d47a1" opacity="0.87"/>
+          <!-- CRT/DRE element highlight -->
+          <rect x="177" y="22" width="72" height="12" rx="3" fill="#90caf9"/>
+          <text x="213" y="31" font-size="7.5" fill="#0d47a1" text-anchor="middle" font-weight="700">CRT/DRE core</text>
+          <text x="148" y="50" font-size="10" font-weight="700" fill="#fff" text-anchor="middle">SlSOS1pTS-21</text>
+          <text x="148" y="63" font-size="8.5" fill="#bbdefb" text-anchor="middle">Salt-inducible allele promoter</text>
+          <text x="148" y="76" font-size="8"   fill="#90caf9" text-anchor="middle">SlDREB2-bound · Na⁺ specific</text>
+
+          <!-- SlANT1 (independent copy) -->
+          <rect x="275" y="30" width="225" height="56" rx="5" fill="#4a148c" opacity="0.88"/>
+          <text x="388" y="55" font-size="11" font-weight="700" fill="#fff" text-anchor="middle">SlANT1 CDS</text>
+          <text x="388" y="69" font-size="8.5" fill="#e1bee7" text-anchor="middle">Independent copy · Solyc10g086260</text>
+          <!-- bypass label -->
+          <text x="388" y="22" font-size="8" fill="#0d47a1" text-anchor="middle" font-weight="600">↑ Bypasses SKRP entirely</text>
+
+          <!-- SlHSP term -->
+          <rect x="510" y="30" width="145" height="56" rx="5" fill="#37474f" opacity="0.88"/>
+          <text x="582" y="56" font-size="10.5" font-weight="700" fill="#fff" text-anchor="middle">SlHSP Terminator</text>
+          <text x="582" y="70" font-size="8.5"  fill="#b0bec5" text-anchor="middle">Native 3′ UTR</text>
+
+          <!-- Output -->
+          <text x="670" y="47" font-size="9.5" fill="#0d47a1" font-weight="700">OUTPUT →</text>
+          <text x="670" y="60" font-size="9"   fill="#333">Purple pigment</text>
+          <text x="670" y="73" font-size="8.5" fill="#555">(SKRP-independent)</text>
+        </svg>
+      </div>
+    </div>
+
+  </div><!-- end .cassettes -->
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SYSTEM LOGIC DIAGRAM
+═══════════════════════════════════════════════ -->
+<div class="panel">
+  <h2>System Logic Flow</h2>
+
+  <!-- Signal flow -->
+  <span class="sl">Signal Processing</span>
+  <div class="flow" style="margin-bottom:18px;">
+    <div class="fs trigger">K⁺ low<br><small>(SKRP fires)</small></div>
+    <div class="fa">→</div>
+    <div class="fs">SlANT1 mRNA<br>accumulates</div>
+    <div class="fa red">⤵</div>
+    <div class="fs block">NH₄⁺ high?<br><small>dCas9-SRDX represses</small></div>
+    <div class="fa red">✕</div>
+    <div class="fs block">Signal<br>BLOCKED</div>
+    <span style="font-size:0.75rem; color:#888; align-self:center; margin:0 4px;">OR</span>
+    <div class="fs bypass">Na⁺ high<br><small>(SlSOS1pTS-21)</small></div>
+    <div class="fa blue">→</div>
+    <div class="fs bypass">SlANT1 mRNA<br><small>SKRP-independent</small></div>
+    <div class="fa">→</div>
+    <div class="fs out">PURPLE<br>PIGMENTATION</div>
+  </div>
+
+  <!-- Boolean expression -->
+  <div style="background:#f8f0ff; border:1.5px solid #b39ddb; border-radius:8px; padding:12px 18px; margin-bottom:20px; font-size:0.85rem;">
+    <strong style="color:#311b92;">Boolean Expression:</strong>
+    <span style="font-family:'Courier New', monospace; font-size:1rem; color:#4a148c; margin-left:10px;">
+      OUTPUT = (K⁺_low <span style="color:#b71c1c;">AND NOT</span> NH₄⁺_high) <span style="color:#1565c0;">OR</span> Na⁺_high
+    </span>
+  </div>
+
+  <!-- Truth table -->
+  <span class="sl">Truth Table — Reporter Output (Purple Pigment)</span>
+  <table class="tt">
+    <thead>
+      <tr>
+        <th>K⁺ low?</th>
+        <th>NH₄⁺ high?</th>
+        <th>Na⁺ high?</th>
+        <th>Cassette A fires?</th>
+        <th>Cassette B blocks A?</th>
+        <th>Cassette C fires?</th>
+        <th>Reporter Output</th>
+        <th>Interpretation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="yes">YES</td><td class="no">NO</td><td class="no">NO</td>
+        <td class="yes">YES</td><td class="no">NO</td><td class="no">NO</td>
+        <td class="out-yes">PURPLE ✔</td>
+        <td>True K⁺ deficiency</td>
+      </tr>
+      <tr>
+        <td class="yes">YES</td><td class="yes">YES</td><td class="no">NO</td>
+        <td class="yes">YES</td><td class="yes">YES → blocked</td><td class="no">NO</td>
+        <td class="out-no">none</td>
+        <td>K⁺ low but NH₄⁺ interference suppressed</td>
+      </tr>
+      <tr>
+        <td class="no">NO</td><td class="no">NO</td><td class="yes">YES</td>
+        <td class="no">NO</td><td class="no">NO</td><td class="yes">YES</td>
+        <td class="out-yes">PURPLE ✔</td>
+        <td>Salt stress K⁺ starvation reported (bypass)</td>
+      </tr>
+      <tr>
+        <td class="yes">YES</td><td class="no">NO</td><td class="yes">YES</td>
+        <td class="yes">YES</td><td class="no">NO</td><td class="yes">YES</td>
+        <td class="out-yes">PURPLE ✔</td>
+        <td>Combined K⁺ &amp; salt stress</td>
+      </tr>
+      <tr>
+        <td class="no">NO</td><td class="yes">YES</td><td class="no">NO</td>
+        <td class="no">NO</td><td class="yes">YES</td><td class="no">NO</td>
+        <td class="out-no">none</td>
+        <td>NH₄⁺ excess only — correctly silent</td>
+      </tr>
+      <tr>
+        <td class="no">NO</td><td class="no">NO</td><td class="no">NO</td>
+        <td class="no">NO</td><td class="no">NO</td><td class="no">NO</td>
+        <td class="out-no">none</td>
+        <td>Control — no ionic stress</td>
+      </tr>
+      <tr>
+        <td class="yes">YES</td><td class="yes">YES</td><td class="yes">YES</td>
+        <td class="yes">YES → blocked</td><td class="yes">YES</td><td class="yes">YES</td>
+        <td class="out-yes">PURPLE ✔</td>
+        <td>Triple stress — Na⁺ bypass overrides NH₄⁺ brake</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     COMPONENT SPECS
+═══════════════════════════════════════════════ -->
+<div class="panel">
+  <h2>New Component Specifications (v2 Additions)</h2>
+  <div class="cgrid">
+
+    <div class="ccard cb">
+      <h4>SlAMT1.1 Promoter</h4>
+      <div class="sub">Cassette B · NH₄⁺ sensor</div>
+      <ul>
+        <li>Drives expression of the CRISPRi machinery specifically under ammonium excess conditions</li>
+        <li>Alternative: SlAMT1.2 promoter, or promoter of NADH-GOGAT (nitrogen metabolism gene strongly upregulated by NH₄⁺ excess)</li>
+        <li>Activates dCas9-repressor only when NH₄⁺ is high, leaving Cassette A uninhibited under normal K⁺ starvation</li>
+      </ul>
+    </div>
+
+    <div class="ccard crispr">
+      <h4>dCas9-SRDX (CRISPRi Repressor)</h4>
+      <div class="sub">Cassette B · AND NOT executor</div>
+      <ul>
+        <li>Nuclease-dead Cas9 fused to a transcriptional repressor domain (e.g. SRDX — EAR-repression motif)</li>
+        <li>Guided by sgRNA from Cassette B2 to physically bind SKRP or SlANT1 CDS on Cassette A</li>
+        <li>Sterically blocks RNA Pol II without DNA cleavage — fully reversible when NH₄⁺ drops</li>
+        <li>sgRNA expressed from a Pol III promoter (SlU6) for efficient, constitutive guide production</li>
+      </ul>
+    </div>
+
+    <div class="ccard cc">
+      <h4>SlSOS1pTS-21 Promoter</h4>
+      <div class="sub">Cassette C · Na⁺ / salinity sensor</div>
+      <ul>
+        <li>Specific allele of the <em>SlSOS1</em> (Salt Overly Sensitive 1) gene promoter</li>
+        <li>Contains a functionally validated CRT/DRE core cis-element bound by the salt-inducible transcription factor SlDREB2</li>
+        <li>Drives massive upregulation strictly in response to high salinity — not activated by K⁺ deficiency alone</li>
+        <li>Bypasses the SKRP entirely, ensuring K⁺ starvation is reported even when salt stress suppresses SlHAK5 expression</li>
+      </ul>
+    </div>
+
+    <div class="ccard cc">
+      <h4>SlANT1 CDS (Cassette C copy)</h4>
+      <div class="sub">Cassette C · independent reporter</div>
+      <ul>
+        <li>Identical CDS to Cassette A (Solyc10g086260) — same anthocyanin output, different driver</li>
+        <li>Operates completely independently of Cassette A and the CRISPRi machinery of Cassette B</li>
+        <li>The two SlANT1 copies (A and C) can additively amplify the purple pigmentation signal under combined K⁺ + Na⁺ stress</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     DESIGN NOTES
+═══════════════════════════════════════════════ -->
+<div class="panel">
+  <h2>Design Notes &amp; Considerations</h2>
+
+  <div class="note amber">
+    <strong>CRISPRi sgRNA target selection</strong>
+    The sgRNA in Cassette B2 should be designed to target a site within the SKRP itself (ideally near the TSS or a critical GCC-box) or the 5′ end of the SlANT1 CDS in Cassette A. Targeting the SKRP is preferable as it creates a complete transcriptional block. Target the non-template strand for best repression efficiency. Avoid designing the guide against regions shared with Cassette C to prevent off-target silencing of the Na⁺ bypass.
+  </div>
+
+  <div class="note red">
+    <strong>Potential pitfall: Cassette B does not suppress Cassette C</strong>
+    The sgRNA in Cassette B targets Cassette A only. Cassette C uses the entirely unrelated SlSOS1pTS-21 promoter and a separate SlANT1 copy, so it is immune to the CRISPRi brake. This is by design (the OR gate must fire independently), but note that under conditions of both NH₄⁺ high AND Na⁺ high, the Na⁺ bypass will still produce purple pigmentation — this is the intended behavior (see truth table row 7). Confirm this is the desired phenotype for your experimental conditions.
+  </div>
+
+  <div class="note red">
+    <strong>dCas9 leaky expression risk</strong>
+    Even low basal expression of dCas9-SRDX could partially suppress Cassette A. Choose a tight NH₄⁺-specific promoter with minimal basal activity. SlAMT1.1 is preferred over constitutive alternatives. Validate basal repressor expression levels under K⁺-starvation conditions with no NH₄⁺ before interpreting reporter output.
+  </div>
+
+  <div class="note blue">
+    <strong>Vector loading and size considerations</strong>
+    Three cassettes significantly increase total T-DNA insert size. Estimate:
+    SKRP (~2.2 kb) + SlANT1 CDS + SlHSP_term + SlAMT1.1_prom + dCas9 (~4.1 kb) + SlU6_prom + sgRNA + SlSOS1pTS-21_prom + SlANT1 CDS + SlHSP_term ≈ ~15–18 kb total insert.
+    Confirm your binary vector can accommodate this payload. For transient assays, pEAQ or ternary (Tv) systems are still recommended to maximize per-cell expression. Alternatively, consider delivering Cassettes A and C in one vector and Cassette B (the CRISPRi module) in a co-infiltrated second vector, which reduces per-vector payload and allows modular testing.
+  </div>
+
+  <div class="note amber">
+    <strong>Additive signal under combined stress</strong>
+    Both Cassettes A and C drive SlANT1 expression independently. Under genuine combined K⁺ + Na⁺ stress (with no high NH₄⁺), two separate pools of SlANT1 protein will accumulate, potentially giving a stronger or earlier pigmentation signal. This additive effect should be calibrated against single-stress controls.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SYSTEM SUMMARY TABLE
+═══════════════════════════════════════════════ -->
+<div class="panel">
+  <h2>Full System Summary</h2>
+  <table class="st">
+    <thead>
+      <tr>
+        <th>Cassette</th>
+        <th>Promoter / Sensor</th>
+        <th>Payload</th>
+        <th>Terminator</th>
+        <th>Logic function</th>
+        <th>Addresses</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong style="color:var(--ca);">A — K⁺ Sensor</strong></td>
+        <td>SKRP (SlHAK5 Δ<span style="font-family:monospace;font-size:0.85em">CCTTCCCCAGATAA</span>)</td>
+        <td>SlANT1 CDS</td>
+        <td>SlHSP term</td>
+        <td>BASE — drives reporter when K⁺ low</td>
+        <td>K⁺ starvation</td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--cb);">B — NH₄⁺ Brake</strong></td>
+        <td>SlAMT1.1 promoter (NH₄⁺ excess)</td>
+        <td>dCas9-SRDX + sgRNA (via SlU6)</td>
+        <td>SlHSP term</td>
+        <td>AND NOT — represses Cassette A if NH₄⁺ high</td>
+        <td>False positives from NH₄⁺</td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--cc);">C — Na⁺ Bypass</strong></td>
+        <td>SlSOS1pTS-21 (CRT/DRE · SlDREB2)</td>
+        <td>SlANT1 CDS (independent copy)</td>
+        <td>SlHSP term</td>
+        <td>OR — drives reporter independently of SKRP</td>
+        <td>False negatives under salinity</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<footer>
+  Tomato K⁺ Reporter Hybrid Logic Circuit v2 &nbsp;·&nbsp;
+  (K⁺_low AND NOT NH₄⁺_high) OR Na⁺_high &nbsp;·&nbsp;
+  Three-cassette CRISPRi · Intragenic design
+</footer>
+
+</body>
+</html>
