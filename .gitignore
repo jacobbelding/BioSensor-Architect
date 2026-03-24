@@ -30,12 +30,18 @@ env/
 data/literature_index/*
 !data/literature_index/.gitkeep
 
+# Large reference PDFs (keep locally, don't push)
+*.pdf
+
 # Jupyter
 .ipynb_checkpoints/
 
 # OS
 .DS_Store
 Thumbs.db
+
+# Generated output
+output/
 
 # pytest
 .pytest_cache/

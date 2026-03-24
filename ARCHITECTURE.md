@@ -89,6 +89,20 @@ sequenceDiagram
 - No external dependencies — single HTML file with embedded CSS
 - Targets publication-quality aesthetics (Nature Methods / Plant Cell supplementary style)
 
+## Post-Processing Pipeline
+
+After the agent pipeline completes, three deterministic verification stages run without any LLM calls:
+
+1. **PMID Validation** (`report_qc.py`) — Extracts all PMIDs from the HTML, cross-references against the verified registry (populated during agent tool calls), and flags unverified citations with a visual badge.
+
+2. **Design Verification** (`design_verifier.py`) — Checks components against the curated parts catalog, validates promoter-signal associations against the pathways database, verifies structural completeness (SVG, key sections), and checks for gene accession numbers.
+
+3. **Cross-Reactivity Analysis** (`design_verifier.py`) — Identifies the primary promoter, looks up its known cis-elements from a static knowledge base (30+ promoters, 10 shared element types), and detects overlap with non-target signal pathways. Generates a Specificity Report Card panel injected into the HTML with severity-graded hits and mitigation recommendations.
+
+```
+Agent HTML → PMID QC → Design Verification → Cross-Reactivity → Specificity Report → Final HTML
+```
+
 ## Shared State
 
 ```python

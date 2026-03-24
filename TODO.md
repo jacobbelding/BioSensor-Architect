@@ -3,12 +3,12 @@
 ## Tier 1: High Impact — Directly Improves Output Quality
 
 ### A. Cross-Reactivity Verifier (deterministic, zero LLM cost)
-- **Status:** IN PROGRESS
-- Add to `design_verifier.py`: map known shared cis-elements from pathways DB
-- If a chosen promoter's cis-element appears in another pathway, inject a warning
-  banner regardless of what the LLM said
-- Example: RD29A contains CRT/DRE → flag "shared with cold stress pathway (COR15A)"
-- Uses the expanded pathways DB (17 pathways) as ground truth
+- **Status:** DONE
+- `design_verifier.py`: static knowledge base of 10 shared cis-elements mapped across 30+ promoters
+- Dual detection: cis-element overlap + pathway database overlap
+- Severity grading: minor / moderate / severe
+- Wired into post-processing pipeline (runs after every design)
+- Example: RD29A contains CRT/DRE → flags cold, freezing as severe cross-reactivity
 
 ### B. Verbose Agent Trace (`--verbose` improvements)
 - **Status:** TODO
@@ -17,11 +17,12 @@
 - Useful for debugging and portfolio demos
 
 ### C. Specificity Report Card in HTML Output
-- **Status:** IN PROGRESS
-- Add a "Specificity Report" section to the HTML report
-- Table: primary promoter response to target signal vs. known confounding signals
-- Color-coded specificity grade (green/amber/red)
-- Data sourced from pathways DB cis-element overlap analysis
+- **Status:** DONE
+- `inject_specificity_report()` generates a full HTML panel with:
+  - Overall grade badge (HIGH/MODERATE/LOW/UNKNOWN) with color coding
+  - Cross-reactivity table: confounding signal, shared element, severity badge, explanation
+  - Mitigation recommendations for severe hits (CRISPRi, promoter truncation, synthetic promoters)
+- Injected before `<footer>` in every generated report
 
 ## Tier 2: Medium Impact — Broadens Capability
 

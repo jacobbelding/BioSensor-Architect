@@ -1,8 +1,8 @@
 # BioSensor-Architect
 
-A multi-agent AI system for designing genetic constructs for living sensor organisms. Given a target environmental signal (e.g., nitrate deficiency, drought stress, heavy metal contamination), BioSensor-Architect coordinates six specialist agents to propose complete genetic construct designs — from promoter selection through characterization planning — and outputs a polished, self-contained HTML report with literature-validated citations.
+A multi-agent AI system for designing genetic constructs for living plant biosensors. Given a target environmental signal (e.g., nitrate deficiency, drought stress, heavy metal contamination), BioSensor-Architect coordinates six specialist agents to propose complete genetic construct designs — from promoter selection through characterization planning — and outputs a polished, self-contained HTML report with literature-validated citations.
 
-Built with [AutoGen](https://github.com/microsoft/autogen) (Microsoft) and [Model Context Protocol](https://modelcontextprotocol.io/).
+Built with [AutoGen](https://github.com/microsoft/autogen) (Microsoft) and [Model Context Protocol](https://modelcontextprotocol.io/). Developed with domain expertise from the [Stroock Lab](https://www.stroocklab.com/) (Cornell University), where ongoing research focuses on integrating engineered plant biosensors into controlled environment agriculture.
 
 ## Architecture
 
@@ -55,10 +55,13 @@ Orchestration uses AutoGen's `SelectorGroupChat` with a custom deterministic `se
 - **End-to-end design pipeline** — from natural language query to complete HTML report
 - **Literature-grounded citations** — PubMed PMID lookup with post-processing validation (broken links flagged automatically)
 - **Design verification** — post-processing checks components against curated parts DB, flags missing accessions and promoter-signal mismatches
+- **Cross-reactivity analysis** — deterministic cis-element overlap detection across 30+ promoters and 10 shared regulatory elements, with severity-graded specificity report card injected into HTML output
+- **Genetic circuit guidance** — when cross-reactivity is severe, agents suggest AND NOT gates (CRISPRi), OR gates, or orthogonal repressors to mitigate off-target activation
 - **Revision loop** — LiteratureValidator can send designs back to ConstructDesigner for improvement
 - **Multi-round critique** — optional design rounds where a standalone Critic LLM scores the output and feeds back improvements (`--rounds 2`)
 - **Paper ingestion** — expand the parts database from published papers via PMID or DOI (`bsa ingest`)
 - **Curated domain data** — 44 plant genetic parts (19 promoters, 9 reporters, 4 terminators, 4 regulatory elements) and 17 signal transduction pathways covering 15+ environmental signals
+- **Dual LLM support** — OpenAI (GPT-4o) and Anthropic (Claude Sonnet/Opus) with automatic model detection
 - **MCP servers** — standalone Parts DB and PubMed servers for use with any MCP-compatible client
 
 ## Quick Start
@@ -99,7 +102,9 @@ pytest
 
 ## Example Output
 
-See [`examples/drought_sensor_arabidopsis.html`](examples/drought_sensor_arabidopsis.html) for a complete example — a drought stress sensor for *Arabidopsis thaliana* using the RD29A promoter driving GFP expression, generated with Claude Sonnet over 2 design rounds. Includes SVG construct map, signal pathway diagram, component cards with accessions, literature validation notes, dose-response characterization plan, and specificity controls.
+See [`examples/drought_sensor_arabidopsis.html`](examples/drought_sensor_arabidopsis.html) for a complete example — a drought stress sensor for *Arabidopsis thaliana* generated with Claude Sonnet over 2 design rounds. Includes SVG construct map, component cards with gene accessions, literature-validated citations (PubMed PMIDs), dose-response characterization plan, specificity controls, and a cross-reactivity report card with severity-graded cis-element analysis.
+
+Also see [`examples/potassium_sensor_arabidopsis.html`](examples/potassium_sensor_arabidopsis.html) for a potassium deficiency sensor design.
 
 ## Project Structure
 
@@ -114,11 +119,11 @@ BioSensor-Architect/
 │   │   ├── literature_validator.py
 │   │   ├── characterization_planner.py
 │   │   └── documenter.py
-│   ├── orchestration/       # Pipeline coordination
+│   ├── orchestration/       # Pipeline coordination + post-processing
 │   │   ├── workflow.py      # SelectorGroupChat wiring + pipeline routing
 │   │   ├── critic.py        # Multi-round design critique (standalone LLM call)
 │   │   ├── report_qc.py     # Post-processing PMID validation
-│   │   └── design_verifier.py # Component verification against curated DB
+│   │   └── design_verifier.py # Component verification + cross-reactivity analysis
 │   ├── tools/               # Agent tool functions
 │   │   ├── pathway_db.py    # Parts catalog + pathway queries
 │   │   ├── pubmed_search.py # NCBI E-utilities (esearch, esummary, efetch)
@@ -130,15 +135,16 @@ BioSensor-Architect/
 │   └── cli.py               # Click CLI with Rich output
 ├── mcp_servers/
 │   ├── parts_db_server/     # Parts database MCP server (standalone)
+│   │   └── data/            # 44 parts (parts_catalog.json) + 17 pathways (pathways.json)
 │   └── pubmed_server/       # PubMed search MCP server (standalone)
-├── data/                    # Curated domain data
-│   ├── parts_catalog.json   # 44 plant genetic parts (expanded via Gemini Deep Research)
-│   └── pathways.json        # 17 signal transduction pathways
+├── data/                    # Supporting data and RAG index
+│   ├── example_constructs/  # Reference JSON construct models
+│   └── literature_index/    # ChromaDB vector store (gitignored, populated via bsa index-papers)
 ├── scripts/                 # Batch data ingestion scripts
 ├── examples/                # Example HTML output
 ├── output/                  # Generated reports (gitignored)
 ├── prompts/                 # LLM prompts for data expansion (Gemini Deep Research)
-└── tests/                   # 55 tests (pytest + pytest-asyncio)
+└── tests/                   # 78 tests (pytest + pytest-asyncio)
 ```
 
 ## Tech Stack
@@ -161,7 +167,7 @@ Copy `.env.example` to `.env` and set your keys:
 | `OPENAI_API_KEY` | Yes* | OpenAI API key |
 | `ANTHROPIC_API_KEY` | Yes* | Anthropic API key (recommended: `claude-sonnet-4-20250514`) |
 | `NCBI_API_KEY` | No | NCBI E-utilities key (improves rate limits 3→10 req/sec) |
-| `DEFAULT_MODEL` | No | Default model (default: `gpt-4o`). Use `claude-sonnet-4-20250514` for best quality. |
+| `DEFAULT_MODEL` | No | Default model (default: `gpt-4o`). Recommended: `claude-sonnet-4-20250514` for best quality. |
 | `DESIGN_ROUNDS` | No | Number of critique rounds (default: `1` = single pass) |
 | `CROSSREF_EMAIL` | No | Email for CrossRef polite pool (DOI resolution) |
 
@@ -179,12 +185,14 @@ Copy `.env.example` to `.env` and set your keys:
 - [x] Paper ingestion CLI (`bsa ingest`)
 - [x] Anthropic Claude model client support (auto-detects `claude-*` models)
 - [x] Design verification against curated parts database
-- [x] Expanded parts database (44 parts, 17 pathways from Gemini Deep Research)
-- [x] Structured agent prompts with few-shot HTML example
-- [x] 55 passing tests
-- [ ] RAG literature retrieval (ChromaDB)
+- [x] Cross-reactivity verifier with cis-element knowledge base (30+ promoters, 10 shared elements)
+- [x] Specificity Report Card injected into HTML output (severity-graded, color-coded)
+- [x] Expanded parts database (44 parts, 17 pathways via Gemini Deep Research curation)
+- [x] Structured agent prompts with genetic circuit design guidance and few-shot examples
+- [x] 78 passing tests
+- [ ] RAG literature retrieval (ChromaDB — scaffolded)
 - [ ] Sequence tools MCP server
 
 ## License
 
-MIT
+[MIT](LICENSE)
