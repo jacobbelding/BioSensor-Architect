@@ -2,7 +2,8 @@
 
 A multi-agent AI system for designing genetic constructs for living plant biosensors. Given a target environmental signal (e.g., nitrate deficiency, drought stress, heavy metal contamination), BioSensor-Architect coordinates six specialist agents to propose complete genetic construct designs — from promoter selection through characterization planning — and outputs a polished, self-contained HTML report with literature-validated citations.
 
-Built with [AutoGen](https://github.com/microsoft/autogen) (Microsoft) and [Model Context Protocol](https://modelcontextprotocol.io/). Developed with domain expertise from the [Stroock Lab](https://www.stroocklab.com/) (Cornell University), where ongoing research focuses on integrating engineered plant biosensors into controlled environment agriculture.
+Built with [AutoGen](https://github.com/microsoft/autogen) (Microsoft) and [Model Context Protocol](https://modelcontextprotocol.io/). Developed with domain expertise from the [Stroock Lab](https://www.stroocklab.com/) (Cornell University) and 
+the NSF STC [CROPPS](https://cropps.cornell.edu), where ongoing research focuses on engineered plant biosensors.
 
 ## Architecture
 
@@ -68,7 +69,7 @@ Orchestration uses AutoGen's `SelectorGroupChat` with a custom deterministic `se
 
 ```bash
 # Clone and install
-git clone https://github.com/YOUR_USERNAME/BioSensor-Architect.git
+git clone https://github.com/jacobbelding/BioSensor-Architect.git
 cd BioSensor-Architect
 python -m venv .venv
 source .venv/bin/activate
