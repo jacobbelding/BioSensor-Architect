@@ -254,11 +254,13 @@ async def run_workflow(
 
         # Design verification — check components against curated database
         from biosensor_architect.orchestration.design_verifier import (
+            inject_specificity_report,
             inject_verification_banner,
             verify_design,
         )
 
         verification = verify_design(final_html)
         final_html = inject_verification_banner(final_html, verification)
+        final_html = inject_specificity_report(final_html, verification)
 
     return final_html
