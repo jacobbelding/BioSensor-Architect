@@ -17,9 +17,10 @@ env/
 # Environment variables
 .env
 
-# IDE
+# IDE / tools
 .vscode/
 .idea/
+.claude/
 *.swp
 *.swo
 
@@ -32,6 +33,13 @@ data/literature_index/*
 
 # Large reference PDFs (keep locally, don't push)
 *.pdf
+
+# Local-only planning docs
+TODO.md
+prompts/
+
+# RAG papers directory (users populate locally)
+papers/
 
 # Jupyter
 .ipynb_checkpoints/

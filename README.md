@@ -98,14 +98,20 @@ pytest
 |---------|-------------|
 | `bsa run <query>` | Run the full design workflow. Options: `--output`, `--model`, `--rounds`, `--verbose` |
 | `bsa ingest <ids>` | Ingest papers by PMID/DOI into the parts catalog. Options: `--yes`, `--model` |
-| `bsa index-papers <path>` | Index papers into RAG database *(not yet implemented)* |
+| `bsa index-papers <path>` | Index PDFs/abstracts into the RAG literature database *(not yet implemented)* |
 | `bsa serve` | Start MCP servers *(not yet implemented)* |
 
 ## Example Output
 
-See [`examples/drought_sensor_arabidopsis.html`](examples/drought_sensor_arabidopsis.html) for a complete example — a drought stress sensor for *Arabidopsis thaliana* generated with Claude Sonnet over 2 design rounds. Includes SVG construct map, component cards with gene accessions, literature-validated citations (PubMed PMIDs), dose-response characterization plan, specificity controls, and a cross-reactivity report card with severity-graded cis-element analysis.
+Generated with Claude Sonnet over 2 design rounds — an *Arabidopsis thaliana* drought stress sensor using the RD29A promoter driving GFP expression:
 
-Also see [`examples/potassium_sensor_arabidopsis.html`](examples/potassium_sensor_arabidopsis.html) for a potassium deficiency sensor design.
+<p align="center">
+  <img src="docs/images/example_report_top.png" alt="Example report: Arabidopsis drought sensor showing construct map, signal pathway, and component specifications" width="800">
+</p>
+
+Each report includes an SVG construct map, signal pathway diagram, component cards with gene accessions, literature-validated citations (PubMed PMIDs), dose-response characterization plan, specificity controls, and a cross-reactivity report card.
+
+Full HTML examples: [`drought_sensor_arabidopsis.html`](examples/drought_sensor_arabidopsis.html) | [`potassium_sensor_arabidopsis.html`](examples/potassium_sensor_arabidopsis.html)
 
 ## Project Structure
 
@@ -142,9 +148,8 @@ BioSensor-Architect/
 │   ├── example_constructs/  # Reference JSON construct models
 │   └── literature_index/    # ChromaDB vector store (gitignored, populated via bsa index-papers)
 ├── scripts/                 # Batch data ingestion scripts
-├── examples/                # Example HTML output
+├── examples/                # Example HTML output with screenshots
 ├── output/                  # Generated reports (gitignored)
-├── prompts/                 # LLM prompts for data expansion (Gemini Deep Research)
 └── tests/                   # 78 tests (pytest + pytest-asyncio)
 ```
 
