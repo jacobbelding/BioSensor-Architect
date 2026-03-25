@@ -74,7 +74,7 @@ async def critique_design(
     Returns:
         CritiqueResult with scores, feedback, and approval status.
     """
-    from autogen_core.models import UserMessage, SystemMessage
+    from autogen_core.models import SystemMessage, UserMessage
 
     client = _get_model_client(model)
 

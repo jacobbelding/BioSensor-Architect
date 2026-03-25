@@ -89,16 +89,16 @@ def validate_report_pmids(html: str, verify_unknown: bool = True) -> str:
         # Replace bare PMID references with a warning-styled version
         html = re.sub(
             rf"(PMID[:\s]*{pmid})",
-            rf'<span style="color: #c0392b; text-decoration: line-through;" '
-            rf'title="Unverified PMID — could not confirm on PubMed">\1</span>'
-            rf' <span style="color: #c0392b; font-size: 0.8em;">[unverified]</span>',
+            r'<span style="color: #c0392b; text-decoration: line-through;" '
+            r'title="Unverified PMID — could not confirm on PubMed">\1</span>'
+            r' <span style="color: #c0392b; font-size: 0.8em;">[unverified]</span>',
             html,
             flags=re.IGNORECASE,
         )
         # Also fix broken PubMed links
         html = re.sub(
             rf'(href="[^"]*pubmed[^"]*{pmid}[^"]*")',
-            rf'\1 style="color: #c0392b; text-decoration: line-through;"',
+            r'\1 style="color: #c0392b; text-decoration: line-through;"',
             html,
             flags=re.IGNORECASE,
         )

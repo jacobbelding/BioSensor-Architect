@@ -9,7 +9,6 @@ Runs after the Documenter produces the HTML report but before final output.
 
 from __future__ import annotations
 
-import json
 import re
 from dataclasses import dataclass, field
 
@@ -17,7 +16,6 @@ from biosensor_architect.tools.pathway_db import (
     _load_parts,
     _load_pathways,
 )
-from biosensor_architect.tools.pubmed_search import fetch_abstract, get_verified_pmids
 
 
 @dataclass

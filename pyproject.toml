@@ -39,10 +39,17 @@ where = ["src"]
 
 [tool.ruff]
 target-version = "py311"
-line-length = 100
+line-length = 120
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "W"]
+
+[tool.ruff.lint.per-file-ignores]
+# Agent prompts and report generators contain embedded HTML/SVG/CSS string
+# literals that are clearer as single long lines.
+"src/biosensor_architect/agents/*.py" = ["E501"]
+"src/biosensor_architect/orchestration/design_verifier.py" = ["E501"]
+"src/biosensor_architect/orchestration/critic.py" = ["E501"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

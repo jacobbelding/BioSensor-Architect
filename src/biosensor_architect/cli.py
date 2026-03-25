@@ -22,7 +22,10 @@ def main():
 @click.argument("query")
 @click.option("--output", "-o", type=click.Path(), default=None, help="Output HTML file path.")
 @click.option("--model", "-m", default=None, help="LLM model override (e.g., gpt-4o-mini).")
-@click.option("--rounds", "-r", default=None, type=int, help="Number of design rounds (default from DESIGN_ROUNDS env var, default=1). Each extra round ~doubles token cost.")
+@click.option(
+    "--rounds", "-r", default=None, type=int,
+    help="Number of design rounds (default from DESIGN_ROUNDS env var, default=1). Extra rounds ~double token cost.",
+)
 @click.option("--verbose", "-v", is_flag=True, help="Show each agent's message as it's produced.")
 def run(query: str, output: str | None, model: str | None, rounds: int | None, verbose: bool):
     """Run a full design workflow for the given query.
@@ -56,9 +59,10 @@ def run(query: str, output: str | None, model: str | None, rounds: int | None, v
     if "<html" in final.lower() or "<!doctype" in final.lower():
         html_out = final
     else:
+        style = "font-family: system-ui; max-width: 900px; margin: 2rem auto; padding: 0 1rem; line-height: 1.6;"
         html_out = f"""<!DOCTYPE html>
 <html><head><meta charset="utf-8"><title>BioSensor-Architect Report</title>
-<style>body {{ font-family: system-ui; max-width: 900px; margin: 2rem auto; padding: 0 1rem; line-height: 1.6; }}</style>
+<style>body {{ {style} }}</style>
 </head><body>
 <h1>BioSensor-Architect Report</h1>
 <pre style="white-space: pre-wrap;">{final}</pre>
@@ -158,7 +162,10 @@ def ingest(identifiers: str, yes: bool, model: str | None):
     if unique_pathways:
         console.print(f"\n[bold green]New pathways to add ({len(unique_pathways)}):[/]")
         for pw in unique_pathways:
-            console.print(f"  [bold]{pw.get('signal', '?')}[/] in {pw.get('organism', '?')}: {pw.get('description', '')[:80]}")
+            sig = pw.get('signal', '?')
+            org = pw.get('organism', '?')
+            desc = pw.get('description', '')[:80]
+            console.print(f"  [bold]{sig}[/] in {org}: {desc}")
 
     # Confirm
     if not yes:

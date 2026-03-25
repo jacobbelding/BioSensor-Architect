@@ -33,7 +33,7 @@ def format_genbank_features(construct: dict) -> str:
         A string formatted as a simplified GenBank feature table.
     """
     name = construct.get("name", "unnamed_construct")
-    size = construct.get("estimated_size_bp", 5000)
+    construct.get("estimated_size_bp", 5000)
     today = date.today().strftime("%d-%b-%Y").upper()
 
     # Build feature list with cumulative positions
@@ -74,7 +74,7 @@ def format_genbank_features(construct: dict) -> str:
     lines = []
     lines.append(f"LOCUS       {name[:16]:<16} {total_size:>6} bp    DNA     linear   SYN {today}")
     lines.append(f"DEFINITION  {name} — synthetic reporter construct.")
-    lines.append(f"FEATURES             Location/Qualifiers")
+    lines.append("FEATURES             Location/Qualifiers")
 
     for feat_type, start, end, label in features:
         lines.append(f"     {feat_type:<16}{start}..{end}")
