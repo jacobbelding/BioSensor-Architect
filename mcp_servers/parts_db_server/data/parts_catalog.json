@@ -209,7 +209,8 @@
       "PMID:39362862",
       "PMID:24716623"
     ],
-    "notes": "Already in catalog \u2014 will be deduplicated. Included for completeness."
+    "notes": "Already in catalog \u2014 will be deduplicated. Included for completeness.",
+    "signal_responsive_to": "potassium deficiency"
   },
   {
     "id": "pAtIRT1",
@@ -222,7 +223,8 @@
       "PMID:12084823",
       "PMID:31636177"
     ],
-    "notes": "Root external cell layer specific. Cross-reactivity: Zn and Mn can affect IRT1 protein turnover."
+    "notes": "Root external cell layer specific. Cross-reactivity: Zn and Mn can affect IRT1 protein turnover.",
+    "signal_responsive_to": "iron deficiency"
   },
   {
     "id": "pAtFRO2",
@@ -235,7 +237,8 @@
       "PMID:12084823",
       "PMID:31636177"
     ],
-    "notes": "Strategy I iron acquisition. Root-specific expression."
+    "notes": "Strategy I iron acquisition. Root-specific expression.",
+    "signal_responsive_to": "iron deficiency"
   },
   {
     "id": "pAtZIP4",
@@ -248,7 +251,8 @@
       "PMID:20479230",
       "PMID:33594269"
     ],
-    "notes": "bZIP19/23 are direct intracellular Zn sensors \u2014 no upstream kinase required. Highly orthogonal."
+    "notes": "bZIP19/23 are direct intracellular Zn sensors \u2014 no upstream kinase required. Highly orthogonal.",
+    "signal_responsive_to": "zinc deficiency"
   },
   {
     "id": "pCaResponsive",
@@ -260,7 +264,8 @@
     "references": [
       "PMID:22086087"
     ],
-    "notes": "Ca2+ is a universal second messenger \u2014 inherently challenging to isolate specific stimuli. Best for kinetic biosensor applications."
+    "notes": "Ca2+ is a universal second messenger \u2014 inherently challenging to isolate specific stimuli. Best for kinetic biosensor applications.",
+    "signal_responsive_to": "calcium stress"
   },
   {
     "id": "pAtSOS1",
@@ -272,7 +277,8 @@
     "references": [
       "PMID:10831000"
     ],
-    "notes": "SOS pathway: Ca2+ spike \u2192 SOS3 \u2192 SOS2 \u2192 phosphorylates SOS1. Regulation intertwined with ABA/osmotic pathways \u2014 truncation needed for salt-specific response."
+    "notes": "SOS pathway: Ca2+ spike \u2192 SOS3 \u2192 SOS2 \u2192 phosphorylates SOS1. Regulation intertwined with ABA/osmotic pathways \u2014 truncation needed for salt-specific response.",
+    "signal_responsive_to": "salt stress"
   },
   {
     "id": "pAtNHX1",
@@ -284,7 +290,8 @@
     "references": [
       "PMID:10831000"
     ],
-    "notes": "Companion to SOS1 \u2014 vacuolar compartmentalization arm of salt response."
+    "notes": "Companion to SOS1 \u2014 vacuolar compartmentalization arm of salt response.",
+    "signal_responsive_to": "salt stress"
   },
   {
     "id": "pAtCOR15A",
@@ -296,7 +303,8 @@
     "references": [
       "PMID:8193295"
     ],
-    "notes": "Cross-reactivity with drought (DRE element shared). COR15B promoter is stronger due to flanking sequence context."
+    "notes": "Cross-reactivity with drought (DRE element shared). COR15B promoter is stronger due to flanking sequence context.",
+    "signal_responsive_to": "cold stress"
   },
   {
     "id": "pAtHSP18.2",
@@ -308,7 +316,8 @@
     "references": [
       "PMID:8597550"
     ],
-    "notes": "Premier choice for orthogonal biosensor construction due to minimal leakage and massive dynamic range."
+    "notes": "Premier choice for orthogonal biosensor construction due to minimal leakage and massive dynamic range.",
+    "signal_responsive_to": "heat stress"
   },
   {
     "id": "pSlE4",
@@ -320,7 +329,8 @@
     "references": [
       "PMID:8914528"
     ],
-    "notes": "Native ripening promoter \u2014 tissue-specific variations in developmental context."
+    "notes": "Native ripening promoter \u2014 tissue-specific variations in developmental context.",
+    "signal_responsive_to": "ethylene"
   },
   {
     "id": "pEBSn",
@@ -330,7 +340,8 @@
     "signal": "ethylene",
     "description": "Synthetic ethylene-responsive promoter constructed from 10 tandem repeats of the EIN3 Binding Site. Provides uniform, high-amplitude expression independent of developmental and tissue-specific variations in native promoters.",
     "references": [],
-    "notes": "Synthetic design eliminates developmental cross-talk seen in native E4/E8 promoters."
+    "notes": "Synthetic design eliminates developmental cross-talk seen in native E4/E8 promoters.",
+    "signal_responsive_to": "ethylene"
   },
   {
     "id": "pDR5",
@@ -343,7 +354,8 @@
       "PMID:9401121",
       "PMID:8038604"
     ],
-    "notes": "Eliminates cross-reactivity present in native GH3 sequences through optimized spacing and serial repetition."
+    "notes": "Eliminates cross-reactivity present in native GH3 sequences through optimized spacing and serial repetition.",
+    "signal_responsive_to": "auxin"
   },
   {
     "id": "pTCSn",
@@ -355,7 +367,8 @@
     "references": [
       "PMID:23537731"
     ],
-    "notes": "11-bp motif spacing is critical \u2014 corresponds to one helical turn ensuring all TFs bind same face."
+    "notes": "11-bp motif spacing is critical \u2014 corresponds to one helical turn ensuring all TFs bind same face.",
+    "signal_responsive_to": "cytokinin"
   },
   {
     "id": "pAtRBCS",
@@ -368,7 +381,8 @@
       "PMID:8310058",
       "PMID:1380166"
     ],
-    "notes": "Differential phytochrome regulation. LRE arrays can be engineered for light-activated synthetic biosensors."
+    "notes": "Differential phytochrome regulation. LRE arrays can be engineered for light-activated synthetic biosensors.",
+    "signal_responsive_to": "light"
   },
   {
     "id": "pAtCAB",
@@ -380,7 +394,8 @@
     "references": [
       "PMID:1380166"
     ],
-    "notes": "Foundational light-responsive promoter. Green tissue expression."
+    "notes": "Foundational light-responsive promoter. Green tissue expression.",
+    "signal_responsive_to": "light"
   },
   {
     "id": "pAtPR1",
@@ -393,7 +408,8 @@
       "PMID:17098858",
       "PMID:10339596"
     ],
-    "notes": "SA pathway. For dual SA+JA biosensors, synthetic dual-responsive promoters combining SA and JA elements have been engineered."
+    "notes": "SA pathway. For dual SA+JA biosensors, synthetic dual-responsive promoters combining SA and JA elements have been engineered.",
+    "signal_responsive_to": "pathogen defense"
   },
   {
     "id": "pAtAMT1.1",
@@ -405,7 +421,8 @@
     "references": [
       "PMID:17565866"
     ],
-    "notes": "Reflects systemic N demand, not instantaneous soil NH4+ concentration. Dual regulation: transcriptional induction + post-translational allosteric gating."
+    "notes": "Reflects systemic N demand, not instantaneous soil NH4+ concentration. Dual regulation: transcriptional induction + post-translational allosteric gating.",
+    "signal_responsive_to": "ammonium"
   },
   {
     "id": "pAtSULTR1.1",
@@ -418,7 +435,8 @@
       "PMID:15047883",
       "PMID:15842617"
     ],
-    "notes": "SURE motif overlaps with AuxRE but exhibits exclusive S-deficiency responsiveness. Excellent for minimal synthetic biosensor parts."
+    "notes": "SURE motif overlaps with AuxRE but exhibits exclusive S-deficiency responsiveness. Excellent for minimal synthetic biosensor parts.",
+    "signal_responsive_to": "sulfur deficiency"
   },
   {
     "id": "pAtNIP5.1",
@@ -430,7 +448,8 @@
     "references": [
       "PMID:19017629"
     ],
-    "notes": "BOR1 uORF is an excellent self-contained post-transcriptional boron-toxicity logic gate."
+    "notes": "BOR1 uORF is an excellent self-contained post-transcriptional boron-toxicity logic gate.",
+    "signal_responsive_to": "boron deficiency"
   },
   {
     "id": "RUBY",
