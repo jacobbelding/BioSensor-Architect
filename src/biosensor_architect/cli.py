@@ -9,6 +9,8 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 
+from biosensor_architect.config import settings
+
 console = Console()
 
 
@@ -35,11 +37,16 @@ def run(query: str, output: str | None, model: str | None, rounds: int | None, v
     console.print(Panel(f"[bold]Query:[/bold] {query}", title="BioSensor-Architect", border_style="green"))
     console.print()
 
-    rounds_label = f" ({rounds} round{'s' if rounds and rounds > 1 else ''})" if rounds and rounds > 1 else ""
-    with console.status(f"[bold green]Running multi-agent design workflow{rounds_label}...", spinner="dots"):
-        from biosensor_architect.orchestration.workflow import run_workflow
+    from biosensor_architect.orchestration.workflow import run_workflow
 
-        final = asyncio.run(run_workflow(query, model=model, rounds=rounds))
+    rounds_label = f" ({rounds} round{'s' if rounds and rounds > 1 else ''})" if rounds and rounds > 1 else ""
+
+    if verbose:
+        console.print(f"[bold green]Running multi-agent design workflow{rounds_label} (verbose)...[/]\n")
+        final = asyncio.run(run_workflow(query, model=model, rounds=rounds, verbose=True))
+    else:
+        with console.status(f"[bold green]Running multi-agent design workflow{rounds_label}...", spinner="dots"):
+            final = asyncio.run(run_workflow(query, model=model, rounds=rounds))
 
     if not final:
         console.print("[red]No output produced by the workflow.[/]")
@@ -182,13 +189,41 @@ def ingest(identifiers: str, yes: bool, model: str | None):
 @main.command()
 @click.argument("path", type=click.Path(exists=True))
 def index_papers(path: str):
-    """Index papers from a directory into the RAG database.
+    """Index papers from a directory into the RAG literature database.
 
-    Example: bsa index-papers ./papers/
+    Parses PDFs and text files, chunks them into ~500-token passages, and
+    stores embeddings in a local ChromaDB vector store. The LiteratureValidator
+    agent can then search this index during design workflows.
+
+    \b
+    Examples:
+        bsa index-papers ./papers/
+        bsa index-papers ~/Desktop/drought_papers/
     """
-    console.print(f"[bold green]Indexing papers from:[/] {path}")
-    # TODO: Wire up RAG indexer
-    console.print("[yellow]Not yet implemented — see rag/indexer.py[/]")
+    from pathlib import Path
+
+    from biosensor_architect.rag.indexer import get_index_stats, index_directory
+
+    papers_path = Path(path)
+    if not papers_path.is_dir():
+        console.print(f"[red]Error: {path} is not a directory[/]")
+        return
+
+    supported = [f for f in papers_path.iterdir() if f.suffix.lower() in (".pdf", ".txt", ".md")]
+    console.print(f"[bold green]Found {len(supported)} file(s) to index in:[/] {path}\n")
+
+    if not supported:
+        console.print("[yellow]No supported files found (.pdf, .txt, .md)[/]")
+        return
+
+    with console.status("[bold green]Indexing papers into ChromaDB...", spinner="dots"):
+        files_indexed, total_chunks = index_directory(papers_path)
+
+    console.print(f"\n[bold green]Done![/] Indexed {files_indexed} file(s) → {total_chunks} chunks")
+
+    stats = get_index_stats()
+    console.print(f"[dim]Total index: {stats['total_chunks']} chunks from {stats['files_indexed']} file(s)[/]")
+    console.print(f"[dim]Persist dir: {settings.chroma_persist_dir}[/]")
 
 
 @main.command()

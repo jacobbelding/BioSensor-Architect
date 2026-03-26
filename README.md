@@ -90,6 +90,9 @@ bsa ingest "PMID:11050181"
 
 # Run tests
 pytest
+
+# Index literature PDFs for RAG-augmented validation (optional)
+bsa index-papers ./papers/
 ```
 
 ## CLI Commands
@@ -98,7 +101,7 @@ pytest
 |---------|-------------|
 | `bsa run <query>` | Run the full design workflow. Options: `--output`, `--model`, `--rounds`, `--verbose` |
 | `bsa ingest <ids>` | Ingest papers by PMID/DOI into the parts catalog. Options: `--yes`, `--model` |
-| `bsa index-papers <path>` | Index PDFs/abstracts into the RAG literature database *(not yet implemented)* |
+| `bsa index-papers <path>` | Index PDFs/abstracts into the RAG literature database (ChromaDB) |
 | `bsa serve` | Start MCP servers *(not yet implemented)* |
 
 ## Example Output
@@ -150,7 +153,7 @@ BioSensor-Architect/
 ├── scripts/                 # Batch data ingestion scripts
 ├── examples/                # Example HTML output with screenshots
 ├── output/                  # Generated reports (gitignored)
-└── tests/                   # 78 tests (pytest + pytest-asyncio)
+└── tests/                   # 90 tests (pytest + pytest-asyncio)
 ```
 
 ## Tech Stack
@@ -195,8 +198,9 @@ Copy `.env.example` to `.env` and set your keys:
 - [x] Specificity Report Card injected into HTML output (severity-graded, color-coded)
 - [x] Expanded parts database (44 parts, 17 pathways via Gemini Deep Research curation)
 - [x] Structured agent prompts with genetic circuit design guidance and few-shot examples
-- [x] 78 passing tests
-- [ ] RAG literature retrieval (ChromaDB — scaffolded)
+- [x] RAG literature retrieval (ChromaDB + PyMuPDF, `bsa index-papers`)
+- [x] Verbose agent trace mode (`--verbose`)
+- [x] 90 passing tests
 - [ ] Sequence tools MCP server
 
 ## License

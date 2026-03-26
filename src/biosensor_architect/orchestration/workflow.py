@@ -11,8 +11,10 @@ LiteratureValidator → ConstructDesigner revision loop (up to 2 revisions).
 
 from __future__ import annotations
 
+import time
 from typing import Sequence
 
+from autogen_agentchat.base import TaskResult
 from autogen_agentchat.conditions import MaxMessageTermination, TextMentionTermination
 from autogen_agentchat.messages import BaseAgentEvent, BaseChatMessage
 from autogen_agentchat.teams import SelectorGroupChat
@@ -183,6 +185,7 @@ def _extract_html(messages) -> str:
 async def _run_single_round(
     query: str,
     model: str | None = None,
+    verbose: bool = False,
 ) -> tuple[str, object]:
     """Run one pass of the design pipeline.
 
@@ -190,15 +193,74 @@ async def _run_single_round(
         (html_output, raw_team_result) tuple.
     """
     team = await build_workflow(model=model)
-    result = await team.run(task=query)
-    html = _extract_html(result.messages)
-    return html, result
+
+    if not verbose:
+        result = await team.run(task=query)
+        return _extract_html(result.messages), result
+
+    # Verbose mode: stream messages and print them in real time
+    from rich.console import Console
+    from rich.panel import Panel
+
+    console = Console()
+
+    # Agent name → display color
+    _colors = {
+        "Orchestrator": "bright_blue",
+        "PathwayAnalyst": "green",
+        "ConstructDesigner": "magenta",
+        "LiteratureValidator": "yellow",
+        "CharacterizationPlanner": "cyan",
+        "Documenter": "bright_red",
+    }
+
+    result = None
+    start = time.time()
+    agent_start = start
+
+    async for event in team.run_stream(task=query):
+        if isinstance(event, TaskResult):
+            result = event
+            break
+
+        source = getattr(event, "source", None)
+        content = getattr(event, "content", None)
+
+        if not source or not isinstance(content, str) or not content.strip():
+            continue
+
+        elapsed = time.time() - agent_start
+        agent_start = time.time()
+        color = _colors.get(source, "white")
+
+        # Truncate content for non-Documenter agents to keep the trace readable
+        display = content
+        if source == "Documenter" and len(content) > 500:
+            display = content[:300] + f"\n... [{len(content):,} chars of HTML] ..."
+        elif len(content) > 1500:
+            display = content[:1200] + f"\n... [{len(content):,} chars total] ..."
+
+        console.print(Panel(
+            display,
+            title=f"[bold {color}]{source}[/] [dim]({elapsed:.1f}s)[/]",
+            border_style=color,
+            padding=(0, 1),
+        ))
+
+    total = time.time() - start
+    console.print(f"\n[dim]Pipeline complete in {total:.1f}s[/]")
+
+    if result is None:
+        return "", result  # type: ignore[return-value]
+
+    return _extract_html(result.messages), result
 
 
 async def run_workflow(
     query: str,
     model: str | None = None,
     rounds: int | None = None,
+    verbose: bool = False,
 ) -> str:
     """Run the full design workflow, optionally with multiple critique rounds.
 
@@ -226,7 +288,7 @@ async def run_workflow(
     final_html = ""
 
     for round_num in range(1, num_rounds + 1):
-        final_html, _result = await _run_single_round(current_query, model=model)
+        final_html, _result = await _run_single_round(current_query, model=model, verbose=verbose)
 
         # Last round — no critique needed
         if round_num >= num_rounds:

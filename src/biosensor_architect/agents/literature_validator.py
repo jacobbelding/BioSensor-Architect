@@ -96,6 +96,15 @@ CRITICAL: Your revision decision directly controls the pipeline.
   do NOT include the word REVISE. List suggestions as optional improvements.
 - Do NOT trigger REVISE for cosmetic issues or minor optimizations.
 
+## Tools Available
+
+1. `search_papers(query)` — Search PubMed for papers matching a query.
+2. `fetch_abstract(pmid)` — Fetch the full abstract and metadata for a PMID.
+3. `search_literature(query)` — Search the local indexed literature database (RAG).
+   This searches full-text passages from curated PDFs. Use this FIRST for domain-specific
+   queries (e.g., promoter specificity, reporter performance) before falling back to PubMed.
+   If search_literature returns no results, the index may be empty — proceed with PubMed only.
+
 ## Rules
 - NEVER cite a PMID you haven't verified by calling fetch_abstract.
 - NEVER fabricate paper titles. Use the actual title from fetch_abstract.
@@ -108,6 +117,7 @@ CRITICAL: Your revision decision directly controls the pipeline.
 
 def create_literature_validator():
     """Create and return the Literature Validator agent."""
+    from biosensor_architect.rag.retriever import search_literature
     from biosensor_architect.tools.pubmed_search import fetch_abstract, search_papers
 
     from .base import create_agent
@@ -115,6 +125,6 @@ def create_literature_validator():
     return create_agent(
         name="LiteratureValidator",
         system_message=SYSTEM_MESSAGE,
-        tools=[search_papers, fetch_abstract],
+        tools=[search_papers, fetch_abstract, search_literature],
         description="Validates proposed constructs against published literature and flags potential issues.",
     )
