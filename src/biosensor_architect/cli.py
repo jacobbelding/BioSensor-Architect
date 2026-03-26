@@ -280,7 +280,7 @@ def serve(server_name: str | None, list_servers: bool):
     console.print(f"[bold green]Starting MCP server:[/] {server_name}")
     console.print(f"[dim]{info['description']}[/]")
     console.print(f"[dim]Module: {info['module']}[/]")
-    console.print(f"[dim]Transport: stdio (press Ctrl+C to stop)[/]\n")
+    console.print("[dim]Transport: stdio (press Ctrl+C to stop)[/]\n")
 
     try:
         subprocess.run(
