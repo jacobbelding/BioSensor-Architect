@@ -44,8 +44,8 @@ graph TD
 |-------|------|-------|
 | **Orchestrator** | Parses user query into a structured design brief | — |
 | **Pathway Analyst** | Identifies biological sensing pathways — receptors, transduction chains, candidate promoters | `search_promoters`, `get_pathway` |
-| **Construct Designer** | Proposes genetic constructs — promoter, reporter, terminator, regulatory elements | `search_promoters`, `search_reporters`, `search_terminators` |
-| **Literature Validator** | Cross-references designs against PubMed literature; flags known issues; triggers revision loop if needed | `search_papers`, `fetch_abstract` |
+| **Construct Designer** | Proposes genetic constructs — promoter, reporter, terminator, regulatory elements | `search_promoters`, `search_reporters`, `search_terminators`, `estimate_construct_size`, `format_genbank_features` |
+| **Literature Validator** | Cross-references designs against PubMed literature and local RAG index; flags known issues; triggers revision loop if needed | `search_papers`, `fetch_abstract`, `search_literature` |
 | **Characterization Planner** | Designs experimental plans — dose-response curves, specificity controls, timelines | — |
 | **Documenter** | Generates a self-contained HTML report with construct maps, component cards, and styled tables | — |
 
@@ -63,7 +63,8 @@ Orchestration uses AutoGen's `SelectorGroupChat` with a custom deterministic `se
 - **Paper ingestion** — expand the parts database from published papers via PMID or DOI (`bsa ingest`)
 - **Curated domain data** — 44 plant genetic parts (19 promoters, 9 reporters, 4 terminators, 4 regulatory elements) and 17 signal transduction pathways covering 15+ environmental signals
 - **Dual LLM support** — OpenAI (GPT-4o) and Anthropic (Claude Sonnet/Opus) with automatic model detection
-- **MCP servers** — standalone Parts DB and PubMed servers for use with any MCP-compatible client
+- **RAG literature retrieval** — index local PDFs into a ChromaDB vector store (`bsa index-papers`); the LiteratureValidator searches the index during design workflows for deeper citation grounding
+- **MCP servers** — standalone Parts DB, PubMed, and Sequence servers for use with any MCP-compatible client (`bsa serve`)
 
 ## Quick Start
 
@@ -102,7 +103,7 @@ bsa index-papers ./papers/
 | `bsa run <query>` | Run the full design workflow. Options: `--output`, `--model`, `--rounds`, `--verbose` |
 | `bsa ingest <ids>` | Ingest papers by PMID/DOI into the parts catalog. Options: `--yes`, `--model` |
 | `bsa index-papers <path>` | Index PDFs/abstracts into the RAG literature database (ChromaDB) |
-| `bsa serve` | Start MCP servers *(not yet implemented)* |
+| `bsa serve [name]` | Start an MCP server (`parts-db`, `pubmed`, `sequence`). Run without args to list. |
 
 ## Example Output
 
@@ -114,7 +115,7 @@ Generated with Claude Sonnet over 2 design rounds — an *Arabidopsis thaliana* 
 
 Each report includes an SVG construct map, signal pathway diagram, component cards with gene accessions, literature-validated citations (PubMed PMIDs), dose-response characterization plan, specificity controls, and a cross-reactivity report card.
 
-Full HTML examples: [`drought_sensor_arabidopsis.html`](examples/drought_sensor_arabidopsis.html) | [`potassium_sensor_arabidopsis.html`](examples/potassium_sensor_arabidopsis.html)
+Full HTML examples: [`drought_sensor_arabidopsis.html`](examples/drought_sensor_arabidopsis.html) | [`nitrogen_sensor_tomato.html`](examples/nitrogen_sensor_tomato.html)
 
 ## Project Structure
 
@@ -139,7 +140,7 @@ BioSensor-Architect/
 │   │   ├── pubmed_search.py # NCBI E-utilities (esearch, esummary, efetch)
 │   │   ├── paper_ingest.py  # PMID/DOI → LLM extraction → catalog append
 │   │   └── sequence_utils.py
-│   ├── rag/                 # ChromaDB literature indexing (scaffolded)
+│   ├── rag/                 # ChromaDB literature indexing + retrieval
 │   ├── models.py            # Pydantic data models
 │   ├── config.py            # Environment configuration
 │   └── cli.py               # Click CLI with Rich output
@@ -153,7 +154,7 @@ BioSensor-Architect/
 ├── scripts/                 # Batch data ingestion scripts
 ├── examples/                # Example HTML output with screenshots
 ├── output/                  # Generated reports (gitignored)
-└── tests/                   # 90 tests (pytest + pytest-asyncio)
+└── tests/                   # 112 tests (pytest + pytest-asyncio)
 ```
 
 ## Tech Stack
@@ -200,8 +201,8 @@ Copy `.env.example` to `.env` and set your keys:
 - [x] Structured agent prompts with genetic circuit design guidance and few-shot examples
 - [x] RAG literature retrieval (ChromaDB + PyMuPDF, `bsa index-papers`)
 - [x] Verbose agent trace mode (`--verbose`)
-- [x] 90 passing tests
-- [ ] Sequence tools MCP server
+- [x] 112 passing tests
+- [x] Sequence tools MCP server
 
 ## License
 

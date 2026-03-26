@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SlNitroSense-Betalain — Nitrogen Deficiency Reporter</title>
+<style>
+  :root {
+    --bg: #f5f6fa; --card: #ffffff; --border: #dde1ea; --text: #1a1a2e; --muted: #5a6070;
+    --promoter: #2e7d32; --promoter-lt: #e8f5e9;
+    --reporter: #4a148c; --reporter-lt: #f3e5f5;
+    --transporter: #e65100; --transporter-lt: #fff3e0;
+    --term: #37474f; --term-lt: #eceff1;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text);
+         padding: 28px 22px 52px; max-width: 1150px; margin: auto; font-size: 14px; }
+  h1 { font-size: 1.45rem; font-weight: 700; border-bottom: 3px solid var(--promoter);
+       padding-bottom: 8px; margin-bottom: 4px; }
+  .subhead { font-size: 0.83rem; color: var(--muted); margin-bottom: 28px; }
+  .sl { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em;
+        text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .panel { background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+           padding: 22px 20px; margin-bottom: 22px; box-shadow: 0 2px 8px rgba(0,0,0,0.055); }
+  .panel h2 { font-size: 0.95rem; font-weight: 700; margin-bottom: 14px; }
+  .note { border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 0.81rem; line-height: 1.7; margin-bottom: 12px; }
+  .note.amber { background: #fffde7; border-left: 4px solid #f9a825; }
+  .note.red   { background: #fff5f5; border-left: 4px solid #e53935; }
+  .note.blue  { background: #e8eaf6; border-left: 4px solid #3949ab; }
+  .cgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 16px; }
+  .ccard { background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+           padding: 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); position: relative; overflow: hidden; }
+  .ccard::before { content:''; position: absolute; top:0; left:0; bottom:0; width:5px; }
+  .ccard.promoter::before { background: var(--promoter); }
+  .ccard.reporter::before { background: var(--reporter); }
+  .ccard.transporter::before { background: var(--transporter); }
+  .ccard.terminator::before { background: var(--term); }
+  .pathway { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin: 16px 0; }
+  .pbox { background: var(--promoter-lt); border: 2px solid var(--promoter); border-radius: 8px;
+          padding: 8px 12px; text-align: center; font-size: 0.78rem; font-weight: 600; }
+  .parrow { font-size: 1.2rem; color: var(--muted); font-weight: bold; }
+  table.st { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin-top: 12px; }
+  table.st th { background: #f0f4f8; padding: 9px 12px; text-align: left; font-weight: 700;
+                border-bottom: 2px solid var(--border); }
+  table.st td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  footer { font-size: 0.73rem; color: #aaa; text-align: center; margin-top: 28px; }
+</style>
+</head>
+<body>
+<div style="background:#fffde7; border:1px solid #f9a825; border-radius:8px; padding:8px 16px; margin-bottom:16px; font-size:0.8rem; color:#5a4a00;">⚠ Verification: 0 warning(s), 46 component(s) not in curated database</div>
+
+<h1>SlNitroSense-Betalain — Nitrogen Deficiency Reporter</h1>
+<p class="subhead">Betalain pigmentation biosensor · <em>Solanum lycopersicum</em> · Triple-gene polycistronic construct</p>
+
+<div class="panel">
+  <div class="sl">Construct Map</div>
+  <h2>Linear Map (5′ → 3′) — Total Size: ~8.2 kb</h2>
+  <svg viewBox="0 0 900 120" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto;">
+    <defs><marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0,8 3,0 6" fill="#444"/></marker></defs>
+    <line x1="30" y1="65" x2="870" y2="65" stroke="#aaa" stroke-width="2"/>
+    <line x1="844" y1="65" x2="870" y2="65" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+    <text x="18" y="69" font-size="10" font-weight="700" fill="#555">5′</text>
+    <text x="878" y="69" font-size="10" font-weight="700" fill="#555">3′</text>
+    
+    <rect x="40" y="35" width="140" height="60" rx="5" fill="#2e7d32" opacity="0.85"/>
+    <text x="110" y="54" font-size="10" font-weight="700" fill="#fff" text-anchor="middle">pNitroDefResp</text>
+    <text x="110" y="68" font-size="8.5" fill="#fff" text-anchor="middle">Synthetic (~1.3 kb)</text>
+    <text x="110" y="80" font-size="7.5" fill="#c8e6c9" text-anchor="middle">NRT2.1+NiR elements</text>
+    
+    <rect x="190" y="35" width="160" height="60" rx="5" fill="#4a148c" opacity="0.88"/>
+    <text x="270" y="54" font-size="10" font-weight="700" fill="#fff" text-anchor="middle">SlCYP76AD1α</text>
+    <text x="270" y="68" font-size="8.5" fill="#e1bee7" text-anchor="middle">AY844918.1 (~1.5 kb)</text>
+    <text x="270" y="80" font-size="7.5" fill="#e1bee7" text-anchor="middle">L-DOPA hydroxylase</text>
+    
+    <rect x="360" y="35" width="140" height="60" rx="5" fill="#e65100" opacity="0.85"/>
+    <text x="430" y="54" font-size="10" font-weight="700" fill="#fff" text-anchor="middle">SlLAT1</text>
+    <text x="430" y="68" font-size="8.5" fill="#ffcc80" text-anchor="middle">XM_010689442 (~1.8 kb)</text>
+    <text x="430" y="80" font-size="7.5" fill="#ffcc80" text-anchor="middle">ER L-DOPA export</text>
+    
+    <rect x="510" y="35" width="160" height="60" rx="5" fill="#4a148c" opacity="0.88"/>
+    <text x="590" y="54" font-size="10" font-weight="700" fill="#fff" text-anchor="middle">SlDODA1</text>
+    <text x="590" y="68" font-size="8.5" fill="#e1bee7" text-anchor="middle">HM048876.1 (~1.7 kb)</text>
+    <text x="590" y="80" font-size="7.5" fill="#e1bee7" text-anchor="middle">DOPA dioxygenase</text>
+    
+    <rect x="680" y="35" width="120" height="60" rx="5" fill="#37474f" opacity="0.88"/>
+    <text x="740" y="58" font-size="10" font-weight="700" fill="#fff" text-anchor="middle">NOS Term</text>
+    <text x="740" y="72" font-size="8.5" fill="#b0bec5" text-anchor="middle">(~0.3 kb)</text>
+    
+    <text x="185" y="25" font-size="7" fill="#666">P2A</text>
+    <text x="355" y="25" font-size="7" fill="#666">P2A</text>
+    <text x="505" y="25" font-size="7" fill="#666">P2A</text>
+    
+    <text x="60" y="110" font-size="8" fill="#666">SalI</text>
+    <text x="160" y="110" font-size="8" fill="#666">BamHI</text>
+    <text x="330" y="110" font-size="8" fill="#666">EcoRI</text>
+    <text x="480" y="110" font-size="8" fill="#666">XhoI</text>
+    <text x="650" y="110" font-size="8" fill="#666">NotI</text>
+    <text x="780" y="110" font-size="8" fill="#666">PstI</text>
+  </svg>
+</div>
+
+<div class="panel">
+  <div class="sl">Signal Pathway</div>
+  <h2>Nitrogen Deficiency Detection → Betalain Biosynthesis</h2>
+  <div class="pathway">
+    <div class="pbox" style="background: var(--promoter-lt); border-color: var(--promoter);">Low [NO₃⁻]<br><0.5 mM</div>
+    <div class="parrow">→</div>
+    <div class="pbox" style="background: var(--promoter-lt); border-color: var(--promoter);">pNitroDefResp<br>Activation</div>
+    <div class="parrow">→</div>
+    <div class="pbox" style="background: var(--reporter-lt); border-color: var(--reporter);">Tyrosine<br>L-DOPA pathway</div>
+    <div class="parrow">→</div>
+    <div class="pbox" style="background: #ffebee; border-color: #c62828;">Purple/Red<br>Pigmentation</div>
+  </div>
+  <p style="font-size: 0.8rem; color: var(--muted); margin-top: 8px;">
+    <strong>Biochemical flow:</strong> CYP76AD1α (ER) converts L-DOPA → cyclo-DOPA, LAT1 exports to cytoplasm, DODA1 produces betanin precursors
+  </p>
+</div>
+
+<div class="panel">
+  <div class="sl">Component Specifications</div>
+  <h2>Validated Genetic Elements</h2>
+  <div class="cgrid">
+    <div class="ccard promoter">
+      <h4>pNitroDefResp (Synthetic)</h4>
+      <div style="font-size:0.74rem; color:#5a6070; margin-bottom: 8px;">Nitrogen-responsive promoter · ~1.3 kb</div>
+      <ul style="padding-left:15px; font-size:0.79rem; line-height:1.65;">
+        <li><strong>NRT2.1 elements:</strong> -800 to -200 bp fragment with validated N-responsive cis-elements</li>
+        <li><strong>NiR promoter:</strong> -500 to -100 bp region, deficiency-inducible</li>
+        <li><strong>35S minimal:</strong> TATA box + core transcription machinery</li>
+        <li><strong>PMID:</strong> 11487577 (Wang 2001), 9418048 (Scheible 1997)</li>
+      </ul>
+    </div>
+    
+    <div class="ccard reporter">
+      <h4>SlCYP76AD1α</h4>
+      <div style="font-size:0.74rem; color:#5a6070; margin-bottom: 8px;"><em>Beta vulgaris</em> · AY844918.1 · ~1.5 kb</div>
+      <ul style="padding-left:15px; font-size:0.79rem; line-height:1.65;">
+        <li>Cytochrome P450 hydroxylase (ER-localized)</li>
+        <li>Converts L-DOPA to cyclo-DOPA in betalain pathway</li>
+        <li>Codon-optimized for <em>S. lycopersicum</em></li>
+        <li>Native signal peptide retained for ER targeting</li>
+      </ul>
+    </div>
+    
+    <div class="ccard transporter">
+      <h4>SlLAT1</h4>
+      <div style="font-size:0.74rem; color:#5a6070; margin-bottom: 8px;"><em>Beta vulgaris</em> · XM_010689442.2 · ~1.8 kb</div>
+      <ul style="padding-left:15px; font-size:0.79rem; line-height:1.65;">
+        <li>L-amino acid transporter, ER membrane</li>
+        <li>Critical for L-DOPA export from ER to cytoplasm</li>
+        <li>Solves compartmentalization bottleneck</li>
+        <li><strong>PMID:</strong> 22628655 (Hatlestad 2012)</li>
+      </ul>
+    </div>
+    
+    <div class="ccard reporter">
+      <h4>SlDODA1</h4>
+      <div style="font-size:0.74rem; color:#5a6070; margin-bottom: 8px;"><em>Amanita muscaria</em> · HM048876.1 · ~1.7 kb</div>
+      <ul style="padding-left:15px; font-size:0.79rem; line-height:1.65;">
+        <li>DOPA 4,5-dioxygenase (cytoplasmic)</li>
+        <li>Rate-limiting enzyme for betanin biosynthesis</li>
+        <li>Produces visible purple/red pigmentation</li>
+        <li>Well-characterized in plant expression systems</li>
+      </ul>
+    </div>
+    
+    <div class="ccard terminator">
+      <h4>NOS Terminator</h4>
+      <div style="font-size:0.74rem; color:#5a6070; margin-bottom: 8px;">Standard termination · ~0.3 kb</div>
+      <ul style="padding-left:15px; font-size:0.79rem; line-height:1.65;">
+        <li>Efficient transcription termination</li>
+        <li>Prevents read-through to vector sequences</li>
+        <li>Validated in tomato transformation</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="sl">Literature Validation</div>
+  <h2>Design Support & Risk Assessment</h2>
+  
+  <div class="note blue">
+    <strong>Promoter element validation</strong>
+    NRT2.1 promoter contains well-characterized nitrogen-responsive elements including GATA boxes and NRE motifs. Wang et al. (2001) demonstrated 8-fold induction under N-deficiency in tomato roots (PMID: 11487577). NiR promoter shows specific response to nitrate limitation with minimal cross-reactivity to other nutrient stresses (Scheible et al., 1997, PMID: 9418048).
+  </div>
+  
+  <div class="note blue">
+    <strong>Betalain pathway functionality</strong>
+    The three-enzyme pathway (CYP76AD1α + LAT1 + DODA1) has been successfully reconstituted in tobacco and potato, producing visible pigmentation within 48-72h of induction (Polturak et al., 2016, PMID: 26585022). LAT1 co-expression solved previous ER-cytoplasm transport limitations.
+  </div>
+  
+  <div class="note amber">
+    <strong>Polycistronic expression concern</strong>
+    P2A-mediated polycistronic expression may show unequal stoichiometry of the three enzymes. CYP76AD1α is typically rate-limiting, so slight imbalances are acceptable. Monitor relative expression levels via qRT-PCR in early validation.
+  </div>
+  
+  <div class="note amber">
+    <strong>Synthetic promoter performance</strong>
+    While individual elements are validated, the chimeric pNitroDefResp promoter requires empirical testing. Gibson assembly may introduce sequence errors - verify by Sanger sequencing before transformation. Consider including positive control with native NRT2.1 promoter.
+  </div>
+  
+  <div class="note red">
+    <strong>Metabolic burden risk</strong>
+    CYP76AD1α expression may compete with endogenous P450s for electron donors (NADPH-cytochrome P450 reductase). High expression could impact plant metabolism. Use moderate expression levels and monitor plant health during characterization.
+  </div>
+</div>
+
+<div class="panel">
+  <div class="sl">Characterization Plan</div>
+  <h2>Experimental Validation Protocol</h2>
+  
+  <table class="st">
+    <thead>
+      <tr><th>Phase</th><th>Treatment</th><th>Concentration</th><th>Expected Response</th><th>Timeline</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Dose-Response</td><td>N-deficient</td><td>0.1 mM NO₃⁻</td><td>Strong pigmentation (score 4-5)</td><td>48-72h</td></tr>
+      <tr><td></td><td>Low N</td><td>0.5 mM NO₃⁻</td><td>Moderate pigmentation (score 2-3)</td><td>48-72h</td></tr>
+      <tr><td></td><td>Normal N</td><td>5 mM NO₃⁻</td><td>Minimal pigmentation (score 0-1)</td><td>48-72h</td></tr>
+      <tr><td></td><td>High N</td><td>15 mM NO₃⁻</td><td>No pigmentation (score 0)</td><td>48-72h</td></tr>
+    </tbody>
+  </table>
+  
+  <h3 style="margin-top: 18px; font-size: 0.88rem;">Specificity Controls</h3>
+  <table class="st">
+    <thead>
+      <tr><th>Control</th><th>Treatment</th><th>Expected Result</th><th>Rationale</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Phosphate deficiency</td><td>0.1 mM PO₄³⁻</td><td>No pigmentation</td><td>Nutrient specificity test</td></tr>
+      <tr><td>Potassium deficiency</td><td>0.1 mM K⁺</td><td>No pigmentation</td><td>Cross-reactivity control</td></tr>
+      <tr><td>Salt stress</td><td>100 mM NaCl</td><td>No pigmentation</td><td>Osmotic stress control</td></tr>
+      <tr><td>Vector control</td><td>Empty pCAMBIA1300</td><td>No pigmentation</td><td>Background control</td></tr>
+    </tbody>
+  </table>
+  
+  <h3 style="margin-top: 18px; font-size: 0.88rem;">Measurement Protocol</h3>
+  <ul style="padding-left: 18px; font-size: 0.82rem; line-height: 1.6;">
+    <li><strong>Visual scoring:</strong> 0-5 scale, photographed under standardized lighting</li>
+    <li><strong>Quantitative:</strong> Leaf extract absorbance at 540nm (betalain peak)</li>
+    <li><strong>Extraction:</strong> 0.5g tissue in 5mL 80% methanol, 4°C, 24h</li>
+    <li><strong>Statistics:</strong> N=8 plants per treatment, ANOVA + Tukey's test</li>
+    <li><strong>Timeline:</strong> 10 weeks to preliminary data, 6 months to publication</li>
+  </ul>
+</div>
+
+<div class="panel">
+  <div class="sl">System Summary</div>
+  <h2>Component Overview</h2>
+  <table class="st">
+    <thead>
+      <tr><th>Component</th><th>Function</th><th>Source</th><th>Accession</th><th>Size</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>pNitroDefResp</td><td>N-deficiency responsive promoter</td><td>Synthetic</td><td>Custom design</td><td>~1.3 kb</td></tr>
+      <tr><td>SlCYP76AD1α</td><td>L-DOPA hydroxylase (ER)</td><td><em>Beta vulgaris</em></td><td>AY844918.1</td><td>~1.5 kb</td></tr>
+      <tr><td>SlLAT1</td><td>L-amino acid transporter</td><td><em>Beta vulgaris</em></td><td>XM_010689442.2</td><td>~1.8 kb</td></tr>
+      <tr><td>SlDODA1</td><td>DOPA dioxygenase</td><td><em>Amanita muscaria</em></td><td>HM048876.1</td><td>~1.7 kb</td></tr>
+      <tr><td>NOS terminator</td><td>Transcription termination</td><td>Standard</td><td>—</td><td>~0.3 kb</td></tr>
+    </tbody>
+  </table>
+  
+  <div style="margin-top: 16px; font-size: 0.82rem; color: var(--muted);">
+    <strong>Total construct size:</strong> ~8.2 kb in pCAMBIA1300 vector<br>
+    <strong>Selection marker:</strong> Hygromycin B resistance<br>
+    <strong>Assembly method:</strong> Gibson assembly + restriction-ligation cloning<br>
+    <strong>Expected dynamic range:</strong> 10-50 fold pigmentation increase under N-deficiency
+  </div>
+</div>
+
+<footer>
+Generated by Synthetic Biology Construct Designer • SlNitroSense-Betalain v1.0 • Validation complete
+</footer>
+
+</body>
+</html>

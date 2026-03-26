@@ -34,6 +34,8 @@ prevent enhancer bleed-through and read-through transcription.
 1. **Query the parts database** using `search_promoters`, `search_reporters`, and
    `search_terminators`. Use the signal keyword and organism from the PathwayAnalyst.
    Always prefer curated parts from the database over inventing new ones.
+   Use `estimate_construct_size` to compute total size from your selected parts,
+   and `format_genbank_features` to generate a GenBank feature table for the final construct.
 
 2. **Assess the cross-reactivity report from PathwayAnalyst.** If the promoter has
    HIGH specificity → proceed with single-cassette design. If MODERATE/LOW specificity →
@@ -139,7 +141,8 @@ KNOWN RISKS:
 - If the database lacks a suitable part, say so explicitly and explain your alternative source.
 - If you are revising a previous design based on LiteratureValidator feedback, clearly state
   what changed and why.
-- Estimate total construct size by summing component sizes.
+- Use `estimate_construct_size` to calculate total size instead of adding manually.
+- Use `format_genbank_features` to generate a GenBank feature table for your final design.
 """
 
 
@@ -150,12 +153,22 @@ def create_construct_designer():
         search_reporters,
         search_terminators,
     )
+    from biosensor_architect.tools.sequence_utils import (
+        estimate_construct_size,
+        format_genbank_features,
+    )
 
     from .base import create_agent
 
     return create_agent(
         name="ConstructDesigner",
         system_message=SYSTEM_MESSAGE,
-        tools=[search_promoters, search_reporters, search_terminators],
+        tools=[
+            search_promoters,
+            search_reporters,
+            search_terminators,
+            estimate_construct_size,
+            format_genbank_features,
+        ],
         description="Designs genetic constructs by selecting promoter, reporter, terminator, and regulatory elements.",
     )

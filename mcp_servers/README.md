@@ -30,13 +30,13 @@ Wraps NCBI E-utilities API for real-time literature search and abstract retrieva
 
 **Run:** `python -m mcp_servers.pubmed_server.server`
 
-## Sequence Server (`sequence_server/`) — Planned
+## Sequence Server (`sequence_server/`)
 
-Sequence manipulation utilities for construct validation. Currently scaffolded; see [TODO.md](../TODO.md) (Tier 3, Item J) for the implementation plan.
+DNA sequence manipulation utilities for construct analysis and validation.
 
-**Planned tools:**
-- `reverse_complement(sequence)` — DNA reverse complement
-- `check_restriction_sites(sequence)` — Scan for restriction enzyme cut sites
-- `assemble_construct(parts)` — In-silico assembly with junction sequences
+**Tools:**
+- `reverse_complement(sequence)` — Return the reverse complement of a DNA sequence
+- `estimate_construct_size(parts)` — Estimate total construct size in base pairs from a list of genetic parts
+- `format_genbank_features(construct)` — Generate a simplified GenBank feature table for a construct
 
-**Run:** `python -m mcp_servers.sequence_server.server`
+**Run:** `python -m mcp_servers.sequence_server.server` or `bsa serve sequence`

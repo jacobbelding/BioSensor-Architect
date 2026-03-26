@@ -227,11 +227,68 @@ def index_papers(path: str):
 
 
 @main.command()
-def serve():
-    """Start the MCP servers."""
-    console.print("[bold green]Starting MCP servers...[/]")
-    # TODO: Launch MCP server processes
-    console.print("[yellow]Not yet implemented — see mcp_servers/[/]")
+@click.argument("server_name", required=False, default=None)
+@click.option("--list", "list_servers", is_flag=True, help="List available MCP servers.")
+def serve(server_name: str | None, list_servers: bool):
+    """Start an MCP server over stdio transport.
+
+    When called without arguments, lists available servers.
+    Specify a server name to start it (connects via stdio).
+
+    \b
+    Examples:
+        bsa serve --list
+        bsa serve parts-db
+        bsa serve pubmed
+        bsa serve sequence
+    """
+    import subprocess
+    import sys
+
+    servers = {
+        "parts-db": {
+            "module": "mcp_servers.parts_db_server.server",
+            "description": "Curated plant genetic parts database (44 parts, 17 pathways)",
+        },
+        "pubmed": {
+            "module": "mcp_servers.pubmed_server.server",
+            "description": "PubMed search via NCBI E-utilities",
+        },
+        "sequence": {
+            "module": "mcp_servers.sequence_server.server",
+            "description": "DNA sequence manipulation tools",
+        },
+    }
+
+    if list_servers or server_name is None:
+        table = Table(title="Available MCP Servers", show_lines=True)
+        table.add_column("Name", style="bold green")
+        table.add_column("Description")
+        table.add_column("Start Command", style="dim")
+        for name, info in servers.items():
+            table.add_row(name, info["description"], f"bsa serve {name}")
+        console.print(table)
+        console.print("\n[dim]Each server uses stdio transport — connect with any MCP-compatible client.[/]")
+        return
+
+    if server_name not in servers:
+        console.print(f"[red]Unknown server:[/] {server_name}")
+        console.print(f"[dim]Available: {', '.join(servers.keys())}[/]")
+        return
+
+    info = servers[server_name]
+    console.print(f"[bold green]Starting MCP server:[/] {server_name}")
+    console.print(f"[dim]{info['description']}[/]")
+    console.print(f"[dim]Module: {info['module']}[/]")
+    console.print(f"[dim]Transport: stdio (press Ctrl+C to stop)[/]\n")
+
+    try:
+        subprocess.run(
+            [sys.executable, "-m", info["module"]],
+            check=True,
+        )
+    except KeyboardInterrupt:
+        console.print("\n[yellow]Server stopped.[/]")
 
 
 if __name__ == "__main__":
